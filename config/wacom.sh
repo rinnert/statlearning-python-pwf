@@ -7,8 +7,8 @@ xsetwacom set 17 Button 1 "key ["
 xsetwacom set 17 Button 3 "key ]"
 
 # stylus
-xsetwacom set 15 Button 2 "key /"
-xsetwacom set 15 Button 3 "key ."
+xsetwacom set 15 Button 2 "key f"
+xsetwacom set 15 Button 3 "key g"
 
 # eraser
 xsetwacom set 18 Button 1 3
