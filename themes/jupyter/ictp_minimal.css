@@ -20,9 +20,46 @@ body.notebook_app {
  background-color: #f8f8f8;
  background: #f8f8f8;
 }
-.cm-s-default .cm-hr {
- color: #2556a2;
+.rendered_html h1,
+.text_cell_render h1 {
+ color: #2556a2 !important;
+ font-size: 200%;
+ text-align: left;
+ font-weight: bold;
 }
+.rendered_html h2,
+.text_cell_render h2 {
+ color: #2556a2 !important;
+ font-size: 170%;
+ font-weight: bold;
+}
+.rendered_html h3,
+.text_cell_render h3 {
+ color: #2556a2 !important;
+ font-size: 140%;
+ font-weight: bold;
+}
+.rendered_html h4,
+.text_cell_render h4 {
+ color: #ff8200 !important;
+ font-size: 110%;
+ font-weight: bold;
+}
+.rendered_html h5,
+.text_cell_render h5 {
+ color: #ff8200 !important;
+ font-size: 100%;
+ font-weight: bold;
+}
+/*.cm-s-default .cm-hr {*/
+/*color: #2556a2;*/
+/*}*/
+/*.cm-header-4 {*/
+/*color: #ff8200;*/
+/*}*/
+/*.cm-header-5 {*/
+/*color: #ff8200;*/
+/*}*/
 div.cell.text_cell .cm-s-default .cm-header {
  font-weight: bold;
  color: #2556a2 !important;
