@@ -17,9 +17,9 @@ rise.update(
                 "smallDefaultCursors": True,
                 "rememberColor": [True, False],
                 "theme": "chalkboard",
-                "penWidth": 5,
-                "chalkWidth": 7,
-                "chalkEffect": 0.4,
+                "penWidth": 8,
+                "chalkWidth": 9,
+                "chalkEffect": 0.2,
                 "eraserDiameter": 25,
             },
         }
