@@ -3,12 +3,13 @@
 **
 ** A plugin for reveal.js adding a chalkboard. 
 **
-** Version: 0.6
+** Version: 0.7
 ** 
 ** License: MIT license (see LICENSE.md)
 **
 ** Credits: 
 ** Chalkboard effect by Mohamed Moustafa https://github.com/mmoustafa/Chalkboard
+** Multi color support by Kurt Rinnert https://github.com/rinnert
 ******************************************************************/
 
 var RevealChalkboard = window.RevealChalkboard || (function(){
@@ -36,70 +37,108 @@ var RevealChalkboard = window.RevealChalkboard || (function(){
 ******************************************************************/
 	var config = Reveal.getConfig().chalkboard || {};
 
-	var background, pen, draw, color, board_color;
-	var pen_colors, chalk_colors, board_colors, num_board_colors;
-	var pen_cursors, chalk_cursors, board_cursors, board_cursor, num_board_cursors;
-	var theme = config.theme || "chalkboard"; 
-	chalk_colors = ['rgba(255,255,255,0.8)', 
-		'rgba(220, 133, 41, 0.8)', 
-		'rgba(96, 154, 244, 0.8)', 
-		'rgba(237, 20, 28, 0.8)',
-		'rgba(20, 237, 28, 0.8)'];
-	pen_colors = ['rgba(128, 128, 128, 1)', 
+	var background, pen, draw, color;
+
+	var penWidth = config.penWidth || 3; 
+	var chalkWidth = config.chalkWidth || 7; 
+	var chalkEffect = ("chalkEffect" in config) ? config.chalkEffect : 1.0;
+	var eraserDiameter = config.eraserDiameter || 20;
+	var rememberColor = config.rememberColor || [true, false];
+
+	var boardColors = ['rgba(255,255,255,0.5)', 
+		'rgba(220, 133, 41, 0.5)', 
+		'rgba(96, 154, 244, 0.5)', 
+		'rgba(237, 20, 28, 0.5)',
+		'rgba(20, 237, 28, 0.5)'];
+	if ("boardColors" in config) boardColors = config.boardColors;
+	
+	var slideColors = ['rgba(0, 0, 255, 1)', 
+		'rgba(200,0,6,1)', 
+		'rgba(0, 157,6,1)',
 		'rgba(255,52,0,1)', 
 		'rgba(37,86,162,1)', 
-		'rgba(157,0,6,1)', 
-		'rgba(0, 157,6,1)'];
-	chalk_cursors = ['url(' + path + 'img/chalkw32.png), auto',
-   		'url(' + path + 'img/chalko32.png), auto',
-	   	'url(' + path + 'img/chalkb32.png), auto',
-	   	'url(' + path + 'img/chalkr32.png), auto',
-	   	'url(' + path + 'img/chalkg32.png), auto' ];
-	pen_cursors = ['url(' + path + 'img/boardmarker32.png), auto'];
-	board_cursor = 0;
-	board_color = 0;
+		'rgba(80, 80, 80,1)'];
+	if ("slideColors" in config) slideColors = config.slideColors;
+
+	var boardCursors = ['url(' + path + 'img/chalk.png), auto',
+   		'url(' + path + 'img/chalko.png), auto',
+	   	'url(' + path + 'img/chalkb.png), auto',
+	   	'url(' + path + 'img/chalkr.png), auto',
+	   	'url(' + path + 'img/chalkg.png), auto' ];
+	if (config.smallDefaultCursors) {
+		boardCursors = ['url(' + path + 'img/chalk32.png), auto',
+   			'url(' + path + 'img/chalko32.png), auto',
+	   		'url(' + path + 'img/chalkb32.png), auto',
+	   		'url(' + path + 'img/chalkr32.png), auto',
+	   		'url(' + path + 'img/chalkg32.png), auto' ];
+	}
+	if ("boardCursors" in config) boardCursors = config.boardCursors;
+	
+	var slideCursors = ['url(' + path + 'img/boardmarker.png), auto'];
+	if (config.smallDefaultCursors) {
+		slideCursors = ['url(' + path + 'img/boardmarker32.png), auto'];
+	}
+	if ("slideCursors" in config) slideCursors = config.slideCursors;
+
+	var theme = config.theme || "chalkboard"; 
 	switch ( theme ) {
 		case "whiteboard":
 			background = [ 'rgba(127,127,127,.1)' , path + 'img/whiteboard.png' ];
-			board_cursors = pen_cursors;
-			num_board_cursors = board_cursors.length;
-			pen = [ pen_cursors[0], board_cursors[board_cursor]];
-			draw = [ drawWithPen , drawWithPenBoard ];
-			board_colors = pen_colors;
-			num_board_colors = board_colors.length;
-			color = [ pen_colors[1], board_colors[board_color]  ];
+			draw = [ drawWithPen , drawWithPen ];
+			/**
+			 * We need deep copies of the colors and cursors to
+			 * decouple whiteboard and canvas colors. This preserves
+			 * the old configuration behaviour of the pen and color
+			 * properties.
+			 *
+			 * Only do this if the board colors and cursors where
+			 * NOT explicitly configured.
+			 */
+			if (!("boardColors" in config)) {
+				boardColors = [];
+				let n = slideColors.length;
+				for (let i = 0; i < n; i++) {
+					boardColors.push(slideColors[i]);
+				}	
+			}
+			if (!("boardCursors" in config)) {
+				boardCursors = [];
+				let n = slideCursors.length;
+				for (let i = 0; i < n; i++) {
+					boardCursors.push(slideCursors[i]);
+				}	
+			}
 			break;
 		default:
 			background = [ 'rgba(127,127,127,.1)' , path + 'img/blackboard.png' ];
-			board_cursors = chalk_cursors;
-			num_board_cursors = board_cursors.length;
-			pen = [ pen_cursors[0], board_cursors[board_cursor]];
 			draw = [ drawWithPen , drawWithChalk ];
-			board_colors = chalk_colors;
-			num_board_colors = board_colors.length;
-			color = [ pen_colors[1], board_colors[board_color]  ];
-	}
-	
-	if ( config.background ) background = config.background;
-	if ( config.pen ) {
-		pen = config.pen;
-		pen_cursors[0] = config.pen[0];
-		chalk_cursors[0] = config.pen[1];
-	}
-	if ( config.draw ) draw = config.draw;
-	if ( config.color ) {
-		color = config.color;
-		pen_colors[0] = config.color[0];
-		board_colors[0] = config.color[1];
 	}
 
+	if ( config.background ) background = config.background;
+	pen = [slideCursors[0], boardCursors[0]];
+	if ( config.pen ) { 
+		pen = config.pen;
+		slideCursors[0] = config.pen[0];
+		boardCursors[0] = config.pen[1];
+	}
+	color = [slideColors[0], boardColors[0]];
+	if ( config.color ) { 
+		color = config.color;
+		slideColors[0] = config.color[0];
+		boardColors[0] = config.color[1];
+	}
+
+	var colors = [slideColors, boardColors];
+	var numColors = [slideColors.length, boardColors.length];
+	var pens = [slideCursors, boardCursors];
+	var numPens = [slideCursors.length, boardCursors.length];
+	var colorPointers = [0, 0];
 
 	var toggleChalkboardButton = config.toggleChalkboardButton == undefined ? true : config.toggleChalkboardButton;
 	var toggleNotesButton = config.toggleNotesButton == undefined ? true : config.toggleNotesButton;
 	var transition = config.transition  || 800;
 
-	/*var readOnly = config.readOnly;*/
-	var readOnly = false;
+	var readOnly = config.readOnly;
 
 	var legacyFileSupport = config.legacyFileSupport;
 	if ( legacyFileSupport ) { console.warn("Legacy file support is deprecated and may be removed in future versions!") }
@@ -118,7 +157,6 @@ var RevealChalkboard = window.RevealChalkboard || (function(){
 		}
 	}
 
-	var eraserDiameter = 20;
 
 	if ( toggleChalkboardButton ) {
 //console.log("toggleChalkboardButton")
@@ -212,7 +250,11 @@ var RevealChalkboard = window.RevealChalkboard || (function(){
 		}
 
 		var sponge = document.createElement( 'img' );
-		sponge.src = path + 'img/sponge32.png';
+		if (config.smallDefaultCursors) {
+			sponge.src = path + 'img/sponge32.png';
+		} else {
+			sponge.src = path + 'img/sponge.png';
+		}
 		sponge.id = "sponge";
 		sponge.style.visibility = "hidden";
 		sponge.style.position = "absolute";
@@ -273,8 +315,8 @@ var RevealChalkboard = window.RevealChalkboard || (function(){
 //console.log("Drawings loaded");
 			}
 			else {
-				config.readOnly = false;
-				readOnly = false;
+				config.readOnly = undefined;
+				readOnly = undefined;
 				console.warn( 'Failed to get file ' + filename +". ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
 				loaded = false;
 			}
@@ -285,8 +327,8 @@ var RevealChalkboard = window.RevealChalkboard || (function(){
 			xhr.send();
 		}
 		catch ( error ) {
-			config.readOnly = false;
-			readOnly = false;
+			config.readOnly = undefined;
+			readOnly = undefined;
 			console.warn( 'Failed to get file ' + filename + '. Make sure that the presentation and the file are served by a HTTP server and the file can be found there. ' + error );
 			loaded = false;
 		}
@@ -472,19 +514,9 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 ******************************************************************/
 
 	function drawWithPen(context,fromX,fromY,toX,toY){
-		context.lineWidth = 8;
+		context.lineWidth = penWidth;
 		context.lineCap = 'round';
-		context.strokeStyle = color[0];
-		context.beginPath();
-  		context.moveTo(fromX, fromY);		
-  		context.lineTo(toX, toY);
-  		context.stroke();
-	}
-
-	function drawWithPenBoard(context,fromX,fromY,toX,toY){
-		context.lineWidth = 8;
-		context.lineCap = 'round';
-		context.strokeStyle = color[1];
+		context.strokeStyle = color[mode];
 		context.beginPath();
   		context.moveTo(fromX, fromY);		
   		context.lineTo(toX, toY);
@@ -492,12 +524,13 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 	}
 
 	function drawWithChalk(context,fromX,fromY,toX,toY) {
-		var brushDiameter = 7;
+		var brushDiameter = chalkWidth;
 		context.lineWidth = brushDiameter;
 		context.lineCap = 'round';
-		context.fillStyle = color[1]; // 'rgba(255,255,255,0.5)';	
-		context.strokeStyle = color[1];
-		var opacity = Math.min(0.8, Math.max(0,color[1].replace(/^.*,(.+)\)/,'$1') - 0.1)) + Math.random()*0.7;
+		context.fillStyle = color[mode]; // 'rgba(255,255,255,0.5)';	
+		context.strokeStyle = color[mode];
+		/*var opacity = Math.min(0.8, Math.max(0,color[1].replace(/^.*,(.+)\)/,'$1') - 0.1)) + Math.random()*0.2;*/
+		var opacity = 1.0;
 		context.strokeStyle = context.strokeStyle.replace(/[\d\.]+\)$/g, opacity + ')');
 		context.beginPath();
   		context.moveTo(fromX, fromY);		
@@ -508,11 +541,13 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 		var xUnit = (toX-fromX)/length;
 		var yUnit = (toY-fromY)/length;
 		for(var i=0; i<length; i++ ){
-			var xCurrent = fromX+(i*xUnit);	
-			var yCurrent = fromY+(i*yUnit);
-			var xRandom = xCurrent+(Math.random()-0.7)*brushDiameter*1.2;			
-			var yRandom = yCurrent+(Math.random()-0.7)*brushDiameter*1.2;
-	    		context.clearRect( xRandom, yRandom, Math.random()*2+2, Math.random()+1);
+			if (chalkEffect > (Math.random() * 0.9)) {
+				var xCurrent = fromX+(i*xUnit);	
+				var yCurrent = fromY+(i*yUnit);
+				var xRandom = xCurrent+(Math.random()-0.5)*brushDiameter*1.2;			
+				var yRandom = yCurrent+(Math.random()-0.5)*brushDiameter*1.2;
+				context.clearRect( xRandom, yRandom, Math.random()*2+2, Math.random()+1);
+			}
 		}
 	}
 
@@ -573,59 +608,34 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 	}
 
 	/**
-	 * Set primary board color
+	 * Set the  color
 	 */
-	function color_primary() {
-		board_color = 0;
-		color[1] = board_colors[board_color];
-		board_cursor = 0;
-		pen[1] = board_cursors[board_cursor];
-		drawingCanvas[mode].canvas.style.cursor = pen[1];
+	function setColor( pointer ) {
+		// protect against out of bounds (this could happen when
+		// replaying events recorded with different color settings).
+		let idx = pointer < numColors[mode] ? pointer : 0;
+
+		color[mode] = colors[mode][idx];
+		let cursorPointer = pointer < numPens[mode] ? idx : 0;
+	   	pen[mode] = pens[mode][cursorPointer];	
+		drawingCanvas[mode].canvas.style.cursor = pen[mode];
 	}
 
 	/**
-	 * Forward rotate board color
+	 * Forward cycle color
 	 */
-	function colorfwd() {
-		board_color = (board_color + 1) % num_board_colors;
-		color[1] = board_colors[board_color];
+	function cycleColorNext() {
+		colorPointers[mode] = (colorPointers[mode] + 1) % numColors[mode];
+		return colorPointers[mode];
 	}
 
 	/**
-	 * Backward rotate color
+	 * Backward cycle color
 	 */
-	function colorbak() {
-		board_color = (board_color + (num_board_colors - 1)) % num_board_colors;
-		color[1] = board_colors[board_color];
+	function cycleColorPrev() {
+		colorPointers[mode] = (colorPointers[mode] + (numColors[mode] - 1)) % numColors[mode];
+		return colorPointers[mode];
 	}
-
-	/**
-	 * Forward rotate board cursor
-	 */
-	function cursorfwd() {
-		var cursor;
-		if (mode == 1) {
-			board_cursor = (board_cursor + 1) % num_board_colors;
-			cursor = board_cursor < num_board_cursors ? board_cursor : 0; 
-			pen[1] = board_cursors[cursor];
-			drawingCanvas[mode].canvas.style.cursor = pen[1];
-		}
-	}
-
-	/**
-	 * Backward rotate board cursor
-	 */
-	function cursorbak() {
-		var cursor;
-		if (mode == 1) {
-			board_cursor = (board_cursor + (num_board_colors - 1)) % num_board_colors;
-			cursor = board_cursor < num_board_cursors ? board_cursor : 0; 
-			pen[1] = board_cursors[cursor];
-			drawingCanvas[mode].canvas.style.cursor = pen[1];
-		}
-	}
-
-
 
 /*****************************************************************
 ** Broadcast
@@ -658,6 +668,9 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 					break;
 				case 'clear':
 					clear();
+					break;
+				case "setcolor":
+					setColor(event.coloridx);
 					break;
 				case 'resetSlide':
 					resetSlide(true);
@@ -811,16 +824,8 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 			case "clear":
 				clearCanvas( id );
 				break;
-			case "color_primary":
-				color_primary();
-				break;
-			case "colorfwd":
-				colorfwd();
-				cursorfwd();
-				break;
-			case "colorbak":
-				colorbak();
-				cursorbak();
+			case "setcolor":
+				setColor(event.coloridx);
 				break;
 			case "draw":
 				drawCurve( id, event, timestamp );
@@ -963,6 +968,7 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 
 // TODO: check all touchevents
 	document.addEventListener('touchstart', function(evt) {
+//console.log("Touch start");
 		if ( !readOnly && evt.target.getAttribute('data-chalkboard') == mode ) {
 //			var ctx = drawingCanvas[mode].context;
 			var scale = drawingCanvas[mode].scale;
@@ -988,6 +994,7 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 	}, false);
 
 	document.addEventListener('touchmove', function(evt) {
+//console.log("Touch move");
 		clearTimeout( touchTimeout );
 		touchTimeout = null;
 		if ( event ) {
@@ -1056,6 +1063,7 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 	}, false);
 
 	document.addEventListener( 'mousedown', function( evt ) {
+//console.log("Mouse down");
 //console.log( "Read only: " + readOnly );
 		if ( !readOnly && evt.target.getAttribute('data-chalkboard') == mode ) {
 //console.log( "mousedown: " + evt.button );
@@ -1066,10 +1074,10 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 
 			mouseX = evt.pageX;
 			mouseY = evt.pageY;
-			startDrawing( (mouseX - xOffset)/scale, (mouseY-yOffset)/scale, ( evt.button == 2) );
+			startDrawing( (mouseX - xOffset)/scale, (mouseY-yOffset)/scale, ( evt.button == 2 || evt.button == 1) );
 			// broadcast
 			var message = new CustomEvent('send');
-			message.content = { sender: 'chalkboard-plugin', type: 'startDrawing', x: (mouseX - xOffset)/scale, y: (mouseY-yOffset)/scale, erase: ( evt.button == 2) };
+			message.content = { sender: 'chalkboard-plugin', type: 'startDrawing', x: (mouseX - xOffset)/scale, y: (mouseY-yOffset)/scale, erase: ( evt.button == 2 || evt.button == 1) };
 			document.dispatchEvent( message );
 /*
 			xLast = mouseX;
@@ -1084,11 +1092,10 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 			}		
 */
 		}
-
 	} );
 
-
 	document.addEventListener( 'mousemove', function( evt ) {
+//console.log("Mouse move");
 		if ( event ) {
 //			var ctx = drawingCanvas[mode].context;
 			var scale = drawingCanvas[mode].scale;
@@ -1121,7 +1128,6 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 	
 	document.addEventListener( 'mouseup', function( evt ) {
 		drawingCanvas[mode].canvas.style.cursor = pen[mode];
-
 		if ( event ) {
 			stopDrawing();
 			// broadcast
@@ -1139,8 +1145,6 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 */
 		}
 	} );
-
-
 
 
 	window.addEventListener( "resize", function() {
@@ -1165,6 +1169,7 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 			drawingCanvas[id].yOffset = (drawingCanvas[id].height - storage[id].height * drawingCanvas[id].scale)/2;
 //console.log( drawingCanvas[id].scale + "/" + drawingCanvas[id].xOffset + "/" +drawingCanvas[id].yOffset );
 		}
+//console.log( window.innerWidth + "/" + window.innerHeight);
 		startPlayback( timestamp, mode, true );
 
 	} );
@@ -1172,8 +1177,7 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 	function updateReadOnlyMode() {
 //console.log("updateReadOnlyMode");
 		if ( config.readOnly == undefined ) {
-			/*readOnly = ( getSlideDuration() > 0 );	*/
-			readOnly = false;	
+			readOnly = ( getSlideDuration() > 0 );	
 			if ( readOnly ) {
 				drawingCanvas[0].container.style.cursor = 'default';
 				drawingCanvas[1].container.style.cursor = 'default';
@@ -1306,6 +1310,15 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 					notescanvas.style.pointerEvents = "none";
 				}
 				else {
+					setColor(0);
+					recordEvent( { type:"setcolor", coloridx: 0, begin: Date.now() - slideStart } );
+					if (rememberColor[mode]) {
+						let idx = colorPointers[mode];
+						setColor(idx);
+						recordEvent( { type:"setcolor", coloridx: idx, begin: Date.now() - slideStart } );
+					} else {
+						colorPointers[mode] = 0;
+					}
 					notescanvas.style.background = background[0]; //'rgba(255,0,0,0.5)';
 					notescanvas.style.pointerEvents = "auto";
 				}
@@ -1317,15 +1330,24 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 //console.log("toggleChalkboard " + mode);
 		if ( mode == 1 ) {
 			event = null;
-			if ( !readOnly ) recordEvent( { type:"close", begin: Date.now() - slideStart } );
+			if ( !readOnly ) { 
+				recordEvent( { type:"close", begin: Date.now() - slideStart } );
+			}
 			closeChalkboard();
 		}
 		else {
 			showChalkboard();
-			color_primary();
 			if ( !readOnly ) { 
 				recordEvent( { type:"open", begin: Date.now() - slideStart } );
-				recordEvent( { type:"color_primary", begin: Date.now() - slideStart } );
+				setColor(0);
+				recordEvent( { type:"setcolor", coloridx: 0, begin: Date.now() - slideStart } );
+				if (rememberColor[mode]) {
+					let idx = colorPointers[mode];
+					setColor(idx);
+					recordEvent( { type:"setcolor", coloridx: idx, begin: Date.now() - slideStart } );
+				} else {
+					colorPointers[mode] = 0;
+				}
 			}
 		}
 	};
@@ -1341,27 +1363,19 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 		}
 	};
 
-
-	function colornext() {
+	function colorNext() {
 		if ( !readOnly ) {
-			recordEvent( { type:"colorfwd", begin: Date.now() - slideStart } );
-			colorfwd();
-			cursorfwd();
+			let idx = cycleColorNext();
+			setColor(idx);
+			recordEvent( { type: "setcolor", coloridx: idx, begin: Date.now() - slideStart } );
 		}
 	}
 
-	function colorprev() {
+	function colorPrev() {
 		if ( !readOnly ) {
-			recordEvent( { type:"colorbak", begin: Date.now() - slideStart } );
-			colorbak();
-			cursorbak();
-		}
-	}
-
-	function colordefault() {
-		if ( !readOnly ) {
-			recordEvent( { type:"color_primary", begin: Date.now() - slideStart } );
-			color_primary();
+			let idx = cycleColorPrev();
+			setColor(idx);
+			recordEvent( { type: "setcolor", coloridx: idx, begin: Date.now() - slideStart } );
 		}
 	}
 
@@ -1424,9 +1438,9 @@ console.log( 'Create printout for slide ' + storage[1].data[i].slide.h + "." + s
 	this.toggleChalkboard = toggleChalkboard;
 	this.startRecording = startRecording;
 	this.clear = clear;
+	this.colorNext = colorNext;
+	this.colorPrev = colorPrev;
 	this.reset = resetSlide;
-	this.colornext = colornext;
-	this.colorprev = colorprev;
 	this.resetAll = resetStorage;
 	this.download = downloadData;
 

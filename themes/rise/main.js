@@ -522,6 +522,7 @@ define([
               let inherited = ['controls', 'progress', 'history', 'width', 'height', 'margin',
                                'minScale', 'transition', 'slideNumber', 'center', 'help'];
 
+
               let options = {
 
                 //parallaxBackgroundImage: 'https://raw.github.com/damianavila/par_IPy_slides_example/gh-pages/figs/star_wars_stormtroopers_darth_vader.jpg',
@@ -578,6 +579,9 @@ define([
               ////////// set up chalkboard if configured
               let enable_chalkboard = complete_config.enable_chalkboard;
               if (enable_chalkboard) {
+				  if ("chalkboard" in complete_config) {
+				  	options["chalkboard"] = complete_config["chalkboard"];
+				  }
                 options.dependencies.push({ src: require.toUrl('./reveal.js-chalkboard/chalkboard.js'), async: true });
                 // xxx need to explore the option of registering jupyter actions
                 // and have jupyter handle the keyboard entirely instead of this approach
@@ -592,8 +596,8 @@ define([
                            219: () => RevealChalkboard.toggleChalkboard(),  // '[' toggle full size chalkboard
                            221: () => RevealChalkboard.toggleNotesCanvas(), // ']' toggle notes (slide-local)
                            220: () => RevealChalkboard.download(),          // '\' download recorded chalkboard drawing
-                           191: () => RevealChalkboard.colornext(),          // '/' cycle chalkboard colors forward 
-                           190: () => RevealChalkboard.colorprev(),          // '.' cycle chalkboard colors backward
+						   70:  () => RevealChalkboard.colorNext(),          // '/' cycle chalkboard colors forward 
+						   71:  () => RevealChalkboard.colorPrev(),          // '.' cycle chalkboard colors backward
                          });
               }
 
@@ -606,6 +610,7 @@ define([
                 Reveal["initialized"] = true;
                 //console.log("Reveal initialized");
               }
+
 
               Reveal.addEventListener('ready', function(event) {
                 Unselecter();
