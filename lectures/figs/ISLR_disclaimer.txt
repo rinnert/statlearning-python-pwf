@@ -1,0 +1,3 @@
+Some of the figures in this presentation are taken from "An Introduction to
+Statistical Learning, with applications in R"  (Springer, 2013) with
+permission from the authors: G. James, D. Witten,  T. Hastie and R. Tibshirani 
