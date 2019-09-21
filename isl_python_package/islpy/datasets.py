@@ -1,4 +1,4 @@
-#    Data sets an helper functions for Introduction to Statistical Learning.
+#    Datasets and helper functions for Introduction to Statistical Learning.
 #    Copyright (C) 2019  Kurt Rinnert <kurt.rinnert@liverpool.ac.uk>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,7 @@
 import pandas as pd
 import os
 
-print(os.path.dirname(__file__))
-_datadir = 'datasets'
+_datadir = os.path.join(os.path.dirname(__file__), 'datasets')
 
 _auto_ds = None
 def Auto():
