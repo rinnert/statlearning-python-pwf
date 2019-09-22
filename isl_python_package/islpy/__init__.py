@@ -1,4 +1,4 @@
-#    Data sets an helper functions for Introduction to Statistical Learning.
+#    Datasets and helper functions for Introduction to Statistical Learning.
 #    Copyright (C) 2019  Kurt Rinnert <kurt.rinnert@liverpool.ac.uk>
 #
 #    This program is free software: you can redistribute it and/or modify
