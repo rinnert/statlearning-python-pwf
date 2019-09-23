@@ -226,13 +226,13 @@ def Digits(force_reload=False):
     """
     Return tuple of training and test data frames for Digits dataset.
 
-    Normalized handwritten digits, automatically
-    scanned from envelopes by the U.S. Postal Service. The original
-    scanned digits are binary and of different sizes and orientations; the
-    images  here have been deslanted and size normalized, resulting
-    in 16 x 16 grayscale images (Le Cun et al., 1990).
+    Normalized handwritten digits, automatically scanned from envelopes by the
+    U.S. Postal Service. The original scanned digits are binary and of
+    different sizes and orientations; the images  here have been deslanted and
+    size normalized, resulting in 16 x 16 grayscale images (Le Cun et al.,
+    1990).
     
-    The data are in two gzipped files, and each line consists of the digit
+    The data are returnd as two data frames and each row consists of the digit
     id (0-9) followed by the 256 grayscale values.
     
     There are 7291 training observations and 2007 test observations,
