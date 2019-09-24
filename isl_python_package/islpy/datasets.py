@@ -31,7 +31,46 @@ def Auto(force_reload=False):
     """
     Return data frame for Auto dataset.
 
-    Gas mileage, horsepower and other information for cars.
+	Description:
+	
+	     Gas mileage, horsepower and other information for cars.
+	
+	Format:
+	
+	     A data frame with 392 observations on the following 9 variables.
+	
+	     ‘mpg’ miles per gallon
+	
+	     ‘cylinders’ Number of cylinders between 4 and 8
+	
+	     ‘displacement’ Engine displacement (cu. inches)
+	
+	     ‘horsepower’ Engine horsepower
+	
+	     ‘weight’ Vehicle weight (lbs.)
+	
+	     ‘acceleration’ Time to accelerate from 0 to 60 mph (sec.)
+	
+	     ‘year’ Model year (modulo 100)
+	
+	     ‘origin’ Origin of car (1. American, 2. European, 3. Japanese)
+	
+	     ‘name’ Vehicle name
+	
+	     The orginal data contained 408 observations but 16 observations
+	     with missing values were removed.
+	
+	Source:
+	
+	     This dataset was taken from the StatLib library which is
+	     maintained at Carnegie Mellon University. The dataset was used in
+	     the 1983 American Statistical Association Exposition.
+	
+	References:
+	
+	     James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
+	     Introduction to Statistical Learning with applications in R_,
+	     <URL: www.StatLearning.com>, Springer-Verlag, New York
     """
     global _auto_ds
     if force_reload or _auto_ds is None:
@@ -44,7 +83,55 @@ def Boston(force_reload=False):
     """
     Return data frame for Boston dataset.
 
-    Housing values and other information about Boston suburbs.
+	Description:
+	
+	     Housing values and other information about Boston suburbs.
+	
+	Format:
+	
+	     This data frame contains the following columns:
+	
+	     ‘crim’ per capita crime rate by town.
+	
+	     ‘zn’ proportion of residential land zoned for lots over 25,000
+	          sq.ft.
+	
+	     ‘indus’ proportion of non-retail business acres per town.
+	
+	     ‘chas’ Charles River dummy variable (= 1 if tract bounds river; 0
+	          otherwise).
+	
+	     ‘nox’ nitrogen oxides concentration (parts per 10 million).
+	
+	     ‘rm’ average number of rooms per dwelling.
+	
+	     ‘age’ proportion of owner-occupied units built prior to 1940.
+	
+	     ‘dis’ weighted mean of distances to five Boston employment
+	          centres.
+	
+	     ‘rad’ index of accessibility to radial highways.
+	
+	     ‘tax’ full-value property-tax rate per \$10,000.
+	
+	     ‘ptratio’ pupil-teacher ratio by town.
+	
+	     ‘black’ 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by
+	          town.
+	
+	     ‘lstat’ lower status of the population (percent).
+	
+	     ‘medv’ median value of owner-occupied homes in \$1000s.
+	
+	Source:
+	
+	     Harrison, D. and Rubinfeld, D.L. (1978) Hedonic prices and the
+	     demand for clean air.  _J. Environ. Economics and Management_ *5*,
+	     81-102.
+	
+	     Belsley D.A., Kuh, E.  and Welsch, R.E. (1980) _Regression
+	     Diagnostics. Identifying Influential Data and Sources of
+	     Collinearity._ New York: Wiley.
     """
     global _boston_ds
     if force_reload or _boston_ds is None:
