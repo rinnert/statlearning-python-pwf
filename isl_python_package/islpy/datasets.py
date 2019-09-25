@@ -74,7 +74,7 @@ def Auto(force_reload=False):
 
         Examples:
 
-            >>> auto = dataset.Auto()
+            >>> auto = datasets.Auto()
     """
     global _auto_ds
     if force_reload or _auto_ds is None:
@@ -139,7 +139,7 @@ def Boston(force_reload=False):
 
         Examples:
 
-            >>> boston = dataset.Boston()
+            >>> boston = datasets.Boston()
     """
     global _boston_ds
     if force_reload or _boston_ds is None:
@@ -190,7 +190,7 @@ def Caravan(force_reload=False):
 
     Examples:
 
-        >>> caravan = dataset.Caravan()
+        >>> caravan = datasets.Caravan()
     """
     global _caravan_ds
     if force_reload or _caravan_ds is None:
@@ -251,7 +251,7 @@ def Carseats(force_reload=False):
 
     Examples:
 
-        >>> carseats = dataset.Carseats()
+        >>> carseats = datasets.Carseats()
     """
     global _carseats_ds
     if force_reload or _carseats_ds is None:
@@ -325,7 +325,7 @@ def College(force_reload=False):
 
     Examples:
 
-        >>> college = dataset.College()
+        >>> college = datasets.College()
     """
     global _college_ds
     if force_reload or _college_ds is None:
@@ -371,7 +371,7 @@ def Default(force_reload=False):
 
     Examples:
 
-        >>> default = dataset.Default()
+        >>> default = datasets.Default()
     """
     global _default_ds
     if force_reload or _default_ds is None:
@@ -454,7 +454,7 @@ def Hitters(force_reload=False):
 
     Examples:
 
-        >>> hitters = dataset.Hitters()
+        >>> hitters = datasets.Hitters()
     """
     global _hitters_ds
     if force_reload or _hitters_ds is None:
@@ -507,7 +507,7 @@ def Khan(force_reload=False):
 
     Examples:
 
-        >>> xtrain, ytrain, xtest, ytest = dataset.Khan()
+        >>> xtrain, ytrain, xtest, ytest = datasets.Khan()
     """
     global _khan_xtrain, _khan_ytrain, _khan_xtest, _khan_ytest
     if force_reload or _khan_xtrain is None:
@@ -549,7 +549,7 @@ def NCI60(force_reload=False):
 
     Examples:
 
-        >>> data, labs = dataset.NCI60()
+        >>> data, labs = datasets.NCI60()
     """
     global _nci60_data, _nci60_labs
     if force_reload or _nci60_data is None:
@@ -625,7 +625,7 @@ def OJ(force_reload=False):
 
     Examples:
 
-        >>> oj = dataset.OJ()
+        >>> oj = datasets.OJ()
     """
     global _oj_ds
     if force_reload or _oj_ds is None:
@@ -670,7 +670,7 @@ def Portfolio(force_reload=False):
 
     Examples:
 
-        >>> portf = dataset.Portfolio()
+        >>> portf = datasets.Portfolio()
     """
     global _portfolio_ds
     if force_reload or _portfolio_ds is None:
@@ -726,7 +726,7 @@ def Smarket(force_reload=False):
 
     Examples:
 
-        >>> smarket = dataset.Smarket()
+        >>> smarket = datasets.Smarket()
     """
     global _smarket_ds
     if force_reload or _smarket_ds is None:
@@ -768,7 +768,7 @@ def USArrests(force_reload=False):
 
     Examples:
 
-        >>> arrests = dataset.USArrests()
+        >>> arrests = datasets.USArrests()
     """
     global _usarrests_ds
     if force_reload or _usarrests_ds is None:
@@ -836,7 +836,7 @@ def Wage(force_reload=False):
 
     Examples:
 
-        >>> wage = dataset.Wage()
+        >>> wage = datasets.Wage()
     """
     global _wage_ds
     if force_reload or _wage_ds is None:
@@ -892,7 +892,7 @@ def Weekly(force_reload=False):
 
     Examples:
 
-        >>> weekly = dataset.Weekly()
+        >>> weekly = datasets.Weekly()
     """
     global _weekly_ds
     if force_reload or _weekly_ds is None:
@@ -931,7 +931,7 @@ def Digits(force_reload=False):
 
     Examples:
 
-        >>> train, test = dataset.Digits()
+        >>> train, test = datasets.Digits()
     """
     global _digit_train_ds, _digit_test_ds
     if force_reload or _digit_train_ds is None:
