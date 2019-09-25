@@ -71,6 +71,10 @@ def Auto(force_reload=False):
 	     James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
 	     Introduction to Statistical Learning with applications in R_,
 	     <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+        Examples:
+
+            >>> auto = dataset.Auto()
     """
     global _auto_ds
     if force_reload or _auto_ds is None:
@@ -132,6 +136,10 @@ def Boston(force_reload=False):
 	     Belsley D.A., Kuh, E.  and Welsch, R.E. (1980) _Regression
 	     Diagnostics. Identifying Influential Data and Sources of
 	     Collinearity._ New York: Wiley.
+
+        Examples:
+
+            >>> boston = dataset.Boston()
     """
     global _boston_ds
     if force_reload or _boston_ds is None:
@@ -179,6 +187,10 @@ def Caravan(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> caravan = dataset.Caravan()
     """
     global _caravan_ds
     if force_reload or _caravan_ds is None:
@@ -236,6 +248,10 @@ def Carseats(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> carseats = dataset.Carseats()
     """
     global _carseats_ds
     if force_reload or _carseats_ds is None:
@@ -306,6 +322,10 @@ def College(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> college = dataset.College()
     """
     global _college_ds
     if force_reload or _college_ds is None:
@@ -348,6 +368,10 @@ def Default(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> default = dataset.Default()
     """
     global _default_ds
     if force_reload or _default_ds is None:
@@ -427,6 +451,10 @@ def Hitters(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> hitters = dataset.Hitters()
     """
     global _hitters_ds
     if force_reload or _hitters_ds is None:
@@ -434,10 +462,10 @@ def Hitters(force_reload=False):
             _hitters_ds = store['Hitters']
     return _hitters_ds
 
-_khan_ds = None
+_khan_xtrain, _khan_ytrain, _khan_xtest, _khan_ytest = None, None, None, None
 def Khan(force_reload=False):
     """
-    Return data frame for Khan dataset.
+    Return data frames for Khan dataset.
 
     Description:
     
@@ -476,17 +504,24 @@ def Khan(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
-    """
-    global _khan_ds
-    if force_reload or _khan_ds is None:
-        with pd.HDFStore(_datafile, 'r') as store:
-            _khan_ds = store['Khan']
-    return _khan_ds
 
-_nci60_ds = None
+    Examples:
+
+        >>> xtrain, ytrain, xtest, ytest = dataset.Khan()
+    """
+    global _khan_xtrain, _khan_ytrain, _khan_xtest, _khan_ytest
+    if force_reload or _khan_xtrain is None:
+        with pd.HDFStore(_datafile, 'r') as store:
+            _khan_xtrain = store['Khan_xtrain']
+            _khan_ytrain = store['Khan_ytrain']
+            _khan_xtest = store['Khan_xtest']
+            _khan_ytest = store['Khan_ytest']
+    return _khan_xtrain, _khan_ytrain, _khan_xtest, _khan_ytest
+
+_nci60_data, _nci60_labs = None, None
 def NCI60(force_reload=False):
     """
-    Return data frame for NCI60 dataset.
+    Return data frames for NCI60 dataset.
 
     Description:
     
@@ -511,12 +546,17 @@ def NCI60(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> data, labs = dataset.NCI60()
     """
-    global _nci60_ds
-    if force_reload or _nci60_ds is None:
+    global _nci60_data, _nci60_labs
+    if force_reload or _nci60_data is None:
         with pd.HDFStore(_datafile, 'r') as store:
-            _nci60_ds = store['NCI60']
-    return _nci60_ds
+            _nci60_data = store['NCI60_data']
+            _nci60_labs = store['NCI60_labs']
+    return _nci60_data, _nci60_labs
 
 _oj_ds = None
 def OJ(force_reload=False):
@@ -582,6 +622,10 @@ def OJ(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> oj = dataset.OJ()
     """
     global _oj_ds
     if force_reload or _oj_ds is None:
@@ -623,6 +667,10 @@ def Portfolio(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> portf = dataset.Portfolio()
     """
     global _portfolio_ds
     if force_reload or _portfolio_ds is None:
@@ -675,6 +723,10 @@ def Smarket(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> smarket = dataset.Smarket()
     """
     global _smarket_ds
     if force_reload or _smarket_ds is None:
@@ -713,6 +765,10 @@ def USArrests(force_reload=False):
     
          McNeil, D. R. (1977) _Interactive Data Analysis_.  New York:
          Wiley.
+
+    Examples:
+
+        >>> arrests = dataset.USArrests()
     """
     global _usarrests_ds
     if force_reload or _usarrests_ds is None:
@@ -777,6 +833,10 @@ def Wage(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> wage = dataset.Wage()
     """
     global _wage_ds
     if force_reload or _wage_ds is None:
@@ -829,6 +889,10 @@ def Weekly(force_reload=False):
          James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
          Introduction to Statistical Learning with applications in R_,
          <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> weekly = dataset.Weekly()
     """
     global _weekly_ds
     if force_reload or _weekly_ds is None:
@@ -865,6 +929,9 @@ def Digits(force_reload=False):
     excellent. These data were kindly made available by the neural network
     group at AT&T research labs (thanks to Yann Le Cunn).
 
+    Examples:
+
+        >>> train, test = dataset.Digits()
     """
     global _digit_train_ds, _digit_test_ds
     if force_reload or _digit_train_ds is None:
