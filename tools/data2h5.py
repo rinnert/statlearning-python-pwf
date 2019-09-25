@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import pandas as pd
 import os
 
@@ -15,8 +15,8 @@ with pd.HDFStore(hdf_file, complevel=9, complib='blosc') as store:
             df = pd.read_csv(fname)
             dfname = os.path.splitext(fname)[0]
             store[dfname] = df
-        if fname.endswith('.dat'):
-            print(fname)
-            df = pd.read_csv(fname, header=None, sep='\s+')
-            dfname = os.path.splitext(fname)[0]
-            store[dfname] = df
+        #if fname.endswith('.dat'):
+            #print(fname)
+            #df = pd.read_csv(fname, header=None, sep='\s+')
+            #dfname = os.path.splitext(fname)[0]
+            #store[dfname] = df
