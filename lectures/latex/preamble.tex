@@ -1,0 +1,183 @@
+\usepackage{arev, arevmath}
+\usepackage[scaled]{cabin}
+\usepackage[T1]{fontenc}
+
+\usepackage[super]{nth}
+\usepackage{pifont}
+\usepackage{wasysym}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{boldline}
+\usepackage{colortbl}
+%\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\usepackage{minibox}
+\usepackage{makecell}
+\usepackage{adjustbox}
+\usepackage{textcomp}
+\usepackage[absolute,overlay]{textpos}
+\setlength{\TPHorizModule}{1mm}%
+\setlength{\TPVertModule}{1mm}%
+\tcbuselibrary{skins}
+
+\makeatletter
+\newcommand{\antsize}{\@setfontsize{\antsize}{4pt}{4pt}}
+\makeatother
+\newcommand{\at}{\makeatletter @\makeatother}
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\bottomline}[1]{\vskip0pt plus 1fill{\alert{#1}\phantom{g}\vskip 1.0mm}}
+%\makeatletter
+%\newcommand{\bottomline}[1]{%
+  %\begin{textblock}{200}(8,80)%
+	%\alert{#1}%
+  %\end{textblock}}
+%\makeatother
+
+\newcommand{\Quote}[2]{%
+	\begin{center} 
+		\begin{minipage}{0.7\textwidth} 
+			\hrule
+			\vskip 3mm
+			\emph{{\color{ICTPblue} ``#1''}
+			
+			~~~~ {\color{ICTPorange} --- #2}}
+			\vskip 3mm
+			\hrule
+			\vskip 2mm
+		\end{minipage}
+	\end{center}}
+
+
+\mode<presentation>%
+{
+	\usetheme{default}
+	%\usetheme[width=2.5cm]{PaloAlto}
+	\usecolortheme{dove}
+	\useoutertheme{infolines}
+	% oder auch nicht
+
+	% ICTP Colors
+	\definecolor{ICTPblue}{RGB}{37,86,162} % 0x255682
+	\definecolor{ICTPorange}{RGB}{255,130,0} % 0xff8200
+	\definecolor{ICTPgreen}{RGB}{0,100,0}
+	\definecolor{ICTPdark}{RGB}{80,80,80} % 0x505050
+	\definecolor{ICTPlight}{RGB}{120,120,120}
+	\definecolor{ICTPbrown}{RGB}{178,91,0}
+
+	\definecolor{codebg}{rgb}{0.95,0.95,0.95}
+
+	% Color theme
+	\setbeamercolor{alerted text}{fg=ICTPorange}
+	\setbeamercolor{frametitle}{fg=ICTPblue}
+	\setbeamercolor{title}{fg=ICTPblue}
+	\setbeamercolor{subtitle}{fg=ICTPorange}
+	\setbeamercolor{normal text}{fg=ICTPdark}
+	\setbeamercolor{author in foot}{fg=ICTPblue}
+	\setbeamercolor{item}{fg=ICTPblue}
+	\setbeamercolor{footline}{fg=ICTPblue}
+	%\setbeamercolor{item projected}{bg=ICTPorange}
+	%\setbeamercolor{item projected}{fg=white}
+
+	\setbeamertemplate{headline}
+	{}
+	\setbeamertemplate{frametitle}
+	{
+		%\textbf{{\insertframetitle\phantom{g}}}\\
+		\textbf{\insertframetitle\phantom{g}}\\
+		%\textbf{\underline{\insertframetitle\phantom{g}}}\\
+		%\textbf{\underline{\insertframetitle}}\\
+		\vskip 1.0mm
+		%{\color{UOLgold}\hrule height 2pt}
+		%\par
+	}
+	\addtobeamertemplate{frametitle}{}{\vspace{-1em}}
+	\setbeamertemplate{footline}{
+		{%
+			\textbf{ \hskip 3.0mm\insertshorttitle\phantom{.}---\phantom{.}\insertshortinstitute\hfill\insertframenumber\,/\,\inserttotalframenumber\hskip 3.0mm} 
+		}
+	}
+
+	\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+	\setbeamertemplate{itemize items}[circle]
+	\setbeamertemplate{enumerate items}[fg=ICTPblue]
+	\setbeamercolor{itemize items}{fg=ICTPblue}
+	\setbeamercolor{sidebar}{bg=ICTPblue}
+	\setbeamercolor{title in sidebar}{fg=ICTPorange}
+	\setbeamercolor{author in sidebar}{fg=ICTPorange}
+	\setbeamercolor{section in sidebar}{fg=ICTPorange}
+}
+
+%\input{tikz/common-styles}
+
+\usepackage{graphicx}
+\usepackage[latin1]{inputenc}
+
+\graphicspath{{../figs/}{../figs/common/}{../figs/islr/}}
+
+\title[Statistical Learning] % (optional, nur bei langen Titeln nötig)
+{\textbf{Introduction to Statistical Learning\\ {\it with examples in Python}}\\%
+		\href{www.statlearning.com}%
+		{\tiny\it Based on ``Introduction to Statistical Learning'' by Gareth James, Daniela Witten, Trevor Hastie, Robert Tibishirani}\vspace{2em}}
+		\vspace{-2.5cm}{}
+
+
+		\author{\href{mailto:?to=Kurt Rinnert <kurt.rinnert@cern.ch>&subject=PWF Statistical Learning}{Kurt Rinnert}}
+
+\institute[{\href{https://www.ictp.it/physics-without-frontiers.aspx}{Physics Without Frontiers} --- \href{https://www.ictp.it/}{ICTP}}] % (optional)
+{\color{ICTPblue}\bfseries \href{https://www.ictp.it/physics-without-frontiers.aspx}{Physics Without Frontiers}\\\vspace{1mm}%
+\href{https://www.ictp.it/}{\includegraphics[width=0.20\textwidth]{common/ICTP-logo-full-trans.png}}\\%
+\href{https://www.liverpool.ac.uk/physics/}{\includegraphics[width=0.2\textwidth]{common/uol_logo.png}}}
+
+\date{}
+
+\titlegraphic{
+	\texorpdfstring{\vspace{-2.8cm}}{}
+	 \begin{minipage}[b][1.3cm][b]{0.26\textwidth}\color{ICTPlight}\antsize
+		Copyright \textcopyright~2019\\
+		\href{mailto:?to=Kurt Rinnert <kurt.rinnert@cern.ch>&subject=PWF Statistical Learning}{Kurt Rinnert <kurt.rinnert{\tt @}cern.ch>}\\
+		Copying and distribution of this file, with or without modification,
+		are permitted in any medium without royalty provided the copyright
+		notice and this notice are preserved.  This file is offered as-is,
+		without any warranty.
+
+
+		Some of the figures in this presentation are taken from ``An Introduction to
+		Statistical Learning, with applications in R''  (Springer, 2013) with
+		permission from the authors: G. James, D. Witten,  T. Hastie and R. Tibshirani 
+	 \end{minipage}\hspace{10cm}
+}
+
+
+\addtocounter{framenumber}{-1}
+
+% nicer table row separation
+\renewcommand{\arraystretch}{1.2}
+
+% color boxes
+\newcommand{\tabboxset}{\tcbset{enhanced, nobeforeafter, boxrule=0pt, boxsep=0pt, colback=codebg, colframe=codebg, coltext=ICTPdark, rounded corners, arc=4pt, fonttitle={\bfseries\tiny}}}
+\newcommand{\codeboxset}{\tcbset{enhanced, nobeforeafter, boxrule=0pt, boxsep=0pt, colback=codebg, colframe=codebg, coltext=ICTPdark, rounded corners, arc=4pt, fonttitle={\bfseries\tiny}}}
+
+\newcommand{\orange}{\color{ICTPorange}}
+\newcommand{\blue}{\color{ICTPblue}}
+\newcommand{\dark}{\color{ICTPdark}}
+
+\makeatletter
+\newcommand{\includegraphicsdpi}[3]{%
+	\pdfimageresolution=#1%
+	\includegraphics[#2]{#3}%
+	\pdfimageresolution=72%
+}
+
+\newenvironment{blurb}%
+	{\begin{center}\begin{minipage}{0.6\textwidth}\footnotesize}
+	{\end{minipage}\end{center}}
+
+\newenvironment{popblock}[2]%
+	{\begin{center}\begin{minipage}{#1}\footnotesize
+		\begin{tcolorbox}[colframe=codebg, colback=white, colupper=ICTPdark, title={\normalsize\bfseries\blue #2}]}
+	{\end{tcolorbox}\end{minipage}\end{center}}
+\makeatother
