@@ -151,6 +151,10 @@ dmypy.json
 *.mtc1
 *.out
 *.synctex.gz
+*.fsl
+*.fdb_latexmk
+*.snm
+*.nav
 
 # editors
 *.swp
