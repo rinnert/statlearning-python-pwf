@@ -1,5 +1,5 @@
 $pdf_mode = 1;
-$pdflatex = "pdflatex -shell-escape %O %S";
+$pdflatex = "pdflatex -shell-escape -interaction=nonstopmode -halt-on-error %O %S";
 $clean_ext = "nav snm";
 @default_excluded_files = ("common.tex", "preamble.tex");
 $out_dir = "../slides";
