@@ -5,7 +5,7 @@
 \input{preamble}
 \subtitle{\bfseries%
   {Introduction\\\it Course Overview \& Work Environment}\\%
-  {\tiny\it course content \& goals, datasets, mathematical notation, bayesian basics, technicalities, getting ready}\\%
+  {\tiny\it course content \& goals, datasets, mathematical notation, technicalities, getting ready}\\%
 }
 \begin{document}
 \input{common}
@@ -31,7 +31,6 @@
 		\item Literature
 		\item A first look at some data
 		\item Some history
-		\item Back to basics  
 		\item Some notation
 		\item The work environment
 		\item Making sure everything works
@@ -85,6 +84,203 @@
 		\end{column}
 	\end{columns}
 	\bottomline{Consider this a reference for concepts in ISLR.}
+\end{frame}
+
+\begin{frame}{Literature: Foundations}
+	\begin{columns}
+		\begin{column}{0.6\textwidth}
+			\begin{itemize}
+				\item An excellent introduction to statistics, deriving everything from Bayesian probabilities.
+				\item We won't cover this book, but refer to it to lay some foundations.
+				\item Develops the theory around examples.
+				\item Explains well why things are done the way they are.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.4\textwidth}
+			\begin{center}
+				\includegraphics[width=0.6\textwidth]{intro/abt2_cover}
+			\end{center}
+			\begin{center}
+				{\bfseries\blue ABT}
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bottomline{Highly recommended!}
+\end{frame}
+
+\begin{frame}{What is Statistical Learning?}
+	\begin{itemize}
+		\item Statistical learning refers to various tools and methods for \emph{understanding} data.
+		\item We usually distinguish between \emph{supervised} and \emph{unsupervised} methods.
+		\item Supervised methods try to predict \emph{outputs} from \emph{inputs}.
+		\item Unsupervised methods try to find structures in the \emph{inputs}.
+		\item We illustrate this briefly with some data sets.
+	\end{itemize}
+	\bottomline{The next lecture will cover this in more detail.}
+\end{frame}
+
+\begin{frame}{But what about Machine Learning?}
+	\begin{Quote}%
+		{Machine learning (ML) is the scientific study of algorithms and
+		statistical models that computer systems use to perform a specific task
+		without using explicit instructions, relying on patterns and inference
+		instead. It is seen as a subset of artificial intelligence.}%
+		{\href{https://en.wikipedia.org/wiki/Machine_learning}{Wikipedia page on Machine Learning}}
+	\end{Quote}
+	\begin{Quote}%
+		{"Statistical learning" redirects here.}%
+		{\href{https://en.wikipedia.org/wiki/Machine_learning}{Wikipedia page on Machine Learning}}
+	\end{Quote}
+	\bottomline{Machine Learning is just a fancy new name. It sure sounds cool!}	
+\end{frame}
+
+\begin{frame}{Wage Data}
+	\begin{itemize}
+		\item Here we refer to the \dat{Wage} data set.
+		\item The \dat{Wage} data set contains data related to a group of males from the US.
+		\item We are interested in how \dat{age}, \dat{education} and
+			calendar \dat{year} affect \dat{wage}.
+		\item We are going to \emph{visualize} the data to get a first understanding\\
+			of the relationships among the variables.
+	\end{itemize}
+	\bottomline{Note the notation for data sets and variables.}
+\end{frame}
+
+\begin{frame}{Wage Data}
+	\vspace{-1cm}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{1_1}
+	\end{center}
+	\vspace{-5mm}
+	\begin{itemize}
+		\item There is a correlation between \dat{age} and the average \dat{wage}.
+		\item There is a slow but steady increase of \dat{wage} over time.
+		\item The \dat{education} clearly has an impact on the \dat{wage}.
+	\end{itemize}
+	\bottomline{Visualization is extremely important. Always have a look first!}
+\end{frame}
+
+\begin{frame}{Stock Market Data}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{1_2}
+
+		{\footnotesize We would like to predict today's market direction from what happened
+		in the previous days.}
+	\end{center}
+	\bottomline{We can not stress enough the importance of visualization.}
+\end{frame}
+
+\begin{frame}{Stock Market Data}
+	\begin{columns}
+		\begin{column}{0.6\textwidth}
+			\begin{itemize}
+				\item The \dat{Wage} data set involved \emph{quantitative} data.
+				\item This is referred to as a \emph{regression} problem.
+				\item Other problems involve predicting \emph{qualitative} data.
+				\item These are \emph{classification} problems.
+				\item For example, predicting whether the stock market goes up or down.
+				\item The \dat{Smarket} data set provides daily percentage returns for
+					S\&P 500 over five years.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.4\textwidth}
+			\vspace{-1.2cm}
+			\begin{center}
+				\includegraphics[width=0.98\textwidth]{1_3}
+
+				\begin{minipage}[b]{0.7\textwidth}
+					{\footnotesize Correct prediction 60\% of the time using quadratic discriminant analysis.}
+				\end{minipage}
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bottomline{Obviously, there is a lot of interest in this kind of problem.}
+\end{frame}
+
+\begin{frame}{Some Nomenclature}
+	\begin{itemize}
+		\item In most scenarios (certainly in all \emph{supervised} scenarios) there are two types of data:
+			\begin{itemize}
+				\item The data we consider the description of a situation.
+				\item The data we consider the outcome of a situation.
+			\end{itemize}
+		\item The former are called \emph{input variables}, \emph{predictors}, \emph{independent variables}, \\
+			\emph{features} or simply \emph{variables}.\\
+			For example, in the \dat{Wage} data set these are \dat{age}, \dat{year}, \dat{education} and so on.
+		\item The latter are called \emph{output variables}, \emph{dependent variables} or \emph{responses}.\\
+			For example, in the \dat{Wage} data set it would be \dat{wage}.
+	\end{itemize}
+	\bottomline{We'll use these interchangeably but stay true to the concepts.}
+\end{frame}
+
+\begin{frame}{Beware of Causality Claims}
+	\begin{columns}
+		\begin{column}{0.6\textwidth}
+			\begin{itemize}
+				\item The distinction between predictors and responses seems to imply a causal connection.  
+				\item This is in general \emph{not} the case!
+				\item Be \emph{very} careful about this!
+				\item It is possible, however, to formalize the establishment of causal connections.
+				\item The book on the right is the seminal work\\ on this subject.
+				\item Formalizing causality is far beyond the scope\\ of this course.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.4\textwidth}
+			\begin{center}
+				\includegraphics[width=0.6\textwidth]{intro/caus_cover}
+			\end{center}
+			\begin{center}
+				{\bfseries\blue CAUS}
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bottomline{Don't make formal claims of causality without reading (at least part of) this book.}
+\end{frame}
+
+\begin{frame}{Notation: Data Sets}
+	\begin{itemize}
+		\item The predictors of a data set with $p$ predictors and $n$ observations\\
+			are represented as a matrix like this:
+	\end{itemize}
+	\vspace{-8mm}
+	\begin{center}
+		\[ \bm{X} = 
+			\begin{pmatrix}
+				x_{11} & x_{12} & \dots & x_{1p} \\ 
+				x_{21} & x_{22} & \dots & x_{2p} \\ 
+				\vdots & \vdots & \ddots & \vdots \\
+				x_{n1} & x_{n2} & \dots & x_{np} \\ 
+			\end{pmatrix}
+		\]
+	\end{center}
+	\begin{itemize}
+		\item Each \emph{row} represents one observation of all variables.
+		\item Each \emph{column} represents all observations of one variable.
+	\end{itemize}
+	\bottomline{Notation is hard to get right and boring. Please bear with us.}
+\end{frame}
+
+\begin{frame}{Notation: Data Sets}
+	\begin{itemize}
+		\item Sometimes we are interested the rows of $\bm{X}$.
+		\item We write the rows as $x_1, x_2, \dots, x_n$.
+		\item Each $x_i$ is a \emph{vector} of length $p$. 
+		\item For the \dat{Wage} data set the components of the $x_i$
+			would be \dat{age},\\ \dat{education}, \dat{year} and so on.
+	\end{itemize}
+	\vspace{-8mm}
+	\begin{center}
+		\[
+			x_i =
+			\begin{pmatrix}
+				x_{i1} \\
+				x_{i2} \\
+				\vdots \\
+				x_{ip} \\
+			\end{pmatrix}
+		\]
+	\end{center}
+	\bottomline{Note that we represent vectors as \emph{column vectors} by default.}
 \end{frame}
 
 \end{document}
