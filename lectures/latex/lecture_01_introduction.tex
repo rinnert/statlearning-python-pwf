@@ -237,7 +237,7 @@
 	\bottomline{Don't make formal claims of causality without reading (at least part of) this book.}
 \end{frame}
 
-\begin{frame}{Notation: Data Sets}
+\begin{frame}{Notation: Feature Matrix}
 	\begin{itemize}
 		\item The predictors of a data set with $p$ predictors and $n$ observations\\
 			are represented as a matrix like this:
@@ -260,27 +260,258 @@
 	\bottomline{Notation is hard to get right and boring. Please bear with us.}
 \end{frame}
 
-\begin{frame}{Notation: Data Sets}
+\begin{frame}{Notation: Feature Rows \& Columns}
+	\vspace{-3mm}
+	\begin{columns}[t]
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item We might be interested the rows of $\bm{X}$.
+				\item We write the rows as $x_1, x_2, \dots, x_n$.
+				\item Each $x_i$ is a \emph{vector} of length $p$. 
+				\item For the \dat{Wage} data set the components of the $x_i$
+					would be \dat{age}, \dat{education}, \dat{year} and so on.
+			\end{itemize}
+			\vspace{-12mm}
+			\begin{center}
+				\[
+					x_i =
+					\begin{pmatrix}
+						x_{i1} \\
+						x_{i2} \\
+						\vdots \\
+						x_{ip} \\
+					\end{pmatrix}
+				\]
+			\end{center}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item Or we need to refer to the columns of $\bm{X}$.
+				\item We write the columns as $\bm{x}_1, \bm{x}_2, \dots, \bm{x}_p$.
+				\item Each $\bm{x}_j$ is a \emph{vector} of length $n$. 
+			\end{itemize}
+			\vspace{2mm}
+			\begin{center}
+				\[
+					\bm{x}_j =
+					\begin{pmatrix}
+						\bm{x}_{1j} \\
+						\bm{x}_{2j} \\
+						\vdots \\
+						\bm{x}_{nj} \\
+					\end{pmatrix}
+				\]
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bottomline{Note that we represent vectors as \emph{column vectors} by default.}
+\end{frame}
+
+\begin{frame}{Notation: Transposition}
+	\vspace{-3mm}
+	\begin{columns}[t]
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item Now $\bm{X}$ can be written like this:
+			\end{itemize}
+			\vspace{-5mm}
+			\begin{center}
+				\[
+					\bm{X} =
+					\begin{pmatrix}
+						\bm{x}_1 & \bm{x}_2 & \dots & \bm{x}_p \\
+					\end{pmatrix}
+				\]
+			\end{center}
+			\begin{itemize}
+				\item Or like this:
+			\end{itemize}
+			\vspace{-9mm}
+			\begin{center}
+				\[
+					\bm{X} =
+					\begin{pmatrix}
+						x_1^T \\ x_2^T \\ \vdots \\ x_n^T \\
+					\end{pmatrix}
+				\]
+			\end{center}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item The ${}^T$ denotes the \emph{transpose} of a matrix:
+			\end{itemize}
+			\vspace{-9mm}
+			\begin{center}
+				\[
+					\bm{X}^T =
+					\begin{pmatrix}
+						x_{11} & x_{21} & \dots & x_{n1} \\ 
+						x_{12} & x_{22} & \dots & x_{n2} \\ 
+						\vdots & \vdots & \ddots & \vdots \\
+						x_{1p} & x_{2p} & \dots & x_{np} \\ 
+					\end{pmatrix}
+				\]
+			\end{center}
+			\begin{itemize}
+				\item Or of a vector:
+			\end{itemize}
+			\vspace{-9mm}
+			\begin{center}
+				\[
+					x_i^T =
+					\begin{pmatrix}
+						x_{i1} & x_{i2} & \dots & x_{ip} \\
+					\end{pmatrix}
+				\]
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bottomline{Being consistent about transposition is important.}
+\end{frame}
+
+\begin{frame}{Notation: Response Vector}
+	\vspace{-3mm}
+	\begin{columns}[t]
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item We write the $i$th observation of a response, say \dat{wage}, as $y_i$.
+				\item The set of all $n$ observations is then the vector 
+			\end{itemize}
+			\vspace{-8mm}
+			\begin{center}
+				\[
+					\bm{y} =
+					\begin{pmatrix}
+						y_1 \\ y_2 \\ \vdots \\ y_n \\
+					\end{pmatrix}
+				\]
+			\end{center}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item In general, we write vectors of length $n$ in {\bfseries bold} face:
+			\end{itemize}
+			\vspace{-9mm}
+			\begin{center}
+				\[
+					\bm{a} =
+					\begin{pmatrix}
+						a_1 \\ a_2 \\ \vdots \\ a_n \\
+					\end{pmatrix}
+				\]
+			\end{center}
+			\begin{itemize}
+				\item However, vectors of different lengths, for example $p$, are written in
+					normal face:
+			\end{itemize}
+			\vspace{-9mm}
+			\begin{center}
+				\[ x_i \]
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bottomline{This convention is purely for notational clarity convenience.}
+\end{frame}
+
+\begin{frame}{Notation: Summary}
+	\begin{popblock}{0.6\textwidth}{With $n$ observations in a data set with $p$ features:}
+		\begin{tabular}[h]{lcc}
+			{\bfseries\blue object} & {\bfseries\blue space} & {\bfseries\blue notation} \\
+			scalar & $\R$ & $a$ \\
+			column vector ($k = n$)  & $\R^{n \times 1}$ or $\R^n$ & $\bm{a}$ \\
+			row vector ($k = n$)  & $\R^{1 \times n}$ or $\R^n$ & $\bm{a}^T$ \\
+			column vector ($k \ne n$)  & $\R^{k \times 1}$ or $\R^k$ & $a$ \\
+			row vector ($k \ne n$)  & $\R^{1 \times k}$ or $\R^k$ & $a^T$ \\
+			matrix ($r$ rows, $d$ columns) & $\R^{r\times d}$ & $\bm{A}$ \\
+			\hline
+			feature matrix & $\R^{n\times p}$ & $\bm{X}$ \\
+			$i$th feature row & $\R^{1\times p}$ or $\R^p$ & $x_i^T$ \\
+			$j$th feature column & $\R^{n\times 1}$ or $\R^n$ & $\bm{x}_j$ \\
+			response vector & $\R^{n\times 1}$ or $\R^n$ & $\bm{y}$ \\
+		\end{tabular}
+	\end{popblock}
+	\bottomline{Forgive us for occasionally relaxing some of this in hand writing.}
+\end{frame}
+
+\begin{frame}{Symbol Manipulation: Matrix Multiplication}
 	\begin{itemize}
-		\item Sometimes we are interested the rows of $\bm{X}$.
-		\item We write the rows as $x_1, x_2, \dots, x_n$.
-		\item Each $x_i$ is a \emph{vector} of length $p$. 
-		\item For the \dat{Wage} data set the components of the $x_i$
-			would be \dat{age},\\ \dat{education}, \dat{year} and so on.
+		\item For two matrices $\bm{A} \in \R^{r\times d}$ and $\bm{B} \in \R^{d\times s}$ their \emph{matrix product}
+			$\bm{C} \in \R^{r\times s}$ is:
 	\end{itemize}
-	\vspace{-8mm}
+	\vspace{-12mm}
+	\begin{center}
+		\[ \bm{C} = \bm{AB} \ne \bm{BA} \,\,\,\mathrm{with}\,\,\, \bm{C}^T = (\bm{AB})^T = \bm{B}^T \bm{A}^T \]
+	\end{center}
+	\begin{itemize}
+		\item The \emph{components} $c_{ij} = (\bm{C})_{ij} = (\bm{AB})_{ij}$ are computed as follows: 
+	\end{itemize}
+	\vspace{-12mm}
+	\begin{center}
+		\[ c_{ij} = \sum_{k = 1}^{d} a_{ik}b_{kj} \]
+	\end{center}
+	\vspace{-5mm}
+	\begin{itemize}
+		\item For example:
+	\end{itemize}
+	\vspace{-12mm}
 	\begin{center}
 		\[
-			x_i =
+			\bm{AB} =
 			\begin{pmatrix}
-				x_{i1} \\
-				x_{i2} \\
-				\vdots \\
-				x_{ip} \\
+				1 & 2 \\ 3 & 4 \\
+			\end{pmatrix}
+			\begin{pmatrix}
+				5 & 6 \\ 7 & 8 \\
+			\end{pmatrix}
+			=
+			\begin{pmatrix}
+				1\times 5 + 2\times 7 & 1\times 6 + 2\times 8\\ 
+				3\times 5 + 4\times 7 & 3\times 6 + 4\times 8 \\
+			\end{pmatrix}
+			=
+			\begin{pmatrix}
+				19 & 22 \\ 43 & 50 \\
 			\end{pmatrix}
 		\]
 	\end{center}
-	\bottomline{Note that we represent vectors as \emph{column vectors} by default.}
+	\bottomline{The ISLR book is a bit shy about using this. We are not.}
+\end{frame}
+
+\begin{frame}{Symbol Manipulation: Gradients}
+	\begin{columns}[t]
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item The \emph{gradient} of a \emph{scalar function} $f(a) \in \R$ of a vector $a \in \R^k$ is
+					a \emph{column vector} of dimension $k$ with components ${\partial f}/{\partial a_i}$: 
+			\end{itemize}
+			\vspace{-5mm}
+			\begin{center}
+				\[ 
+					\frac{\partial f}{\partial a} = \nabla_a\, f =
+					\begin{pmatrix}
+						{\partial f}/{\partial a_1} \\ 
+						{\partial f}/{\partial a_2} \\
+						\vdots \\
+						{\partial f}/{\partial a_k} \\ 
+					\end{pmatrix}
+				\]
+			\end{center}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item In particular, the gradient wrt.\ the vector $a$ of the \emph{scalar product} $a^T b = b^T a$ is:
+			\end{itemize}
+			\begin{center}
+				\[ 
+					\nabla_a\, a^T b = \nabla_a\, b^T a = b =
+					\begin{pmatrix}
+						b_1 \\ b_2 \\ \vdots \\ b_k \\
+					\end{pmatrix}
+				\]
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bottomline{This is by no means obvious, but we can't dive deeply into differential geometry here.}
 \end{frame}
 
 \end{document}
