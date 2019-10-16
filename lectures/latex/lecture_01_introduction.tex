@@ -5,7 +5,7 @@
 \input{preamble}
 \subtitle{\bfseries%
   {Introduction\\\it Course Overview \& Work Environment}\\%
-  {\tiny\it course content \& goals, datasets, mathematical notation, technicalities, getting ready}\\%
+  {\tiny\it course content \& goals, a look at some data, mathematical notation, technicalities, getting ready}\\%
 }
 \begin{document}
 \input{common}
@@ -15,7 +15,7 @@
 
 	\begin{blurb}
 			We'll discuss the content and goals of the course and introduce 
-			the datasets we'll use, some mathematical notation and 
+			some of the datasets we'll use, some mathematical notation and 
 			the work environment.
 
 			We will need to spent some time to make sure everyone is
@@ -30,10 +30,11 @@
 	\begin{itemize}
 		\item Literature
 		\item A first look at some data
-		\item Some history
-		\item Some notation
+		\item Course outline
+		\item Premises of the course
+		\item Some nomenclature \& mathematical notation
 		\item The work environment
-		\item Making sure everything works
+		\item Making sure everything works\dots
 	\end{itemize}
 	\bottomline{This will get us ready to go.}
 \end{frame}
@@ -113,7 +114,7 @@
 		\item Statistical learning refers to various tools and methods for \emph{understanding} data.
 		\item We usually distinguish between \emph{supervised} and \emph{unsupervised} methods.
 		\item Supervised methods try to predict \emph{outputs} from \emph{inputs}.
-		\item Unsupervised methods try to find structures in the \emph{inputs}.
+		\item Unsupervised methods try to find \emph{structures} in the \emph{inputs}.
 		\item We illustrate this briefly with some data sets.
 	\end{itemize}
 	\bottomline{The next lecture will cover this in more detail.}
@@ -197,6 +198,21 @@
 	\bottomline{Obviously, there is a lot of interest in this kind of problem.}
 \end{frame}
 
+\begin{frame}{Gene Expression Data}
+	\vspace{-3mm}
+	\begin{center}
+		\includegraphics[width=0.54\textwidth]{1_4}
+	\end{center}
+	\vspace{-3mm}
+	\begin{itemize}
+		\item The \dat{NCI60} dataset contains 6,830 gene expression measurements \\
+			for 64 cell lines of 14 different cancer types.
+		\item The figure shows scatter plots of the first two \emph{principal components}, $Z_1$ and $Z_2$. 
+		\item Cell lines of the same cancer type tend to cluster in $\{Z_1, Z_2\}$ space.
+	\end{itemize}
+	\bottomline{This is an example of \emph{unsupervised} learning.}
+\end{frame}
+
 \begin{frame}{Some Nomenclature}
 	\begin{itemize}
 		\item In most scenarios (certainly in all \emph{supervised} scenarios) there are two types of data:
@@ -210,7 +226,7 @@
 		\item The latter are called \emph{output variables}, \emph{dependent variables} or \emph{responses}.\\
 			For example, in the \dat{Wage} data set it would be \dat{wage}.
 	\end{itemize}
-	\bottomline{We'll use these interchangeably but stay true to the concepts.}
+	\bottomline{We'll use the various terms interchangeably but stay true to the concepts.}
 \end{frame}
 
 \begin{frame}{Beware of Causality Claims}
@@ -235,6 +251,48 @@
 		\end{column}
 	\end{columns}
 	\bottomline{Don't make formal claims of causality without reading (at least part of) this book.}
+\end{frame}
+
+\begin{frame}{Course Premises}
+	\begin{center}
+		\begin{minipage}[t]{0.8\textwidth}
+			\begin{itemize}
+				\item Many statistical learning methods are relevant in a wide range of disciplines.
+				\item Statistical Learning should not be viewed as a series of black boxes.
+				\item While it is important to understand the methods, their technical implementation 
+					is (mostly) not our concern.
+				\item We presume you are interested in applying statistical learning to real world problems.
+			\end{itemize}
+		\end{minipage}
+	\end{center}
+	\bottomline{We will be more mathematically inclined than the ISLR book. You can take it.}
+\end{frame}
+
+\begin{frame}{Course Outline}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{enumerate}
+				\item Introduction
+				\item Statistical Learning
+				\item Linear Regression
+				\item Classification
+				\item Resampling Methods
+				\item Model Selection \& Regularization
+			\end{enumerate}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{enumerate}
+					\setcounter{enumi}{6}
+				\item Beyond Linearity
+				\item Tree-Based Methods
+				\item Support Vector Machines
+				\item Unsupervised Learning
+				\item Neural Networks \& Deep Learning
+				\item Reinforcement Learning
+			\end{enumerate}
+		\end{column}
+	\end{columns}
+	\bottomline{This is the ISLR book content plus neural networks and reinforcement learning.}
 \end{frame}
 
 \begin{frame}{Notation: Feature Matrix}
@@ -486,18 +544,30 @@
 					\[ \bm{AB} \ne \bm{BA} \]
 				\item Matrix multiplication is associative:
 					\[ \bm{CBA} = \bm{C}(\bm{BA}) = (\bm{CB})\bm{A} \]
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
 				\item Matrix multiplication is distributive:
 					\[ \bm{C} (\bm{B} + \bm{A}) = \bm{CB} + \bm{CA} \]
 				\item The transpose of a matrix product is:
 					\[ (\bm{BA})^T = \bm{A}^T\bm{B}^T \]
 			\end{itemize}
 		\end{column}
-		\begin{column}{0.5\textwidth}
+	\end{columns}
+	\vspace{-2mm}
+	\bottomline{We left out a few ``obvious'' properties.}
+\end{frame}
+
+\begin{frame}{Symbol Manipulation: Matrix Inversion}
+	\vspace{-2mm}
+	\begin{columns}[t]
+		\begin{column}{0.8\textwidth}
 			\begin{itemize}
 				\item A \emph{square matrix} $\bm{A} \in \R^{d\times d}$ is \emph{invertible} if, 
 					and only if, $\exists\bm{A}^{-1}$ such that:
 					\[ \bm{A}\bm{A}^{-1} = \bm{A}^{-1}\bm{A} = \bm{I} \]
-					where the components of the \\ \emph{unit matrix} $\bm{I} \in \R^{d\times d}$ are:
+				\item Where the components of the  \emph{unit matrix} $\bm{I} \in \R^{d\times d}$ are:
 					\[ (\bm{I})_{ij} = \delta_{ij} = 
 						\begin{cases}
 							1 & i = j \\
@@ -505,13 +575,12 @@
 						\end{cases}
 					\]
 					\[ \implies \bm{I}\bm{M} = \bm{M}, \bm{M} \in \R^{d\times s} \]
-					furthermore:
+				\item Furthermore:
 					\[ \exists\bm{A}^{-1}\implies\exists(\bm{A}^T)^{-1} = (\bm{A}^{-1})^T\]
 			\end{itemize}
 		\end{column}
 	\end{columns}
-	\vspace{-2mm}
-	\bottomline{We left out a few ``obvious'' properties.}
+	\bottomline{Inverting matrices can be hard -- we'll leave that to the computer.}
 \end{frame}
 
 \begin{frame}{Symbol Manipulation: Gradients}
@@ -549,6 +618,54 @@
 		\end{column}
 	\end{columns}
 	\bottomline{This is by no means obvious, but we can't dive deeply into differential geometry here.}
+\end{frame}
+
+\begin{frame}{The Gradient Illustrated}
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{intro/gradient}
+		{\antsize \[ f(x, y) = - (\cos^2 x + \cos^2 y)^2 \]}
+	\end{center}
+	\bottomline{Think of the gradient as the direction and magnitude of the steepest ascent.}
+\end{frame}
+
+\begin{frame}{The Work Environment}
+	\begin{columns}
+		\begin{column}{0.6\textwidth}
+			\begin{itemize}
+				\item We'll use Python and a number of common libraries
+					for the labs and exercises.
+				\item For interactive work (most labs and exercises) we'll use
+					jupyter notebooks.
+				\item We have prepared a Python library ({\tt islpy}) that provides
+					easy access to \& documentation for all the data sets.
+				\item We provide a virtual machine running Xubuntu 18.04 with everything
+					pre-installed.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.4\textwidth}
+			\begin{center}
+				\href{https://www.python.org/}{\includegraphics[width=0.6\textwidth]{intro/python-logo}}
+			\end{center}
+			\begin{center}
+				\href{https://numpy.org/}{\includegraphics[width=0.6\textwidth]{intro/numpy_logo}}
+			\end{center}
+			\begin{center}
+				\href{https://jupyter.org/}{\includegraphics[width=0.2\textwidth]{intro/jupyter_logo}}
+			\end{center}
+			\begin{center}
+				\href{https://xubuntu.org/}{\includegraphics[width=0.6\textwidth]{intro/xubuntu_logo}}
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bottomline{There is not enough room for the logos of all the libraries!}	
+\end{frame}
+
+\begin{frame}{The Virtual Machine}
+	\begin{center}
+		% TODO: update VM screen shot.
+		\includegraphics[width=0.7\textwidth]{intro/student_logged_in}
+	\end{center}
+	\bottomline{Let's make sure this works for everyone.}
 \end{frame}
 
 \end{document}
