@@ -410,7 +410,7 @@
 			\end{center}
 		\end{column}
 	\end{columns}
-	\bottomline{This convention is purely for notational clarity convenience.}
+	\bottomline{This convention is purely for notational clarity \& convenience.}
 \end{frame}
 
 \begin{frame}{Notation: Summary}
@@ -440,7 +440,7 @@
 	\end{itemize}
 	\vspace{-12mm}
 	\begin{center}
-		\[ \bm{C} = \bm{AB} \ne \bm{BA} \,\,\,\mathrm{with}\,\,\, \bm{C}^T = (\bm{AB})^T = \bm{B}^T \bm{A}^T \]
+		\[ \bm{C} = \bm{AB} \]
 	\end{center}
 	\begin{itemize}
 		\item The \emph{components} $c_{ij} = (\bm{C})_{ij} = (\bm{AB})_{ij}$ are computed as follows: 
@@ -477,11 +477,48 @@
 	\bottomline{The ISLR book is a bit shy about using this. We are not.}
 \end{frame}
 
+\begin{frame}{Symbol Manipulation: Useful Properties}
+	\vspace{-5mm}
+	\begin{columns}[t]
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item Matrix multiplication is \emph{not} commutative:
+					\[ \bm{AB} \ne \bm{BA} \]
+				\item Matrix multiplication is associative:
+					\[ \bm{CBA} = \bm{C}(\bm{BA}) = (\bm{CB})\bm{A} \]
+				\item Matrix multiplication is distributive:
+					\[ \bm{C} (\bm{B} + \bm{A}) = \bm{CB} + \bm{CA} \]
+				\item The transpose of a matrix product is:
+					\[ (\bm{BA})^T = \bm{A}^T\bm{B}^T \]
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item A \emph{square matrix} $\bm{A} \in \R^{d\times d}$ is \emph{invertible} if, 
+					and only if, $\exists\bm{A}^{-1}$ such that:
+					\[ \bm{A}\bm{A}^{-1} = \bm{A}^{-1}\bm{A} = \bm{I} \]
+					where the components of the \\ \emph{unit matrix} $\bm{I} \in \R^{d\times d}$ are:
+					\[ (\bm{I})_{ij} = \delta_{ij} = 
+						\begin{cases}
+							1 & i = j \\
+							0 & i \ne j \\
+						\end{cases}
+					\]
+					\[ \implies \bm{I}\bm{M} = \bm{M}, \bm{M} \in \R^{d\times s} \]
+					furthermore:
+					\[ \exists\bm{A}^{-1}\implies\exists(\bm{A}^T)^{-1} = (\bm{A}^{-1})^T\]
+			\end{itemize}
+		\end{column}
+	\end{columns}
+	\vspace{-2mm}
+	\bottomline{We left out a few ``obvious'' properties.}
+\end{frame}
+
 \begin{frame}{Symbol Manipulation: Gradients}
 	\begin{columns}[t]
 		\begin{column}{0.5\textwidth}
 			\begin{itemize}
-				\item The \emph{gradient} of a \emph{scalar function} $f(a) \in \R$ of a vector $a \in \R^k$ is
+				\item The \emph{gradient} of a \emph{scalar function} $f(a) \in \R$ wrt.\ a vector $a \in \R^k$ is
 					a \emph{column vector} of dimension $k$ with components ${\partial f}/{\partial a_i}$: 
 			\end{itemize}
 			\vspace{-5mm}
