@@ -1,0 +1,23 @@
+#!/bin/bash
+__conda_setup="$('/opt/conda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/conda/etc/profile.d/conda.sh" ]; then
+        . "/opt/conda/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/conda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+conda activate ml
+cd ${HOME}/notebooks
+server=`jupyter notebook list | grep "localhost:8899" | cut -d " " -f 1`
+if [ -z ${server} ]
+then
+	jupyter notebook --port=8899 --notebook-dir=${HOME}/notebooks --no-browser >& /dev/null &
+	sleep 1
+	server=`jupyter notebook list | grep "localhost:8899" | cut -d " " -f 1`
+fi
+xdg-open ${server}
+

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Jupyter Notebook
+GenericName=Notebook Server
+Exec=/home/student/.local/bin/launch_jupyter
+Comment=Notebook Server
+Icon=/home/student/.local/share/icons/jupyter-logo-transparent.png
+Terminal=false
+Categories=Education;Development;
+MimeType=application/x-ipynb+json;
+
