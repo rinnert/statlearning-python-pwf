@@ -18,8 +18,11 @@ with --user that is:
 
 
 The hide_main.js file does the same as main.js but forces all solutions closed
-upon reload, independent of the saved notebook state.  I fyou prefer this
-bahaviour, copy to the relevant nbextensions/ folder.  If you installed the
+upon reload, independent of the saved notebook state.  It also hides the
+create/remove toolbar button and keyboard shortcut.  This is the preferred
+behaviour for student interaction.
+
+To install, copy to the relevant nbextensions/ folder.  If you installed the
 extensions with --user that is:
 
     cp hide_main.js ~/.local/share/jupyter/nbextensions/exercise2/main.js

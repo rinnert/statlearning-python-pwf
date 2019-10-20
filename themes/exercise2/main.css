@@ -31,13 +31,13 @@
 .onoffswitch-inner:before {
     content: "Hide Solution";
     padding-left: 10px;
-    background-color: #2556a2; color: #FFFFFF;
+    background-color: #ff8200; color: #FFFFFF;
    }
 
 .onoffswitch-inner:after {
     content: "Show Solution";
     padding-right: 10px;
-    background-color: #ff8200; color: #ffffff;
+    background-color: #C0C0C0; color: #ffffff;
     text-align: right;
 }
 .onoffswitch-switch {

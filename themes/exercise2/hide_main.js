@@ -153,14 +153,14 @@ define([
         return IPython.notebook.config.loaded.then(function() {
             $.extend(true, cfg, IPython.notebook.config.data.exercise2);
 
-            if (cfg.add_button) {
-                IPython.toolbar.add_buttons_group([action_name]);
-            }
-            if (cfg.use_hotkey && cfg.hotkey) {
-                var cmd_shrts = {};
-                cmd_shrts[cfg.hotkey] = action_name;
-                IPython.keyboard_manager.command_shortcuts.add_shortcuts(cmd_shrts);
-            }
+			/*if (cfg.add_button) {*/
+			/*IPython.toolbar.add_buttons_group([action_name]);*/
+			/*}*/
+			/*if (cfg.use_hotkey && cfg.hotkey) {*/
+			/*var cmd_shrts = {};*/
+			/*cmd_shrts[cfg.hotkey] = action_name;*/
+			/*IPython.keyboard_manager.command_shortcuts.add_shortcuts(cmd_shrts);*/
+			/*}*/
         }).catch(function(err) {
             console.warn('[exercise2] error:', err);
         });
