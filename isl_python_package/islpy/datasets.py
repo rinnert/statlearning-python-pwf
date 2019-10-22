@@ -27,7 +27,7 @@ def HDFFilePath():
     return _datafile
 
 _auto_ds = None
-def Auto(force_reload=False):
+def Auto(use_cache=False):
     """
     Return data frame for Auto dataset.
 
@@ -77,13 +77,13 @@ def Auto(force_reload=False):
             >>> auto = datasets.Auto()
     """
     global _auto_ds
-    if force_reload or _auto_ds is None:
+    if not use_cache or _auto_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _auto_ds = store['Auto']
     return _auto_ds
 
 _boston_ds = None
-def Boston(force_reload=False):
+def Boston(use_cache=False):
     """
     Return data frame for Boston dataset.
 
@@ -142,13 +142,13 @@ def Boston(force_reload=False):
             >>> boston = datasets.Boston()
     """
     global _boston_ds
-    if force_reload or _boston_ds is None:
+    if not use_cache or _boston_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _boston_ds = store['Boston']
     return _boston_ds
 
 _caravan_ds = None
-def Caravan(force_reload=False):
+def Caravan(use_cache=False):
     """
     Return data frame for Caravan dataset.
 
@@ -193,13 +193,13 @@ def Caravan(force_reload=False):
         >>> caravan = datasets.Caravan()
     """
     global _caravan_ds
-    if force_reload or _caravan_ds is None:
+    if not use_cache or _caravan_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _caravan_ds = store['Caravan']
     return _caravan_ds
 
 _carseats_ds = None
-def Carseats(force_reload=False):
+def Carseats(use_cache=False):
     """
     Return data frame for Carseats dataset.
 
@@ -254,13 +254,13 @@ def Carseats(force_reload=False):
         >>> carseats = datasets.Carseats()
     """
     global _carseats_ds
-    if force_reload or _carseats_ds is None:
+    if not use_cache or _carseats_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _carseats_ds = store['Carseats']
     return _carseats_ds
 
 _college_ds = None
-def College(force_reload=False):
+def College(use_cache=False):
     """
     Return data frame for College dataset.
 
@@ -328,13 +328,13 @@ def College(force_reload=False):
         >>> college = datasets.College()
     """
     global _college_ds
-    if force_reload or _college_ds is None:
+    if not use_cache or _college_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _college_ds = store['College']
     return _college_ds
 
 _default_ds = None
-def Default(force_reload=False):
+def Default(use_cache=False):
     """
     Return data frame for Default dataset.
 
@@ -374,13 +374,13 @@ def Default(force_reload=False):
         >>> default = datasets.Default()
     """
     global _default_ds
-    if force_reload or _default_ds is None:
+    if not use_cache or _default_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _default_ds = store['Default']
     return _default_ds
 
 _hitters_ds = None
-def Hitters(force_reload=False):
+def Hitters(use_cache=False):
     """
     Return data frame for Hitters dataset.
 
@@ -457,13 +457,13 @@ def Hitters(force_reload=False):
         >>> hitters = datasets.Hitters()
     """
     global _hitters_ds
-    if force_reload or _hitters_ds is None:
+    if not use_cache or _hitters_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _hitters_ds = store['Hitters']
     return _hitters_ds
 
 _khan_xtrain, _khan_ytrain, _khan_xtest, _khan_ytest = None, None, None, None
-def Khan(force_reload=False):
+def Khan(use_cache=False):
     """
     Return data frames for Khan dataset.
 
@@ -510,7 +510,7 @@ def Khan(force_reload=False):
         >>> xtrain, ytrain, xtest, ytest = datasets.Khan()
     """
     global _khan_xtrain, _khan_ytrain, _khan_xtest, _khan_ytest
-    if force_reload or _khan_xtrain is None:
+    if not use_cache or _khan_xtrain is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _khan_xtrain = store['Khan_xtrain']
             _khan_ytrain = store['Khan_ytrain']
@@ -519,7 +519,7 @@ def Khan(force_reload=False):
     return _khan_xtrain, _khan_ytrain, _khan_xtest, _khan_ytest
 
 _nci60_data, _nci60_labs = None, None
-def NCI60(force_reload=False):
+def NCI60(use_cache=False):
     """
     Return data frames for NCI60 dataset.
 
@@ -552,14 +552,14 @@ def NCI60(force_reload=False):
         >>> data, labs = datasets.NCI60()
     """
     global _nci60_data, _nci60_labs
-    if force_reload or _nci60_data is None:
+    if not use_cache or _nci60_data is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _nci60_data = store['NCI60_data']
             _nci60_labs = store['NCI60_labs']
     return _nci60_data, _nci60_labs
 
 _oj_ds = None
-def OJ(force_reload=False):
+def OJ(use_cache=False):
     """
     Return data frame for OJ dataset.
 
@@ -628,13 +628,13 @@ def OJ(force_reload=False):
         >>> oj = datasets.OJ()
     """
     global _oj_ds
-    if force_reload or _oj_ds is None:
+    if not use_cache or _oj_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _oj_ds = store['OJ']
     return _oj_ds
 
 _portfolio_ds = None
-def Portfolio(force_reload=False):
+def Portfolio(use_cache=False):
     """
     Return data frame for Portfolio dataset.
 
@@ -673,13 +673,13 @@ def Portfolio(force_reload=False):
         >>> portf = datasets.Portfolio()
     """
     global _portfolio_ds
-    if force_reload or _portfolio_ds is None:
+    if not use_cache or _portfolio_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _portfolio_ds = store['Portfolio']
     return _portfolio_ds
 
 _smarket_ds = None
-def Smarket(force_reload=False):
+def Smarket(use_cache=False):
     """
     Return data frame for Smarket dataset.
 
@@ -729,13 +729,13 @@ def Smarket(force_reload=False):
         >>> smarket = datasets.Smarket()
     """
     global _smarket_ds
-    if force_reload or _smarket_ds is None:
+    if not use_cache or _smarket_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _smarket_ds = store['Smarket']
     return _smarket_ds
 
 _usarrests_ds = None
-def USArrests(force_reload=False):
+def USArrests(use_cache=False):
     """
     Return data frame for USArrests dataset.
 
@@ -771,13 +771,13 @@ def USArrests(force_reload=False):
         >>> arrests = datasets.USArrests()
     """
     global _usarrests_ds
-    if force_reload or _usarrests_ds is None:
+    if not use_cache or _usarrests_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _usarrests_ds = store['USArrests']
     return _usarrests_ds
 
 _wage_ds = None
-def Wage(force_reload=False):
+def Wage(use_cache=False):
     """
     Return data frame for Wage dataset.
 
@@ -839,13 +839,13 @@ def Wage(force_reload=False):
         >>> wage = datasets.Wage()
     """
     global _wage_ds
-    if force_reload or _wage_ds is None:
+    if not use_cache or _wage_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _wage_ds = store['Wage']
     return _wage_ds
 
 _weekly_ds = None
-def Weekly(force_reload=False):
+def Weekly(use_cache=False):
     """
     Return data frame for Weekly dataset.
 
@@ -895,13 +895,13 @@ def Weekly(force_reload=False):
         >>> weekly = datasets.Weekly()
     """
     global _weekly_ds
-    if force_reload or _weekly_ds is None:
+    if not use_cache or _weekly_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _weekly_ds = store['Weekly']
     return _weekly_ds
 
 _digit_train_ds, _digit_test_ds = None, None
-def Digits(force_reload=False):
+def Digits(use_cache=False):
     """
     Return tuple of training and test data frames for Digits dataset.
 
@@ -934,7 +934,7 @@ def Digits(force_reload=False):
         >>> train, test = datasets.Digits()
     """
     global _digit_train_ds, _digit_test_ds
-    if force_reload or _digit_train_ds is None:
+    if not use_cache or _digit_train_ds is None:
         with pd.HDFStore(_datafile, 'r') as store:
             _digit_train_ds, _digit_test_ds = store['DigitsTrain'], store['DigitsTest']
     return _digit_train_ds, _digit_test_ds
