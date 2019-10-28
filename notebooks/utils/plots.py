@@ -85,6 +85,17 @@ def plot_linear_model_3D(fitted_model, column1, column2,
         lv[idx] = pred['mean_ci_lower']
         uv[idx] = pred['mean_ci_upper']
 
+    # add contour plot of the CI width to the bottom of the figure
+    if show_ci:
+        ax.contourf(xv, yv, uv-lv,
+                    zdir='z',
+                    offset=ax.get_zlim()[0],
+                    levels=50,
+                    antialiased=True,
+                    alpha=cialpha*2,
+                    cmap=cmap)
+    
+
     # 3D scatter plot of the raw data
     ax.scatter(data[column1], data[column2], model.endog, color=scolor)
 
@@ -94,14 +105,6 @@ def plot_linear_model_3D(fitted_model, column1, column2,
         ax.plot_surface(xv, yv, lv, alpha=cialpha, color=cicolor)
         ax.plot_surface(xv, yv, uv, alpha=cialpha, color=cicolor)
 
-    # add contour plot of the CI width to the bottom of the figure
-    ax.contourf(xv, yv, uv-lv,
-                zdir='z',
-                offset=ax.get_zlim()[0],
-                levels=50,
-                antialiased=True,
-                cmap=cmap)
-    
     ax.set_xlabel(column1)
     ax.set_ylabel(column2)
     ax.set_zlabel(model.endog_names)
