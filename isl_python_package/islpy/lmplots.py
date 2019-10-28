@@ -37,6 +37,10 @@ def plot_fit(fitted_model, column, data=None,
     
     ax = sns.scatterplot(x=column, y=model.endog,
                          data=data, ax=ax, color=scolor)
+    try:
+        ax.set_title(f'Fit vs {column} ({model.formula})')
+    except AttributeError:
+        ax.set_title(f'Fit vs {column}')
     ax.set_ylabel(model.endog_names)
     ax.plot(x, y, color=fcolor, lw=2)
     if show_ci:
@@ -114,5 +118,9 @@ def plot_fit_3D(fitted_model, column1, column2,
     ax.set_xlabel(column1)
     ax.set_ylabel(column2)
     ax.set_zlabel(model.endog_names)
+    try:
+        fig.suptitle(f'Fit vs {column1}, {column2} ({model.formula})')
+    except AttributeError:
+        ax.suptitle(f'Fit vs {column1}, {column2}')
     
     return fig, ax
