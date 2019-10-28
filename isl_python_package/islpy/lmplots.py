@@ -53,7 +53,7 @@ def plot_fit(fitted_model, column, data=None,
 
 def plot_fit_3D(fitted_model, column1, column2, 
                 data=None, points=100, 
-                scolor='C0', fcolor='C0', cicolor='C1', 
+                scolor='C3', fcolor='C0', cicolor='C1', 
                 salpha=0.4, cialpha=0.2, cmap='Oranges', 
                 figsize=(12,9), show_ci=True):
     """Produce 3D scatter plot and overlay fitted model surface.
