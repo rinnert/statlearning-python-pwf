@@ -25,8 +25,8 @@ def marginalised_range(columns, data, points=100, others=None):
     return xs
 
 
-def plot_linear_model(fitted_model, column, data=None,
-                      ax=None, points=100, scolor='C0', fcolor='C1', alpha=0.3):
+def plot_fit(fitted_model, column, data=None,
+             ax=None, points=100, scolor='C0', fcolor='C1', alpha=0.3):
     """Make a scatter plot and overlay fit result."""
 
     model = fitted_model.model
@@ -44,17 +44,18 @@ def plot_linear_model(fitted_model, column, data=None,
     
     ax = sns.scatterplot(x=column, y=model.endog,
                          data=data, ax=ax, color=scolor)
+    ax.set_ylabel(model.endog_names)
     ax.plot(x, y, color=fcolor, lw=2)
     ax.fill_between(x, cil, ciu, color=fcolor, alpha=alpha)
 
     return ax
 
 
-def plot_linear_model_3D(fitted_model, column1, column2, 
-                      data=None, points=100, 
-                      scolor='C0', fcolor='C0', cicolor='C1', 
-                      salpha=0.4, cialpha=0.2, cmap='Oranges', 
-                      figsize=(12,9), show_ci=True):
+def plot_fit_3D(fitted_model, column1, column2, 
+                data=None, points=100, 
+                scolor='C0', fcolor='C0', cicolor='C1', 
+                salpha=0.4, cialpha=0.2, cmap='Oranges', 
+                figsize=(12,9), show_ci=True):
     """Produce 3D scatter plot and overlay fitted model surface."""
 
     model = fitted_model.model
