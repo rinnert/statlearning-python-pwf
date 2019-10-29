@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="islpy",
-    version="0.1",
+    version="0.3",
     author="Kurt Rinnert",
     author_email="kurt.rinnert@liverpool.ac.uk",
     description="Datasets and helper functions for Introduction to Statistical Learning",

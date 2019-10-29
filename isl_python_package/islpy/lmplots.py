@@ -121,9 +121,9 @@ def plot_fit_3D(fitted_model, column1, column2,
     ax.set_ylabel(column2)
     ax.set_zlabel(model.endog_names)
     try:
-        fig.suptitle(f'Fit vs {column1}, {column2} ({model.formula})')
+        fig.suptitle(f'Fit vs {column1} & {column2}\n{model.formula}')
     except AttributeError:
-        ax.suptitle(f'Fit vs {column1}, {column2}')
+        ax.suptitle(f'Fit vs {column1} & {column2}')
     
     return fig, ax
 
@@ -237,7 +237,7 @@ def plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C2', 
         xlim = ax.get_xlim()
         ylim = ax.get_ylim()
         p = fitted_model.params.size
-        x = np.linspace(values.min(), values.max(), 100)
+        x = np.linspace(*xlim, 100)
         y = np.sqrt((0.5 * p * (1 - x)) / x) 
         ax.plot(x, y, color=ccolor, lw=lw, alpha=0.8, label="Cook's Distance")
         ax.set_xlim(xlim)
@@ -273,4 +273,20 @@ def plot_hat(fitted_model, ax=None, scolor='C0', annotations=3):
     ax.set_ylabel('Leverage')
 
     return ax
+
+
+def plot(fitted_model, scolor='C0', lcolor='C1', auxcolor='C2', annotations=3, figsize=(12, 9)):
+    """Produce R-style control plots for linear model."""
+    fig, axs = plt.subplots(2, 2, figsize=figsize)
+
+    plot_resid(fitted_model, ax=axs[0][0], scolor=scolor, lcolor=lcolor, annotations=annotations)
+    plot_qq(fitted_model, ax=axs[0][1], scolor=scolor, lcolor=lcolor, annotations=annotations)
+    plot_scaleloc(fitted_model, ax=axs[1][0], scolor=scolor, lcolor=lcolor, annotations=annotations)
+    plot_leverage(fitted_model, ax=axs[1][1], scolor=scolor, lcolor=lcolor, ccolor=auxcolor, annotations=annotations)
+    
+    fig.tight_layout()
+    
+    return fig
+
+
 
