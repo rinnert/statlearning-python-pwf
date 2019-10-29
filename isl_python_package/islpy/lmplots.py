@@ -160,7 +160,7 @@ def plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, line=True,
             annotations=3):
     """Produce standard Q-Q plot."""
     
-    resids = fitted_model.get_influence().resid_studentized
+    resids = fitted_model.get_influence().resid_studentized_internal
     pp = ProbPlot(resids)
     
     ax = sns.scatterplot(pp.theoretical_quantiles, pp.sorted_data, 
@@ -187,7 +187,7 @@ def plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=
                   annotations=3):
     """Produce scale-location plot."""
     
-    resids = np.sqrt(np.abs(fitted_model.get_influence().resid_studentized))
+    resids = np.sqrt(np.abs(fitted_model.get_influence().resid_studentized_internal))
     values = fitted_model.fittedvalues
     
     ax = sns.scatterplot(values, resids, ax=ax, color=scolor)
@@ -210,4 +210,67 @@ def plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=
     return ax
 
 
+def plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C2', lw=2, 
+                  lowess=True, cook=True, legend=True, annotations=3):
+    """Produce leverage plot."""
+    
+    influence = fitted_model.get_influence()
+    resids = influence.resid_studentized_internal
+    values = influence.hat_matrix_diag
+    cooks = influence.cooks_distance[0]
+    
+    ax = sns.scatterplot(values, resids, ax=ax, color=scolor)
+    ax.set
+
+    if lowess:
+        lfit = smoothers_lowess.lowess(resids, values)
+        ax.plot(lfit[:, 0], lfit[:, 1], color=lcolor, lw=lw)
+
+    if  annotations:
+        idxs = pd.Series(cooks).nlargest(annotations).index
+        for idx in idxs:
+            value = values[idx]
+            resid = resids[idx]
+            ax.annotate(fitted_model.fittedvalues.index[idx], (value, resid))
+
+    if cook:
+        xlim = ax.get_xlim()
+        ylim = ax.get_ylim()
+        p = fitted_model.params.size
+        x = np.linspace(values.min(), values.max(), 100)
+        y = np.sqrt((0.5 * p * (1 - x)) / x) 
+        ax.plot(x, y, color=ccolor, lw=lw, alpha=0.8, label="Cook's Distance")
+        ax.set_xlim(xlim)
+        ax.set_ylim(ylim)
+        if legend:
+            ax.legend()
+
+    ax.set_title('Residuals vs Leverage')
+    ax.set_xlabel('Leverage')
+    ax.set_ylabel('Standardised Residuals')
+
+    return ax
+
+
+def plot_hat(fitted_model, ax=None, scolor='C0', annotations=3):
+    """Make scatter plot of leverage vs index."""
+
+    influence = fitted_model.get_influence()
+    ys = influence.hat_matrix_diag
+    xs = np.arange(fitted_model.fittedvalues.index.size)
+
+    ax = sns.scatterplot(xs, ys, ax=ax, color=scolor)
+
+    if  annotations:
+        idxs = pd.Series(ys).nlargest(annotations).index
+        for idx in idxs:
+            x = xs[idx]
+            y = ys[idx]
+            ax.annotate(fitted_model.fittedvalues.index[idx], (x, y))
+
+    ax.set_title('Leverage vs Index')
+    ax.set_xlabel('Index')
+    ax.set_ylabel('Leverage')
+
+    return ax
 
