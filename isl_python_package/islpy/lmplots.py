@@ -39,10 +39,7 @@ def plot_fit(fitted_model, column, data=None,
     
     ax = sns.scatterplot(x=column, y=model.endog,
                          data=data, ax=ax, color=scolor)
-    try:
-        ax.set_title(f'Fit vs {column} ({model.formula})')
-    except AttributeError:
-        ax.set_title(f'Fit vs {column}')
+    ax.set_title(f'Fit vs {column}')
     ax.set_ylabel(model.endog_names)
     ax.plot(x, y, color=fcolor, lw=2)
     if show_ci:
