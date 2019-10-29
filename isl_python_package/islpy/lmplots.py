@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import seaborn as sns
+from statsmodels.nonparametric import smoothers_lowess
+from statsmodels.graphics.gofplots import ProbPlot
 from islpy import utils
 
 
@@ -124,3 +126,50 @@ def plot_fit_3D(fitted_model, column1, column2,
         ax.suptitle(f'Fit vs {column1}, {column2}')
     
     return fig, ax
+
+
+def plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
+               annotations=3):
+    """Plot residuals versus fitted values."""
+
+    values = fitted_model.fittedvalues
+    resids = fitted_model.resid
+
+    ax = sns.scatterplot(values, resids, color=scolor, ax=ax)
+    ax.axhline(0, color=scolor, alpha=0.5)
+
+    if lowess:
+        lfit = smoothers_lowess.lowess(resids, values)
+        ax.plot(lfit[:, 0], lfit[:, 1], color=lcolor, lw=lw)
+
+    if  annotations:
+        idxs = resids.abs().nlargest(annotations).index
+        for idx in idxs:
+            value = values[idx].max()
+            resid = resids[idx].max()
+            ax.annotate(idx, (value, resid))
+
+    return ax
+
+
+def plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, line=True,
+               annotations=3):
+    """Produce standard Q-Q plot."""
+    
+    resids = fittet_model.get_influence().resid_studentized
+    pp = ProbPlot(resids)
+    
+    ax = sns.scatterplot(pp.theoretical_quantiles, pp.sorted_data, 
+                         ax=ax, color=scolor, linewidth=0, alpha=0.7)
+    if line:
+        ax.plot(pp.theoretical_quantiles[[0, -1]], pp.theoretical_quantiles[[0, -1]], color=lcolor, lw=lw)
+
+    if  annotations:
+        idxs = ps.Series(resids).abs().nlargest(annotations).index
+        jdxs = ps.Series(pp.sorted_data).abs().nlargest(annotations).index
+        for idx, jdx in zip(idxs, jdxs):
+            qq = pp.theoretical_quantiles[jdx]
+            resid = pp.sorted_data[jdx]
+            ax.annotate(fitted_model.resid.index[idx], (qq, resid))
+
+
