@@ -149,6 +149,10 @@ def plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=Tru
             resid = resids[idx].max()
             ax.annotate(idx, (value, resid))
 
+    ax.set_title('Residuals vs Fitted')
+    ax.set_xlabel('Fitted Values')
+    ax.set_ylabel('Residuals')
+
     return ax
 
 
@@ -156,7 +160,7 @@ def plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, line=True,
                annotations=3):
     """Produce standard Q-Q plot."""
     
-    resids = fittet_model.get_influence().resid_studentized
+    resids = fitted_model.get_influence().resid_studentized
     pp = ProbPlot(resids)
     
     ax = sns.scatterplot(pp.theoretical_quantiles, pp.sorted_data, 
@@ -165,11 +169,18 @@ def plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, line=True,
         ax.plot(pp.theoretical_quantiles[[0, -1]], pp.theoretical_quantiles[[0, -1]], color=lcolor, lw=lw)
 
     if  annotations:
-        idxs = ps.Series(resids).abs().nlargest(annotations).index
-        jdxs = ps.Series(pp.sorted_data).abs().nlargest(annotations).index
+        idxs = pd.Series(resids).abs().nlargest(annotations).index
+        jdxs = pd.Series(pp.sorted_data).abs().nlargest(annotations).index
         for idx, jdx in zip(idxs, jdxs):
             qq = pp.theoretical_quantiles[jdx]
             resid = pp.sorted_data[jdx]
             ax.annotate(fitted_model.resid.index[idx], (qq, resid))
+
+    ax.set_title('Normal Q-Q')
+    ax.set_xlabel('Theoretical Quantiles')
+    ax.set_ylabel('Standardised Residuals')
+
+    return ax
+
 
 
