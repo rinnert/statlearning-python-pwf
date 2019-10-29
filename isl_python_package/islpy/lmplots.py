@@ -157,7 +157,7 @@ def plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=Tru
 
 
 def plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, line=True,
-               annotations=3):
+            annotations=3):
     """Produce standard Q-Q plot."""
     
     resids = fitted_model.get_influence().resid_studentized
@@ -179,6 +179,33 @@ def plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, line=True,
     ax.set_title('Normal Q-Q')
     ax.set_xlabel('Theoretical Quantiles')
     ax.set_ylabel('Standardised Residuals')
+
+    return ax
+
+
+def plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
+                  annotations=3):
+    """Produce scale-location plot."""
+    
+    resids = np.sqrt(np.abs(fitted_model.get_influence().resid_studentized))
+    values = fitted_model.fittedvalues
+    
+    ax = sns.scatterplot(values, resids, ax=ax, color=scolor)
+
+    if lowess:
+        lfit = smoothers_lowess.lowess(resids, values)
+        ax.plot(lfit[:, 0], lfit[:, 1], color=lcolor, lw=lw)
+
+    if  annotations:
+        idxs = pd.Series(resids).nlargest(annotations).index
+        for idx in idxs:
+            value = values[idx]
+            resid = resids[idx]
+            ax.annotate(values.index[idx], (value, resid))
+
+    ax.set_title('Scale-Location')
+    ax.set_xlabel('Fitted Values')
+    ax.set_ylabel('$\sqrt{|\mathrm{Standardised}\; \mathrm{Residuals}|}$')
 
     return ax
 
