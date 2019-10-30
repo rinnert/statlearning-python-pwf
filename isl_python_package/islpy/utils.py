@@ -33,7 +33,7 @@ def encode_categories(data, formula=None):
 
     r_cat = re.compile(r'(?P<name>.+)\[(?P<trans>[TSDH]?)\.(?P<category>.+)\]') 
     r_cexp = re.compile(r'C\((?P<name>.+), .+\)') 
-    r_poly = re.compile(r'C\((?P<name>.+), Poly\)\.(?P<category>.+)')
+    r_poly = re.compile(r'C\((?P<name>.+), Poly.*\)\.(?P<category>.+)')
 
     df = patsy.dmatrix(formula, data, return_type='dataframe')
     
