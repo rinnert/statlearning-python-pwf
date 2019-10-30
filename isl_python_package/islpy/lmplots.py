@@ -9,9 +9,9 @@ from islpy import utils
 
 
 def plot_fit(fitted_model, column, data=None,
-             ax=None, points=100, scolor='C0', fcolor='C1', pcolor='C2', 
-             cialpha=0.3, pialpha=0.2, 
-             show_ci=True, show_pi=False):
+             ax=None, points=100, scolor='C0', fcolor='C1', pcolor='C2', lcolor='C7',
+             cialpha=0.3, pialpha=0.2, lalpha=0.8, lw=2,
+             show_ci=True, show_pi=False, lowess=False):
     """Make a scatter plot and overlay fit result.
     
     Make a scatter plot of the response versus a specified predictor and
@@ -41,11 +41,17 @@ def plot_fit(fitted_model, column, data=None,
                          data=data, ax=ax, color=scolor)
     ax.set_title(f'Fit vs {column}')
     ax.set_ylabel(model.endog_names)
-    ax.plot(x, y, color=fcolor, lw=2)
+    ax.plot(x, y, color=fcolor, lw=lw)
+    
     if show_ci:
         ax.fill_between(x, cil, ciu, color=fcolor, alpha=cialpha)
+
     if show_pi:
         ax.fill_between(x, pil, piu, color=pcolor, alpha=pialpha)
+
+    if lowess:
+        lfit = smoothers_lowess.lowess(model.endog, data[column])
+        ax.plot(lfit[:, 0], lfit[:, 1], color=lcolor, lw=lw, alpha=lalpha)
 
     return ax
 
