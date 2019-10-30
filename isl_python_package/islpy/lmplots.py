@@ -50,8 +50,7 @@ def plot_fit(fitted_model, column, data=None,
         ax.fill_between(x, pil, piu, color=pcolor, alpha=pialpha)
 
     if lowess:
-        lfit = smoothers_lowess.lowess(model.endog, data[column])
-        ax.plot(lfit[:, 0], lfit[:, 1], color=lcolor, lw=lw, alpha=lalpha)
+        ax.plot(*utils.lowess(data[column], model.endog), color=lcolor, lw=lw, alpha=lalpha)
 
     return ax
 
@@ -142,8 +141,7 @@ def plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=Tru
     ax.axhline(0, color=scolor, alpha=0.5)
 
     if lowess:
-        lfit = smoothers_lowess.lowess(resids, values)
-        ax.plot(lfit[:, 0], lfit[:, 1], color=lcolor, lw=lw)
+        ax.plot(*utils.lowess(values, resids), color=lcolor, lw=lw)
 
     if  annotations:
         idxs = resids.abs().nlargest(annotations).index
@@ -196,8 +194,7 @@ def plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=
     ax = sns.scatterplot(values, resids, ax=ax, color=scolor)
 
     if lowess:
-        lfit = smoothers_lowess.lowess(resids, values)
-        ax.plot(lfit[:, 0], lfit[:, 1], color=lcolor, lw=lw)
+        ax.plot(*utils.lowess(values, resids), color=lcolor, lw=lw)
 
     if  annotations:
         idxs = pd.Series(resids).nlargest(annotations).index
@@ -226,8 +223,7 @@ def plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C2', 
     ax.set
 
     if lowess:
-        lfit = smoothers_lowess.lowess(resids, values)
-        ax.plot(lfit[:, 0], lfit[:, 1], color=lcolor, lw=lw)
+        ax.plot(*utils.lowess(values, resids), color=lcolor, lw=lw)
 
     if  annotations:
         idxs = pd.Series(cooks).nlargest(annotations).index

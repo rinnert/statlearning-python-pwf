@@ -2,6 +2,7 @@ import re
 import numpy as np
 import pandas as pd
 import patsy
+from statsmodels.nonparametric import smoothers_lowess
 
 
 def marginalised_range(columns, data, points=100, others=None):
@@ -23,6 +24,14 @@ def marginalised_range(columns, data, points=100, others=None):
             xs[name] = data[name]
 
     return xs
+
+
+def lowess(x, y):
+    """Compute y versus x LOWESS estimate."""
+
+    lfit = smoothers_lowess.lowess(y, x)
+    
+    return lfit[:, 0], lfit[:, 1]
 
 
 def encode_categories(data, formula=None):
