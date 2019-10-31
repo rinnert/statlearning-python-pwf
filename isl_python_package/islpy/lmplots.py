@@ -11,7 +11,7 @@ from islpy import utils
 def plot_fit(fitted_model, column, data=None,
              ax=None, points=100, scolor='C0', fcolor='C1', pcolor='C2', lcolor='C7',
              cialpha=0.3, pialpha=0.2, lalpha=0.8, lw=2,
-             show_ci=True, show_pi=False, lowess=False):
+             show_ci=True, show_pi=False, lowess=False, legend=False):
     """Make a scatter plot and overlay fit result.
     
     Make a scatter plot of the response versus a specified predictor and
@@ -37,20 +37,26 @@ def plot_fit(fitted_model, column, data=None,
     pil = pred['obs_ci_lower']
     piu = pred['obs_ci_upper']
     
+    slabel = None
+    if legend:
+        slabel = 'data'
     ax = sns.scatterplot(x=column, y=model.endog,
-                         data=data, ax=ax, color=scolor)
+                         data=data, ax=ax, color=scolor, label=slabel)
     ax.set_title(f'Fit vs {column}')
     ax.set_ylabel(model.endog_names)
-    ax.plot(x, y, color=fcolor, lw=lw)
+    ax.plot(x, y, color=fcolor, lw=lw, label='fit')
     
     if show_ci:
-        ax.fill_between(x, cil, ciu, color=fcolor, alpha=cialpha)
+        ax.fill_between(x, cil, ciu, color=fcolor, alpha=cialpha, label='conf. int.')
 
     if show_pi:
-        ax.fill_between(x, pil, piu, color=pcolor, alpha=pialpha)
+        ax.fill_between(x, pil, piu, color=pcolor, alpha=pialpha, label='pred. int.')
 
     if lowess:
-        ax.plot(*utils.lowess(data[column], model.endog), color=lcolor, lw=lw, alpha=lalpha)
+        ax.plot(*utils.lowess(data[column], model.endog), color=lcolor, lw=lw, alpha=lalpha, label='lowess')
+
+    if legend:
+        ax.legend()
 
     return ax
 
