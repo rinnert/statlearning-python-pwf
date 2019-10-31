@@ -274,7 +274,7 @@ def plot_hat(fitted_model, ax=None, scolor='C0', annotations=3):
     return ax
 
 
-def plot(fitted_model, scolor='C0', lcolor='C1', auxcolor='C2', annotations=3, figsize=(12, 9)):
+def plot(fitted_model, scolor='C0', lcolor='C1', auxcolor='C2', annotations=3, figsize=(12, 9), title=None):
     """Produce R-style control plots for linear model."""
     fig, axs = plt.subplots(2, 2, figsize=figsize)
 
@@ -283,6 +283,14 @@ def plot(fitted_model, scolor='C0', lcolor='C1', auxcolor='C2', annotations=3, f
     plot_scaleloc(fitted_model, ax=axs[1][0], scolor=scolor, lcolor=lcolor, annotations=annotations)
     plot_leverage(fitted_model, ax=axs[1][1], scolor=scolor, lcolor=lcolor, ccolor=auxcolor, annotations=annotations)
     
+    if title is None:
+        try:
+            fig.suptitle(fitted_model.model.formula, y=1.02, weight='bold')
+        except AttributeError:
+            pass
+    else:
+        fig.suptitle(title, y=1.02, weight='bold')
+
     fig.tight_layout()
     
     return fig
