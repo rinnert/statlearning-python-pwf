@@ -77,10 +77,9 @@ def encode_categories(data, formula=None):
     return df
 
 
-def plot_corr(df, figsize=(12, 10), cmap=None):
+def plot_corr(corr, figsize=(12, 10), cmap=None, labels=None):
     """Plot annotated correlation matrix for given data frame."""
 
-    corr = df.corr()
     mask = np.full_like(corr, False, dtype=bool)
     mask[np.triu_indices_from(mask)] = True
     corr.iloc[mask] = 0
@@ -89,7 +88,7 @@ def plot_corr(df, figsize=(12, 10), cmap=None):
         cmap = sns.diverging_palette(220, 10, as_cmap=True)
 
     fig, ax = plt.subplots(figsize=figsize)
-    sns.heatmap(corr.to_numpy(), 
+    sns.heatmap(corr, 
                 mask=mask, 
                 xticklabels=False, 
                 yticklabels=False, 
@@ -98,11 +97,24 @@ def plot_corr(df, figsize=(12, 10), cmap=None):
                 square=True,
                 annot=True, 
                 fmt=".2f")
-    # Apply xticks
-    plt.xticks(range(len(corr.columns)), corr.columns, rotation=45);
-    # Apply yticks only if supported by matplotlib version (there is
+
+    if labels is None:
+        try:
+            plt.xticks(range(len(corr.columns)), corr.columns, rotation=45);
+        except AttributeError:
+            pass
+    else:
+        plt.xticks(range(len(lables)), labels, rotation=45);
+
+    # yticks only if supported by matplotlib version (there is
     # a bug in 3.1.1 that distorts the plot otherwise).
     if matplotlib.__version__ != '3.1.1':
-        plt.yticks(range(len(corr.index)), corr.index)
+        if labels is None:
+            try:
+                plt.yticks(range(len(corr.index)), corr.index)
+            except AttributeError:
+                pass
+        else:
+            plt.yticks(range(len(lables)), labels);
 
     return fig, ax
