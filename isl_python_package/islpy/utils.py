@@ -3,6 +3,9 @@ import numpy as np
 import pandas as pd
 import patsy
 from statsmodels.nonparametric import smoothers_lowess
+import matplotlib
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 def marginalised_range(columns, data, points=100, others=None):
@@ -72,3 +75,34 @@ def encode_categories(data, formula=None):
         pass
 
     return df
+
+
+def plot_corr(df, figsize=(12, 10), cmap=None):
+    """Plot annotated correlation matrix for given data frame."""
+
+    corr = df.corr()
+    mask = np.full_like(corr, False, dtype=bool)
+    mask[np.triu_indices_from(mask)] = True
+    corr.iloc[mask] = 0
+
+    if cmap is None:
+        cmap = sns.diverging_palette(220, 10, as_cmap=True)
+
+    fig, ax = plt.subplots(figsize=figsize)
+    sns.heatmap(corr.to_numpy(), 
+                mask=mask, 
+                xticklabels=False, 
+                yticklabels=False, 
+                cmap=cmap, 
+                center=0, 
+                square=True,
+                annot=True, 
+                fmt=".2f")
+    # Apply xticks
+    plt.xticks(range(len(corr.columns)), corr.columns, rotation=45);
+    # Apply yticks only if supported by matplotlib version (there is
+    # a bug in 3.1.1 that distorts the plot otherwise).
+    if matplotlib.__version__ != '3.1.1':
+        plt.yticks(range(len(corr.index)), corr.index)
+
+    return fig, ax
