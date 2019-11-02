@@ -136,8 +136,34 @@ def plot_fit_3D(fitted_model, column1, column2,
     return fig, ax
 
 
-def plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
-               annotations=3):
+def glm_plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
+                   annotations=3):
+    """Plot residuals versus fitted values."""
+
+    values = fitted_model.fittedvalues
+    resids = pd.Series(fitted_model.get_influence().resid)
+
+    ax = sns.scatterplot(values, resids, color=scolor, ax=ax)
+    ax.axhline(0, color=scolor, alpha=0.5)
+
+    if lowess:
+        ax.plot(*utils.lowess(values, resids), color=lcolor, lw=lw)
+
+    if  annotations:
+        idxs = resids.abs().nlargest(annotations).index
+        for idx in idxs:
+            value = values[idx].max()
+            resid = resids[idx].max()
+            ax.annotate(idx, (value, resid))
+
+    ax.set_title('Residuals vs Fitted')
+    ax.set_xlabel('Predicted Values')
+    ax.set_ylabel('Residuals')
+
+    return ax
+
+def slm_plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
+                   annotations=3):
     """Plot residuals versus fitted values."""
 
     values = fitted_model.fittedvalues
@@ -162,9 +188,52 @@ def plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=Tru
 
     return ax
 
+def plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
+               annotations=3):
+    """Plot residuals versus fitted values."""
 
-def plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, line=True,
-            annotations=3):
+    try:
+        _ = fitted_model.resid
+        ax = slm_plot_resid(fitted_model, 
+                            ax=ax, scolor=scolor, lcolor=lcolor, lw=lw, lowess=lowess,
+                            annotations=annotations)
+    except AttributeError:
+        ax = glm_plot_resid(fitted_model, 
+                            ax=ax, scolor=scolor, lcolor=lcolor, lw=lw, lowess=lowess,
+                            annotations=annotations)
+
+    return ax
+
+
+def glm_plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, line=True,
+                annotations=3):
+    """Produce standard Q-Q plot."""
+    
+    resids = fitted_model.resid_deviance
+    pp = ProbPlot(resids)
+    
+    ax = sns.scatterplot(pp.theoretical_quantiles, pp.sorted_data, 
+                         ax=ax, color=scolor, linewidth=0, alpha=0.7)
+    if line:
+        ax.plot(pp.theoretical_quantiles[[0, -1]], pp.theoretical_quantiles[[0, -1]], color=lcolor, lw=lw)
+
+    if  annotations:
+        idxs = pd.Series(resids).abs().nlargest(annotations).index
+        jdxs = pd.Series(pp.sorted_data).abs().nlargest(annotations).index
+        for idx, jdx in zip(idxs, jdxs):
+            qq = pp.theoretical_quantiles[jdx]
+            resid = pp.sorted_data[jdx]
+            ax.annotate(fitted_model.fittedvalues.index[idx], (qq, resid))
+
+    ax.set_title('Normal Q-Q')
+    ax.set_xlabel('Theoretical Quantiles')
+    ax.set_ylabel('Std. Deviance  Resid.')
+
+    return ax
+
+
+def slm_plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, line=True,
+                annotations=3):
     """Produce standard Q-Q plot."""
     
     resids = fitted_model.get_influence().resid_studentized_internal
@@ -190,8 +259,53 @@ def plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, line=True,
     return ax
 
 
-def plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
-                  annotations=3):
+def plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, 
+               annotations=3):
+    """Produce standard Q-Q plot."""
+
+    try:
+        _ = fitted_model.resid
+        ax = slm_plot_qq(fitted_model, 
+                         ax=ax, scolor=scolor, lcolor=lcolor, lw=lw, 
+                         annotations=annotations)
+    except AttributeError:
+        ax = glm_plot_qq(fitted_model, 
+                         ax=ax, scolor=scolor, lcolor=lcolor, lw=lw,
+                         annotations=annotations)
+
+    return ax
+
+
+def glm_plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
+                      annotations=3):
+    """Produce scale-location plot."""
+    
+    resids = np.sqrt(np.abs(fitted_model.resid_deviance))
+    values = fitted_model.fittedvalues
+    
+    ax = sns.scatterplot(values, resids, ax=ax, color=scolor)
+
+    if lowess:
+        ax.plot(*utils.lowess(values, resids), color=lcolor, lw=lw)
+
+    if  annotations:
+        idxs = pd.Series(resids).nlargest(annotations).index
+        for idx in idxs:
+            value = values[idx]
+            resid = resids[idx]
+            ax.annotate(values.index[idx], (value, resid))
+
+    ax.set_title('Scale-Location')
+    ax.set_xlabel('Predicted Values')
+    ax.set_ylabel('$\sqrt{|\mathrm{Std.}\; \mathrm{Deviance}\; \mathrm{Resid.}|}$')
+    _, y_high = ax.get_ylim()
+    ax.set_ylim((-0.01, y_high))
+
+    return ax
+
+
+def slm_plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
+                      annotations=3):
     """Produce scale-location plot."""
     
     resids = np.sqrt(np.abs(fitted_model.get_influence().resid_studentized_internal))
@@ -216,8 +330,66 @@ def plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=
     return ax
 
 
-def plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C2', lw=2, 
-                  lowess=True, cook=True, legend=True, annotations=3):
+def plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
+                  annotations=3):
+    """Produce scale-location plot."""
+
+    try:
+        _ = fitted_model.resid
+        ax = slm_plot_scaleloc(fitted_model, 
+                               ax=ax, scolor=scolor, lcolor=lcolor, lw=lw, lowess=lowess,
+                               annotations=annotations)
+    except AttributeError:
+        ax = glm_plot_scaleloc(fitted_model, 
+                               ax=ax, scolor=scolor, lcolor=lcolor, lw=lw, lowess=lowess,
+                               annotations=annotations)
+
+    return ax
+
+
+def glm_plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C2', lw=2, 
+                      lowess=True, cook=True, legend=True, annotations=3):
+    """Produce leverage plot."""
+    
+    influence = fitted_model.get_influence()
+    resids = fitted_model.resid_pearson
+    values = influence.hat_matrix_diag
+    cooks = influence.cooks_distance[0]
+    
+    ax = sns.scatterplot(values, resids, ax=ax, color=scolor)
+    ax.set
+
+    if lowess:
+        ax.plot(*utils.lowess(values, resids), color=lcolor, lw=lw)
+
+    if  annotations:
+        idxs = pd.Series(cooks).nlargest(annotations).index
+        for idx in idxs:
+            value = values[idx]
+            resid = resids[idx]
+            ax.annotate(fitted_model.fittedvalues.index[idx], (value, resid))
+
+    if cook:
+        xlim = ax.get_xlim()
+        ylim = ax.get_ylim()
+        p = fitted_model.params.size
+        x = np.linspace(*xlim, 100)
+        y = np.sqrt((0.5 * p * (1 - x)) / x) 
+        ax.plot(x, y, color=ccolor, lw=lw, alpha=0.8, label="Cook's Distance")
+        ax.set_xlim(xlim)
+        ax.set_ylim(ylim)
+        if legend:
+            ax.legend()
+
+    ax.set_title('Residuals vs Leverage')
+    ax.set_xlabel('Leverage')
+    ax.set_ylabel('Std. Pearson Resid.')
+
+    return ax
+
+
+def slm_plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C2', lw=2, 
+                      lowess=True, cook=True, legend=True, annotations=3):
     """Produce leverage plot."""
     
     influence = fitted_model.get_influence()
@@ -257,6 +429,23 @@ def plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C2', 
     return ax
 
 
+def plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C2', lw=2, lowess=True,
+                  cook=True, legend=True, annotations=3):
+    """Produce leverage plot."""
+
+    try:
+        _ = fitted_model.resid
+        ax = slm_plot_leverage(fitted_model, 
+                               ax=ax, scolor=scolor, lcolor=lcolor, ccolor=ccolor, lw=lw, lowess=lowess,
+                               cook=True, legend=True, annotations=annotations)
+    except AttributeError:
+        ax = glm_plot_leverage(fitted_model, 
+                               ax=ax, scolor=scolor, lcolor=lcolor, ccolor=ccolor, lw=lw, lowess=lowess,
+                               cook=True, legend=True, annotations=annotations)
+
+    return ax
+
+
 def plot_hat(fitted_model, ax=None, scolor='C0', annotations=3):
     """Make scatter plot of leverage vs index."""
 
@@ -282,6 +471,7 @@ def plot_hat(fitted_model, ax=None, scolor='C0', annotations=3):
 
 def plot(fitted_model, scolor='C0', lcolor='C1', auxcolor='C2', annotations=3, figsize=(12, 9), title=None):
     """Produce R-style control plots for linear model."""
+
     fig, axs = plt.subplots(2, 2, figsize=figsize)
 
     plot_resid(fitted_model, ax=axs[0][0], scolor=scolor, lcolor=lcolor, annotations=annotations)
@@ -291,11 +481,11 @@ def plot(fitted_model, scolor='C0', lcolor='C1', auxcolor='C2', annotations=3, f
     
     if title is None:
         try:
-            fig.suptitle(fitted_model.model.formula, y=1.02, weight='bold')
+            fig.suptitle(fitted_model.model.formula, y=1.02)
         except AttributeError:
             pass
     else:
-        fig.suptitle(title, y=1.02, weight='bold')
+        fig.suptitle(title, y=1.02)
 
     fig.tight_layout()
     
