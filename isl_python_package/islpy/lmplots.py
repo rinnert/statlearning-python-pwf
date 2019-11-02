@@ -298,8 +298,8 @@ def glm_plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, low
     ax.set_title('Scale-Location')
     ax.set_xlabel('Predicted Values')
     ax.set_ylabel('$\sqrt{|\mathrm{Std.}\; \mathrm{Deviance}\; \mathrm{Resid.}|}$')
-    _, y_high = ax.get_ylim()
-    ax.set_ylim((-0.01, y_high))
+    #_, y_high = ax.get_ylim()
+    #ax.set_ylim((-0.01, y_high))
 
     return ax
 
@@ -357,7 +357,7 @@ def glm_plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C
     cooks = influence.cooks_distance[0]
     
     ax = sns.scatterplot(values, resids, ax=ax, color=scolor)
-    ax.set
+    ax.axhline(0, color=scolor, alpha=0.5)
 
     if lowess:
         ax.plot(*utils.lowess(values, resids), color=lcolor, lw=lw)
@@ -398,7 +398,6 @@ def slm_plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C
     cooks = influence.cooks_distance[0]
     
     ax = sns.scatterplot(values, resids, ax=ax, color=scolor)
-    ax.set
 
     if lowess:
         ax.plot(*utils.lowess(values, resids), color=lcolor, lw=lw)
