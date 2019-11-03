@@ -1,0 +1,80 @@
+\documentclass[mathserif, aspectratio=169]{beamer}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% need to split the includes to make spell checking work.
+\input{preamble}
+\subtitle{\bfseries%
+  {Statistical Learning}\\%
+  {\tiny\it what is it?, models, regression, classification, prediction, inference, accuracy }\\%
+}
+\begin{document}
+\input{common}
+
+\begin{frame}{Abstract}
+	%\Quote{If you fail to prepare you are preparing to fail.}{Anonymous}
+
+	\begin{blurb}
+		We give a number of examples illustrating what statistical learning
+		is about.
+		
+		The emphasis not on particular methods but on the foundational concepts.
+
+	\end{blurb}
+\end{frame}
+
+\begin{frame}{Overview}
+	\begin{itemize}
+		\item Models
+		\item Prediction \& inference
+		\item Accuracy  \& interpretability
+		\item Bias \& Variance
+		\item Regression \& classification
+	\end{itemize}
+	\bottomline{This sets the stage for the remainder of the course.}
+\end{frame}
+
+\begin{frame}{Example: Advertising}
+	\begin{itemize}
+		\item We are hired to increase the sales of a particular product.
+		\item We are given the \dat{Advertising} data set.
+			\begin{itemize}
+				\item \dat{sales} for 200 different markets.
+				\item advertising budgets for \dat{TV}, \dat{radio} and \dat{newspaper}.
+			\end{itemize}
+		\item Our clients can \emph{not directly} influence the sales.
+		\item But they \emph{can} control the advertising budgets.
+		\item We need to determine whether there is an association \\
+			between advertising and sales. 
+	\end{itemize}
+	\bottomline{This is a typical scenario.}
+\end{frame}
+
+\begin{frame}[t]{Example: Advertising}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{2_1}
+	\end{center}
+	\vspace{-5mm}
+	\begin{itemize}
+		\item The plots display \dat{sales} as a function of the advertising budgets.
+		\item Each plot is a \emph{scatter plot} of \dat{sales} versus a budget.
+		\item We have overlaid a \emph{least squares line} fit on each plot.
+	\end{itemize}
+	\bottomline{We can already spot some promising relationships.}
+\end{frame}
+
+\begin{frame}{Example: Advertising}
+	\begin{itemize}
+		\item The advertising budgets are \e{input variables}.
+		\item We denote the input variables with $X$.
+		\item We use subscripts to distinguish them.
+		\item For example, $X_1$ = \dat{TV}, $X_2$ = \dat{radio}, $X_3$ = \dat{newspaper}.
+		\item The input variables are also called \e{predictors}, \e{independent variables}, \\
+			\e{features} or simply \e{variables}.
+		\item \dat{sales} is the \e{output variable}.
+		\item Output variables are also called \e{dependent variables} or \e{responses}.
+		\item We denote the output variables with $Y$.
+	\end{itemize}
+	\bottomline{Don't get confused by different names.}
+\end{frame}
+\end{document}
