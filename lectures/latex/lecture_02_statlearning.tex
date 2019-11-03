@@ -77,4 +77,60 @@
 	\end{itemize}
 	\bottomline{Don't get confused by different names.}
 \end{frame}
+
+\begin{frame}{Models}
+	\begin{itemize}
+		\item Suppose we observe a \e{quantitative} response $Y$,\\
+			and $p$ different predictors, $X_1, X_2, \dots X_p$. 
+		\item We assume that there is some relationship between $Y$ and $X$.
+		\item We can write this in the very general form
+			\[ Y = f(X) + \epsilon\]
+		\item Here $f$ is a fixed but unknown function of $X = (X_1, X_2, \dots, X_p)$.
+		\item And $\epsilon$ is a random error term, independent of $X$ with mean zero.
+		\item We say $f$ represents the \e{systematic} information\\
+			that $X$ provides about $Y$.
+	\end{itemize}
+	\bottomline{This is the most general form of a \e{model}.}
+\end{frame}
+
+\begin{frame}{Example: Income}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{2_2}
+	\end{center}
+	\vspace{-5mm}
+	\begin{itemize}
+		\item The figure shows a scatter plot of \dat{income} versus \dat{years of education}.
+		\item The blue curve is the true functional relationship $f(X) =f(X_1)$.
+		\item The vertical lines represent the error terms $\epsilon$.
+	\end{itemize}
+	\bottomline{This is a simulated data set.}
+\end{frame}
+
+\begin{frame}{Example: Income}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.4\textwidth]{2_3}
+	\end{center}
+	\vspace{-5mm}
+	\begin{itemize}
+		\item The figure shows a 3D scatter plot of \dat{income} versus \dat{years of education}
+			and \dat{seniority}.
+		\item The blue surface is the true functional relationship $f(X) = f(X_1, X_2)$.
+		\item The vertical lines represent the error terms $\epsilon$.
+	\end{itemize}
+	\bottomline{Visualising higher dimensions is hard.}
+\end{frame}
+
+\begin{frame}{What is Statistical Learning?}
+	\begin{blurb}
+		In essence, statistical learning refers to to a set of approaches for estimating
+		the function $f$.
+
+		In this lecture we cover the key theoretical concepts that arise in estimating $f$, as well
+		as techniques for evaluating the estimates obtained.
+	\end{blurb}
+	\bottomline{This equally applies to machine learning.}
+\end{frame}
+
 \end{document}
