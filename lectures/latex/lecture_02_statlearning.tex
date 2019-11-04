@@ -5,7 +5,7 @@
 \input{preamble}
 \subtitle{\bfseries%
   {Statistical Learning}\\%
-  {\tiny\it what is it?, models, regression, classification, prediction, inference, accuracy }\\%
+  {\tiny\it what is it?, models, regression, classification, prediction, inference, accuracy, bias, variance}\\%
 }
 \begin{document}
 \input{common}
@@ -132,6 +132,7 @@
 	\end{blurb}
 	\bottomline{This equally applies to machine learning.}
 \end{frame}
+
 \begin{frame}{Why estimate $\bm{f}$?}
 	%\begin{itemize}
 		%\item There are two main reasons why we wish to estimate $f$.
@@ -161,4 +162,23 @@
 	\end{itemize}
 	\bottomline{Here $\bm{\hat{f}}$ is treated as a \e{black box}.}
 \end{frame}
+
+\begin{frame}{Prediction Accuracy}
+	\begin{itemize}
+		\item The accuracy of $\hat{Y}$ depends on two quantities:
+			\begin{enumerate}
+				\item the \e{reducible error}
+				\item the \e{irreducible error}
+			\end{enumerate}
+		\item The reducible error is due to $\hat{f}$ not being a perfect estimate of $f$.\\
+			(We can potentially come up with better statistical learning techniques to 
+			improve $\hat{f}$).
+		\item Even if our estimate of the relationship was perfect ($\hat{f} = f$),\\
+			our estimate $\hat{Y}$ would still have an error!
+		\item This irreducible error is due to our \e{observations} not being perfect.\\
+			(The error term $\epsilon$).
+	\end{itemize}
+	\bottomline{You have to understand what you can improve and what you can't.}
+\end{frame}
+
 \end{document}
