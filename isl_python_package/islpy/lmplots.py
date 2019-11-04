@@ -34,8 +34,6 @@ def plot_fit(fitted_model, column, data=None,
     y = pred['mean']
     cil = pred['mean_ci_lower']
     ciu = pred['mean_ci_upper']
-    pil = pred['obs_ci_lower']
-    piu = pred['obs_ci_upper']
     
     slabel = None
     if legend:
@@ -50,7 +48,12 @@ def plot_fit(fitted_model, column, data=None,
         ax.fill_between(x, cil, ciu, color=fcolor, alpha=cialpha, label='conf. int.')
 
     if show_pi:
-        ax.fill_between(x, pil, piu, color=pcolor, alpha=pialpha, label='pred. int.')
+        try:
+            pil = pred['obs_ci_lower']
+            piu = pred['obs_ci_upper']
+            ax.fill_between(x, pil, piu, color=pcolor, alpha=pialpha, label='pred. int.')
+        except KeyError:
+            pass
 
     if lowess:
         ax.plot(*utils.lowess(data[column], model.endog), color=lcolor, lw=lw, alpha=lalpha, label='lowess')
