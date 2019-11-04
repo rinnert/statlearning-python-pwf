@@ -134,7 +134,7 @@ def plot_fit_3D(fitted_model, column1, column2,
     try:
         fig.suptitle(f'Fit vs {column1} & {column2}\n{model.formula}')
     except AttributeError:
-        ax.suptitle(f'Fit vs {column1} & {column2}')
+        fig.suptitle(f'Fit vs {column1} & {column2}')
     
     return fig, ax
 
@@ -196,12 +196,12 @@ def plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=Tru
     """Plot residuals versus fitted values."""
 
     try:
-        _ = fitted_model.resid
-        ax = slm_plot_resid(fitted_model, 
+        family = fitted_model.family
+        ax = glm_plot_resid(fitted_model, 
                             ax=ax, scolor=scolor, lcolor=lcolor, lw=lw, lowess=lowess,
                             annotations=annotations)
     except AttributeError:
-        ax = glm_plot_resid(fitted_model, 
+        ax = slm_plot_resid(fitted_model, 
                             ax=ax, scolor=scolor, lcolor=lcolor, lw=lw, lowess=lowess,
                             annotations=annotations)
 
@@ -267,12 +267,12 @@ def plot_qq(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2,
     """Produce standard Q-Q plot."""
 
     try:
-        _ = fitted_model.resid
-        ax = slm_plot_qq(fitted_model, 
+        family = fitted_model.family
+        ax = glm_plot_qq(fitted_model, 
                          ax=ax, scolor=scolor, lcolor=lcolor, lw=lw, 
                          annotations=annotations)
     except AttributeError:
-        ax = glm_plot_qq(fitted_model, 
+        ax = slm_plot_qq(fitted_model, 
                          ax=ax, scolor=scolor, lcolor=lcolor, lw=lw,
                          annotations=annotations)
 
@@ -338,12 +338,12 @@ def plot_scaleloc(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=
     """Produce scale-location plot."""
 
     try:
-        _ = fitted_model.resid
-        ax = slm_plot_scaleloc(fitted_model, 
+        family = fitted_model.family
+        ax = glm_plot_scaleloc(fitted_model, 
                                ax=ax, scolor=scolor, lcolor=lcolor, lw=lw, lowess=lowess,
                                annotations=annotations)
     except AttributeError:
-        ax = glm_plot_scaleloc(fitted_model, 
+        ax = slm_plot_scaleloc(fitted_model, 
                                ax=ax, scolor=scolor, lcolor=lcolor, lw=lw, lowess=lowess,
                                annotations=annotations)
 
@@ -436,12 +436,12 @@ def plot_leverage(fitted_model, ax=None, scolor='C0', lcolor='C1', ccolor='C2', 
     """Produce leverage plot."""
 
     try:
-        _ = fitted_model.resid
-        ax = slm_plot_leverage(fitted_model, 
+        family = fitted_model.family
+        ax = glm_plot_leverage(fitted_model, 
                                ax=ax, scolor=scolor, lcolor=lcolor, ccolor=ccolor, lw=lw, lowess=lowess,
                                cook=True, legend=True, annotations=annotations)
     except AttributeError:
-        ax = glm_plot_leverage(fitted_model, 
+        ax = slm_plot_leverage(fitted_model, 
                                ax=ax, scolor=scolor, lcolor=lcolor, ccolor=ccolor, lw=lw, lowess=lowess,
                                cook=True, legend=True, annotations=annotations)
 
