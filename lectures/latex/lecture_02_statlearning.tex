@@ -132,5 +132,33 @@
 	\end{blurb}
 	\bottomline{This equally applies to machine learning.}
 \end{frame}
+\begin{frame}{Why estimate $\bm{f}$?}
+	%\begin{itemize}
+		%\item There are two main reasons why we wish to estimate $f$.
+	%\end{itemize}
+		There are two main reasons why we wish to estimate $f$.
+	\begin{enumerate}
+		\item \e{Prediction}: assuming the inputs $X$ are readily available, we simply want ot
+			predict
+			\[\hat{Y} = \hat{f}(X)\]
+			without being interested in the exact form of $\hat{f}$.
+		\item \e{Inference}: we want to understand the functional relationship
+			\[Y = Y(X_1, X_2, \dots, X_p)\]
+			between the predictors and the response.
+	\end{enumerate}
+	\bottomline{We discuss each in more detail.}
+\end{frame}
 
+\begin{frame}{Prediction}
+	\begin{itemize}
+		\item Often the inputs $X$ are readily available but the response $Y$ is not.
+		\item Since the error term $\epsilon$ averages to zero, we can then predict
+			\[\hat{Y} = \hat{f}(X)\]
+			where $\hat{f}$ represents the estimate of $f$ and $\hat{Y}$ is the resulting
+			prediction of $Y$.
+		\item In this scenario we are not interested in the exact form of $\hat{f}$.
+		\item We are mostly concerned with the accuracy of $\hat{Y}$.
+	\end{itemize}
+	\bottomline{Here $\bm{\hat{f}}$ is treated as a \e{black box}.}
+\end{frame}
 \end{document}
