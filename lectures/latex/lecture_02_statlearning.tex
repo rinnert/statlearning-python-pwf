@@ -192,7 +192,7 @@
 			where $E[(Y - \hat{Y})^2]$ is the average, or \e{expected value}, of the squared\\
 			difference between the predicted and the true value of $Y$,\\
 			and $\text{Var}(\epsilon)$ is the \e{variance} of the error term $\epsilon$.
-		\item The average $E[z]$ is often written as $\overline{z}$ or $\langle z \rangle$.
+		\item The average, or expected value, $E[z]$ is often written as $\overline{z}$ or $\langle z \rangle$.
 		\item The variance is then $\text{Var}(z) = \langle (z - \overline{z})^2 \rangle
 			= \langle z^2 \rangle - {\langle z \rangle}^2 = \overline{z^2} - \overline{z}^2$.
 	\end{itemize}
@@ -218,7 +218,7 @@
 				on the response. Any functional relationship can occur, 
 				possibly depending on the values of the other predictors.
 			\item \e{\orange Can the relationship between $Y$ and each predictor be summarised as
-				a linear equation?}
+				a linear equation?}\\
 				It greatly simplifies things when the relationship can be captured by a linear model.
 				Historically, models have been mostly chosen to be linear. However, the true relationships
 				are very rarely linear.
@@ -275,7 +275,8 @@
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{2_4}
 
-		\[ \text{\dat{income}} \approx \hat{\beta}_0 + \hat{\beta}_1\times\text{\dat{education}}
+		\[ \text{\dat{income}} \approx \hat{\beta}_0 
+			+ \hat{\beta}_1\times\text{\dat{years of education}}
 		+ \hat{\beta}_2\times\text{\dat{seniority}}\]
 	\end{center}
 \end{frame}
@@ -290,7 +291,7 @@
 		\begin{itemize}
 			\item[$+$] Avoids choosing potentially very wrong models.
 			\item[$+$] Can approximate complex functional relationships.
-			\item[$-$] Often need many more observations for the fit.
+			\item[$-$] Often needs many more observations for the fit.
 			\item[$-$] Prone to over-fitting.
 		\end{itemize}
 	\end{cpage}
@@ -378,7 +379,7 @@
 		\item Variables, in particular responses, can be \e{quantitative} or
 			\e{qualitative}.
 		\item[] \e{\orange Quantitative Responses -- Regression Problems}
-		\item Gas mileage, live expectancy, sales. 
+		\item Gas mileage, crime rate, sales. 
 		\item[] \e{\orange Qualitative Responses -- Classification Problems}
 		\item Sex (male, female), default on debt (yes, no), brand (Apple, Samsung, Blackberry).
 	\end{itemize}
@@ -418,14 +419,14 @@
 \begin{frame}{Measuring Fit Quality}
 	\begin{itemize}
 		\item We could simply compute the MSE on the training data.
-		\item Most fit, or learning, methods work by minimising the MSE
-			on the training data.
+		\item Most fit, or learning, methods work by minimising the MSE\\
+			(or another suitable \e{loss function}) on the training data set.
 		\item However, we want to make predictions on \e{future} observations,\\
 			not available at the time of training.
 		\item A better measure of how well we are doing is obtained by computing\\
 			the MSE on a \e{test data set} that is \e{independent} of the training data set.
 		\item We can always produce an independent test data set by only using a subset of 
-			the available data for training and the remainder for testing.
+			the available data for training and the remainder for testing (\e{cross validation}).
 	\end{itemize}
 	\bottomline{The MSE from the training data set overestimates the fit quality.}
 \end{frame}
@@ -435,8 +436,8 @@
 	\begin{center}
 		\includegraphics[width=0.6\textwidth]{2_9}
 
-		Right: true $f$ (black), linear regression (orange), and spline fits (blue, green).\\
-		Left: training (grey) and test (red) MSE.
+		Left: true $f$ (black), linear regression (orange), and spline fits (blue, green).\\
+		Right: training (grey) and test (red) MSE.
 	\end{center}
 	\bottomline{The most flexible model over-fits the training data.}
 \end{frame}
@@ -446,8 +447,8 @@
 	\begin{center}
 		\includegraphics[width=0.6\textwidth]{2_10}
 
-		Right: true $f$ (black), linear regression (orange), and spline fits (blue, green).\\
-		Left: training (grey) and test (red) MSE.
+		Left: true $f$ (black), linear regression (orange), and spline fits (blue, green).\\
+		Right: training (grey) and test (red) MSE.
 	\end{center}
 	\bottomline{The truth is more linear, so linear regression does well.}
 \end{frame}
@@ -457,10 +458,26 @@
 	\begin{center}
 		\includegraphics[width=0.6\textwidth]{2_11}
 
-		Right: true $f$ (black), linear regression (orange), and spline fits (blue, green).\\
-		Left: training (grey) and test (red) MSE.
+		Left: true $f$ (black), linear regression (orange), and spline fits (blue, green).\\
+		Right: training (grey) and test (red) MSE.
 	\end{center}
 	\bottomline{The truth is highly non-linear, so linear regression does badly.}
 \end{frame}
 
+\begin{frame}{The Bias-Variance Trade-off}
+	\begin{itemize}
+		\item We denote the observations from a test data set as $(y_0, x_0)$.
+		\item Then the test data set MSE is:
+			\[ \text{MSE}_\text{test} = \langle (y_0 - \hat{f}(x_0))^2 \rangle \]
+		\item We can then show that this can be decomposed like this:
+			\[ 
+			\langle (y_0 - \hat{f}(x_0))^2 \rangle
+			= \underbrace{\text{Var}(\hat{f}(x_0)) + (\text{Bias}(\hat{f}(x_0))^2}_\text{Reducible} 
+			+ \underbrace{\text{Var}(\epsilon)}_\text{Irreducible}
+			\]
+			where the \e{bias} is:
+			\[ \text{Bias}(\hat{f}(x_0)) = \langle\hat{f}(x_0)\rangle - \langle f(x_0)\rangle\] 
+	\end{itemize}
+	\bottomline{In practice, we don't know the true $\bm{f}$ and can't compute the bias properly.}
+\end{frame}
 \end{document}
