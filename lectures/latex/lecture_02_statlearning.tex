@@ -160,7 +160,7 @@
 		\item In this scenario we are not interested in the exact form of $\hat{f}$.
 		\item We are mostly concerned with the accuracy of $\hat{Y}$.
 	\end{itemize}
-	\bottomline{Here $\bm{\hat{f}}$ is treated as a \e{black box}.}
+	\bottomline{Here $\bm{\hat{f}}$ is treated as a \e{black box}. But we don't have to!}
 \end{frame}
 
 \begin{frame}{Prediction Accuracy}
@@ -179,6 +179,52 @@
 			(The error term $\epsilon$).
 	\end{itemize}
 	\bottomline{You have to understand what you can improve and what you can't.}
+\end{frame}
+
+\begin{frame}{Prediction Accuracy}
+	\begin{itemize}
+		\item Assuming that $\hat{f}$ and $X$ are fixed, we can show that
+			\begin{align*}
+				E[(Y - \hat{Y})^2] &= E[(f(X) + \epsilon - \hat{f}(X))^2]\\ 
+				&= \underbrace{E[(f(X) - \hat{f}(X))^2]}_\text{Reducible}
+				+ \underbrace{\text{Var}(\epsilon)}_\text{Irreducible} \\ 
+			\end{align*}
+			where $E[(Y - \hat{Y})^2]$ is the average, or \e{expected value}, of the squared\\
+			difference between the predicted and the true value of $Y$,\\
+			and $\text{Var}(\epsilon)$ is the \e{variance} of the error term $\epsilon$.
+		\item The average $E[x]$ is often written as $\overline{x}$ or $\langle x \rangle$.
+		\item The variance is then $\text{Var}(x) = \langle (x - \overline{x})^2 \rangle
+			= \langle x^2 \rangle - {\langle x \rangle}^2 = \overline{x^2} - \overline{x}^2$.
+	\end{itemize}
+	\bottomline{All techniques we learn aim to estimate $f$ while minimising the reducible error.}
+\end{frame}
+
+\begin{frame}{Inference}
+	\begin{itemize}
+		\item We are often interested in \e{how} $X_1, X_2, \dots, X_p$ affect $Y$.
+		\item We want to estimate $f$, but not necessarily predict $Y$.
+		\item The aim is to understand the \e{functional relationship} between $Y$ and $X$.
+	\end{itemize}
+	\bottomline{We can \e{not} treat $\hat{f}$ as a black box in this scenario.}
+\end{frame}
+
+\begin{frame}{Inference: Questions}
+	\begin{cpage}
+		\begin{itemize}
+			\item \e{\orange Which predictors are associated with the response?}\\
+				We want to identify the \e{important} predictors.
+			\item \e{\orange What is the relationship between the response and each predictor?}\\
+				For example, predictors can have positive or negative influence\\
+				on the response. Any functional relationship can occur, 
+				possibly depending on the values of the other predictors.
+			\item \e{\orange Can the relationship between $Y$ and each predictor be summarised as
+				a linear equation?}
+				It greatly simplifies things when the relationship can be captured by a linear model.
+				Historically, models have been mostly chosen to be linear. However, the true relationships
+				are very rarely linear.
+		\end{itemize}
+	\end{cpage}
+	\bottomline{Linear is good, but rarely true.}
 \end{frame}
 
 \end{document}
