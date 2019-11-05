@@ -363,6 +363,16 @@
 	\bottomline{This distinction is not always clear-cut.}
 \end{frame}
 
+\begin{frame}{Unsupervised Example}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{2_8}
+
+		Clustering data involving three groups. Left: little overlap. Right: larger overlap.
+	\end{center}
+	\bottomline{We need to automate this for large data sets.}
+\end{frame}
+
 \begin{frame}{Regression versus Classification}
 	\begin{itemize}
 		\item Variables, in particular responses, can be \e{quantitative} or
@@ -373,6 +383,84 @@
 		\item Sex (male, female), default on debt (yes, no), brand (Apple, Samsung, Blackberry).
 	\end{itemize}
 	\bottomline{In terms of statistical learning methods the distinction is not crisp.}
+\end{frame}
+
+\begin{frame}{Assessing Model Accuracy}
+	\begin{itemize}
+		\item In this course we introduce a wide range of statistical learning methods.
+		\item Why are we doing this?
+		\item Why not just teach the \e{best} method?
+		\item No single method dominates all others over all possible data sets.
+		\item It is \e{our} task to decide which method produces the best results on
+			a given data set.
+		\item We therefore need a way to \e{measure} how well we are doing.
+	\end{itemize}
+	\bottomline{There is no free lunch in statistical learning.}
+\end{frame}
+
+\begin{frame}{Measuring Fit Quality}
+	\begin{itemize}
+		\item How can we measure the quality of a fit?
+		\item We need to quantify how close our estimate $\hat{Y} = \hat{f}(X)$ is to the
+			true values $Y$.
+		\item Clearly, the difference between the two is a measure of this,\\
+			but we don't care about the sign.
+		\item We therefore use the \e{mean squared error}, MSE:
+			\[ 
+				\text{MSE} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{f}(x_i))^2
+				= E[(Y - \hat{f}(X))^2]
+				= \langle (Y - \hat{f}(X))^2 \rangle 
+			\]
+	\end{itemize}
+	\bottomline{Other choices for the \e{loss function} are possible. This is the most straight-forward and common choice.}
+\end{frame}
+
+\begin{frame}{Measuring Fit Quality}
+	\begin{itemize}
+		\item We could simply compute the MSE on the training data.
+		\item Most fit, or learning, methods work by minimising the MSE
+			on the training data.
+		\item However, we want to make predictions on \e{future} observations,\\
+			not available at the time of training.
+		\item A better measure of how well we are doing is obtained by computing\\
+			the MSE on a \e{test data set} that is \e{independent} of the training data set.
+		\item We can always produce an independent test data set by only using a subset of 
+			the available data for training and the remainder for testing.
+	\end{itemize}
+	\bottomline{The MSE from the training data set overestimates the fit quality.}
+\end{frame}
+
+\begin{frame}{Measuring Fit Quality: Example 1}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{2_9}
+
+		Right: true $f$ (black), linear regression (orange), and spline fits (blue, green).\\
+		Left: training (grey) and test (red) MSE.
+	\end{center}
+	\bottomline{The most flexible model over-fits the training data.}
+\end{frame}
+
+\begin{frame}{Measuring Fit Quality: Example 2}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{2_10}
+
+		Right: true $f$ (black), linear regression (orange), and spline fits (blue, green).\\
+		Left: training (grey) and test (red) MSE.
+	\end{center}
+	\bottomline{The truth is more linear, so linear regression does well.}
+\end{frame}
+
+\begin{frame}{Measuring Fit Quality: Example 3}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{2_11}
+
+		Right: true $f$ (black), linear regression (orange), and spline fits (blue, green).\\
+		Left: training (grey) and test (red) MSE.
+	\end{center}
+	\bottomline{The truth is highly non-linear, so linear regression does badly.}
 \end{frame}
 
 \end{document}
