@@ -160,7 +160,7 @@
 		\item In this scenario we are not interested in the exact form of $\hat{f}$.
 		\item We are mostly concerned with the accuracy of $\hat{Y}$.
 	\end{itemize}
-	\bottomline{Here $\bm{\hat{f}}$ is treated as a \e{black box}. But we don't have to!}
+	\bottomline{Here $\bm{\hat{f}}$ is often treated as a \e{black box}. But we don't have to!}
 \end{frame}
 
 \begin{frame}{Prediction Accuracy}
@@ -270,6 +270,51 @@
 	\bottomline{Non-linear models are of course possible, but harder to fit.}
 \end{frame}
 
+\begin{frame}{Linear Model Example}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{2_4}
 
+		\[ \text{\dat{income}} \approx \hat{\beta}_0 + \hat{\beta}_1\times\text{\dat{education}}
+		+ \hat{\beta}_2\times\text{\dat{seniority}}\]
+	\end{center}
+\end{frame}
+
+\begin{frame}{Non-parametric Methods}
+	\begin{cpage}
+		\begin{enumerate}
+			\item \e{\orange No assumption about the functional form of $f$ is made.}\\
+			\item \e{\orange Seek an estimate of $f$ that smoothly approaches the data points\\
+				in the training data.}
+		\end{enumerate}
+		\begin{itemize}
+			\item[$+$] Avoids choosing potentially very wrong models.
+			\item[$+$] Can approximate any functional relationship.
+			\item[$-$] Often need many more observations for the fit.
+			\item[$-$] Prone to over-fitting.
+		\end{itemize}
+	\end{cpage}
+	\bottomline{Oddly, non-parametric methods can have a lot of parameters.}
+\end{frame}
+
+\begin{frame}{Non-parametric Example}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{2_5}
+
+		Approximation to $f$ to predict \dat{income} using a \e{thin-plate spline}. 
+	\end{center}
+	\bottomline{Better fit to the training data than the linear model.}
+\end{frame}
+
+\begin{frame}{Non-parametric Example}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{2_6}
+
+		A less smooth spline fit that fits the training data perfectly. 
+	\end{center}
+	\bottomline{This is an example of \e{over-fitting}.}
+\end{frame}
 
 \end{document}
