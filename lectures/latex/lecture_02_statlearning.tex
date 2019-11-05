@@ -192,9 +192,9 @@
 			where $E[(Y - \hat{Y})^2]$ is the average, or \e{expected value}, of the squared\\
 			difference between the predicted and the true value of $Y$,\\
 			and $\text{Var}(\epsilon)$ is the \e{variance} of the error term $\epsilon$.
-		\item The average $E[x]$ is often written as $\overline{x}$ or $\langle x \rangle$.
-		\item The variance is then $\text{Var}(x) = \langle (x - \overline{x})^2 \rangle
-			= \langle x^2 \rangle - {\langle x \rangle}^2 = \overline{x^2} - \overline{x}^2$.
+		\item The average $E[z]$ is often written as $\overline{z}$ or $\langle z \rangle$.
+		\item The variance is then $\text{Var}(z) = \langle (z - \overline{z})^2 \rangle
+			= \langle z^2 \rangle - {\langle z \rangle}^2 = \overline{z^2} - \overline{z}^2$.
 	\end{itemize}
 	\bottomline{All techniques we learn aim to estimate $f$ while minimising the reducible error.}
 \end{frame}
@@ -226,5 +226,50 @@
 	\end{cpage}
 	\bottomline{Linear is good, but rarely true.}
 \end{frame}
+
+\begin{frame}{How do we estimate $\bm{f}$?}
+	\begin{columns}
+		\begin{column}{0.7\textwidth}
+			\begin{itemize}
+				\item We have $n$ \e{observations} of $X$ and $Y$.
+				\item In the plots on the right $n$ is 30.
+				\item This is the \e{training data}.
+				\item We use these observations to \e{train}, or \e{teach}, our model\\
+					how to estimate $f$.
+				\item The goal is to find a function $\hat{f}$ such that $Y \approx \hat{f}(X)$,
+					for each observation $(Y, X)$.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.3\textwidth}
+			\begin{center}
+				\includegraphics[width=\textwidth]{2_2}
+			\end{center}
+			\begin{center}
+				\includegraphics[width=0.9\textwidth]{2_3}
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bottomline{Statistical learning methods are either \e{parametric} or \e{non-parametric}.}
+\end{frame}
+
+\begin{frame}{Parametric Methods}
+	\begin{cpage}
+		\begin{enumerate}
+			\item \e{\orange Make an assumption about the functional form of $f$.}\\
+				A very simple assumption is a linear model:
+				\[ f(X) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p\]
+				With a linear model we only need to estimate $p + 1$ parameters. 
+				We will cover linear models in great detail in the next lecture.
+			\item \e{\orange Use the training data to train, or fit, the model.}\\
+				For a linear model we need to estimate the parameters 
+				$\beta_0, \beta_1, \beta_2, \dots, \beta_p$ such that:
+				\[ Y \approx \hat{\beta}_0 + \hat{\beta}_1 X_1 + \hat{\beta}_2 X_2 
+				+ \dots + \hat{\beta}_p X_p \] 
+		\end{enumerate}
+	\end{cpage}
+	\bottomline{Non-linear models are of course possible, but harder to fit.}
+\end{frame}
+
+
 
 \end{document}

@@ -159,6 +159,7 @@ dmypy.json
 # editors
 *.swp
 *~
+*.swo
 
 # project specific
 notebooks.tgz
