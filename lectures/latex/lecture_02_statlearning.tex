@@ -196,7 +196,7 @@
 		\item The variance is then $\text{Var}(z) = \langle (z - \overline{z})^2 \rangle
 			= \langle z^2 \rangle - {\langle z \rangle}^2 = \overline{z^2} - \overline{z}^2$.
 	\end{itemize}
-	\bottomline{All techniques we learn aim to estimate $f$ while minimising the reducible error.}
+	\bottomline{All techniques we learn aim to estimate $\bm{f}$ while minimising the reducible error.}
 \end{frame}
 
 \begin{frame}{Inference}
@@ -205,7 +205,7 @@
 		\item We want to estimate $f$, but not necessarily predict $Y$.
 		\item The aim is to understand the \e{functional relationship} between $Y$ and $X$.
 	\end{itemize}
-	\bottomline{We can \e{not} treat $\hat{f}$ as a black box in this scenario.}
+	\bottomline{We can \e{not} treat $\bm{\hat{f}}$ as a black box in this scenario.}
 \end{frame}
 
 \begin{frame}{Inference: Questions}
@@ -345,5 +345,34 @@
 	\bottomline{We'll learn more about the methods mentioned in the plot later.}
 \end{frame}
 
+\begin{frame}{Supervised versus Unsupervised Learning}
+	\begin{cpage}
+		\begin{itemize}
+			\item[] \e{\orange Supervised Learning}
+			\item We have $n$ observations of the $p$ predictors $X_j$ \e{and}
+				the corresponding response $Y$.
+			\item In this case we can fit a model to the training data.
+			\item The \e{supervision} comes in through the presence of the known
+				response $Y$ in the training data.
+			\item[] \e{\orange Unsupervised Learning}
+			\item We have $n$ observations of the $p$ predictors $X_j$,
+				but \e{no access} to the corresponding response $Y$ in the training data.
+			\item All we can do is look for \e{patterns} in the training data.
+		\end{itemize}
+	\end{cpage}
+	\bottomline{This distinction is not always clear-cut.}
+\end{frame}
+
+\begin{frame}{Regression versus Classification}
+	\begin{itemize}
+		\item Variables, in particular responses, can be \e{quantitative} or
+			\e{qualitative}.
+		\item[] \e{\orange Quantitative Responses -- Regression Problems}
+		\item Gas mileage, live expectancy, sales. 
+		\item[] \e{\orange Qualitative Responses -- Classification Problems}
+		\item Sex (male, female), default on debt (yes, no), brand (Apple, Samsung, Blackberry).
+	\end{itemize}
+	\bottomline{In terms of statistical learning methods the distinction is not crisp.}
+\end{frame}
 
 \end{document}
