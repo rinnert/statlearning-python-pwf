@@ -289,7 +289,7 @@
 		\end{enumerate}
 		\begin{itemize}
 			\item[$+$] Avoids choosing potentially very wrong models.
-			\item[$+$] Can approximate any functional relationship.
+			\item[$+$] Can approximate complex functional relationships.
 			\item[$-$] Often need many more observations for the fit.
 			\item[$-$] Prone to over-fitting.
 		\end{itemize}
@@ -314,7 +314,36 @@
 
 		A less smooth spline fit that fits the training data perfectly. 
 	\end{center}
-	\bottomline{This is an example of \e{over-fitting}.}
+	\bottomline{This is an example of \e{over-fitting}!}
 \end{frame}
+
+\begin{frame}{Accuracy versus Interpretability Trade-off}
+	\begin{cpage}
+		\begin{itemize}
+			\item[] \e{\orange Why would we choose a less flexible approach?}
+			\item Interpretability is often desirable (inference).
+			\item For example, in a linear model we can directly infer whether\\
+				a relationship is positive or negative from the sign of\\
+				the $\beta$ coefficient.
+			\item[] \e{\orange Why would we choose a more flexible approach?}
+			\item We might be mostly interested in the accuracy of\\
+				our estimate of $f$ (prediction).
+			\item In the extreme, this is a \e{black box} approach where we don't care about
+				the interpretation at all.
+		\end{itemize}
+	\end{cpage}
+	\bottomline{This is a \e{trade-off}, we have to decide.}
+\end{frame}
+
+\begin{frame}{Accuracy versus Interpretability Trade-off}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{2_7}
+
+		In general, more flexible statistical learning methods have lower interpretability.
+	\end{center}
+	\bottomline{We'll learn more about the methods mentioned in the plot later.}
+\end{frame}
+
 
 \end{document}
