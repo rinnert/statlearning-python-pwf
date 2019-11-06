@@ -237,7 +237,7 @@
 				\item We use these observations to \e{train}, or \e{teach}, our model\\
 					how to estimate $f$.
 				\item The goal is to find a function $\hat{f}$ such that $Y \approx \hat{f}(X)$,
-					for each observation $(Y, X)$.
+					for each observation $(X, Y)$.
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.3\textwidth}
@@ -466,7 +466,7 @@
 
 \begin{frame}{The Bias-Variance Trade-off}
 	\begin{itemize}
-		\item We denote the observations from a test data set as $(y_0, x_0)$.
+		\item We denote the observations from a test data set as $(x_0, y_0)$.
 		\item Then the test data set MSE is:
 			\[ \text{MSE}_\text{test} = \langle (y_0 - \hat{f}(x_0))^2 \rangle \]
 		\item We can then show that this can be decomposed like this:
@@ -479,5 +479,104 @@
 			\[ \text{Bias}(\hat{f}(x_0)) = \langle\hat{f}(x_0)\rangle - \langle f(x_0)\rangle\] 
 	\end{itemize}
 	\bottomline{In practice, we don't know the true $\bm{f}$ and can't compute the bias properly.}
+\end{frame}
+
+\begin{frame}{The Bias-Variance Trade-off}
+	\begin{itemize}
+		\item Given the test MSE
+			\[ 
+			\langle (y_0 - \hat{f}(x_0))^2 \rangle
+			= \underbrace{\text{Var}(\hat{f}(x_0)) + (\text{Bias}(\hat{f}(x_0))^2}_\text{Reducible} 
+			+ \underbrace{\text{Var}(\epsilon)}_\text{Irreducible}
+			\]
+			we want to minimize the variance of $\hat{f}(x_0)$ \e{and} the bias.
+		\item This is often not possible at the same time.
+		\item Highly flexible methods can eliminate the bias.
+		\item That does \e{not} mean they perform better at prediction.
+	\end{itemize}
+	\bottomline{The bias-variance trade-off translates to a flexibility trade-off.}
+\end{frame}
+
+\begin{frame}{The Bias-Variance Trade-off}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{2_12}
+
+		The plots correspond to the three example data sets we have seen before.\\
+		(Non-linear, almost linear, highly non-linear).
+	\end{center}
+\end{frame}
+
+\begin{frame}{The Classification Setting}
+	\begin{itemize}
+		\item As before, we want to estimate $f$ from the training observations
+			\[\lbrace (x_1, y_1), (x_2, y_2), \dots, (x_n, y_n) \rbrace\]
+			and say we train a \e{classifier}.
+		\item But now the responses $y_i$ are \e{qualitative}.
+		\item That is, the $y_i$ are \e{labels} denoting the different \e{classes}
+			the output variable can belong to.
+		\item For example: 
+			\[
+				y = \text{\dat{origin}}, \text{\dat{origin}} 
+				\in\lbrace \text{\dat{US}},\text{\dat{EU}},  \text{\dat{JP}} \rbrace
+			\]  
+	\end{itemize}
+	\bottomline{Classifiers usually predict class \e{probabilities} from observations.}
+\end{frame}
+
+\begin{frame}{Classifier Accuracy}
+	\begin{itemize}
+		\item The concepts we have developed for regression also apply to classification.
+		\item We need a way to quantify the accuracy of classifiers.
+		\item We define the \e{training error rate}:
+			\[
+				\frac{1}{n}\sum^n_{i=1} I(y_i \ne \hat{y}_i)
+				= \langle I(y_i \ne \hat{y}_i)\rangle,
+				\;\;
+				 I(y_i \ne \hat{y}_i) =
+				 \begin{cases}
+					 1 & y_i \ne \hat{y}_i \\
+					 0 & y_i = \hat{y}_i \\
+				 \end{cases}
+			\]
+		\item With the convention that $(x_0, y_0)$ denotes the test observations,\\
+			the \e{test error rate is}:
+			\[ \langle  I(y_0 \ne \hat{y}_0)\rangle \]
+	\end{itemize}
+	\bottomline{A good classifier minimises the test error rate.}
+\end{frame}
+
+\begin{frame}{Probabilities}
+	\begin{itemize}
+		\item We need to formalise our notion of \e{probability.}
+	\end{itemize}
+	\begin{cpage}\orange
+		We use probabilities to quantitatively express\\
+		our relative believes in various propositions.
+	\end{cpage}
+	\begin{itemize}
+		\item We can hear the mathematicians scream ``How can you formalise a \e{believe}?''.
+		\item Some argue the whole notion is flawed and we can only ever speak of the \e{frequency}
+			at which events occur.
+		\item Of course, we often use observed frequencies to determine probabilities.
+		\item But sometimes this does not make much sense.
+		\item We take a pragmatic approach without getting too philosophical about it.
+	\end{itemize}
+	\bottomline{Don't get drawn into heated debates with hard-core frequentists.}
+\end{frame}
+
+\begin{frame}{Probabilities: Cook's Rules}
+	\begin{itemize}
+		\item We clearly need a \e{transitive} property: if we believe (a) more than (b)\\
+			and (b) more than (c) then we must believe (a) more than (c).
+			\[ P(a) > P(b) \land P(b) > P(c) \implies P(a) > P(c),\; P \in \R \]
+		\item If we specify how much we believe $X$ to be true we have implicitly specified how much
+			we believe $X$ to be false. With the conventional norm of one we write this as
+			\[ P(X\vert I) + P(\bar{X}\vert I) = 1 \]
+		\item If we specify how much we believe $Y$ is true and then how much we believe\\
+			$X$ \e{given} $Y$ is true, we have implicitly specified how much we believe $X$ \e{and} $Y$ are true.
+			\[ P(X, Y\vert I) = P(X\vert Y, I) \times P(Y\vert I) \]
+	\end{itemize}
+	\bottomline{These are the quantitative axioms necessary for logical and consistent reasoning.}
 \end{frame}
 \end{document}
