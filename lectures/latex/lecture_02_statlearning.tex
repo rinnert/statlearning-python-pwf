@@ -17,7 +17,7 @@
 		We give a number of examples illustrating what statistical learning
 		is about.
 		
-		The emphasis not on particular methods but on the foundational concepts.
+		The emphasis is not on particular methods but on the foundational concepts.
 
 	\end{blurb}
 \end{frame}
@@ -512,7 +512,7 @@
 		\item As before, we want to estimate $f$ from the training observations
 			\[\lbrace (x_1, y_1), (x_2, y_2), \dots, (x_n, y_n) \rbrace\]
 			and say we train a \e{classifier}.
-		\item But now the responses $y_i$ are \e{qualitative}.
+		\item Now the responses $y_i$ are \e{qualitative}.
 		\item That is, the $y_i$ are \e{labels} denoting the different \e{classes}
 			the output variable can belong to.
 		\item For example: 
@@ -522,6 +522,91 @@
 			\]  
 	\end{itemize}
 	\bottomline{Classifiers usually predict class \e{probabilities} from observations.}
+\end{frame}
+
+\begin{frame}{Probabilities}
+	\begin{itemize}
+		\item We need to formalise our notion of \e{probability.}
+	\end{itemize}
+	\begin{cpage}\orange
+		We use probabilities to quantitatively express\\
+		our relative believes in various propositions.
+	\end{cpage}
+	\begin{itemize}
+		\item We can hear the mathematicians scream ``How can you formalise a \e{believe}?''.
+		\item Some argue the whole notion is flawed and we can only ever speak of the \e{frequency}\\
+			at which events occur.
+		\item Of course, we often use observed frequencies to determine probabilities.
+		\item But sometimes this does not make much sense.
+		\item We take a pragmatic approach without getting too philosophical about it.
+	\end{itemize}
+	\bottomline{Don't get drawn into heated debates with hard-core frequentists.}
+\end{frame}
+
+\begin{frame}{Probabilities: Cook's Rules}
+	\begin{itemize}
+		\item We clearly need a \e{transitive} property: if we believe (a) more than (b)\\
+			and (b) more than (c) then we must believe (a) more than (c).
+			\[ P(a) > P(b) \land P(b) > P(c) \implies P(a) > P(c),\; P \in \R \]
+		\item If we specify how much we believe $X$ to be true we have implicitly specified how much
+			we believe $X$ to be false. With the conventional norm of one we write this as
+			\[ P(X\vert I) + P(\bar{X}\vert I) = 1 \]
+		\item If we specify how much we believe $X$ is true and then how much we believe\\
+			$Y$ \e{given} $X$ is true, we have implicitly specified how much we believe $Y$ \e{and} $X$ are true.
+			\[ P(Y, X\vert I) = P(Y\vert X, I) \times P(X\vert I) \]
+	\end{itemize}
+	\bottomline{These are the quantitative axioms necessary for logical and consistent reasoning.}
+\end{frame}
+
+\begin{frame}{Corollaries}
+	\begin{itemize}
+		\item[] \e{\orange Bayes' Theorem}
+			\[
+				P(Y\vert X, I) = \frac{P(X\vert Y, I)\times P(Y\vert I)}{P(X\vert I)}
+			\]
+	\end{itemize}
+	\vspace{1cm}
+	\begin{itemize}
+		\item[] \e{\orange Marginalisation}
+			\[
+				P(Y\vert I) = \int_{-\infty}^{+\infty} P(Y, X\vert I) dX
+			\]
+	\end{itemize}
+	\bottomline{Here $\bm{I}$ denotes our background knowledge and assumptions.}
+\end{frame}
+
+\begin{frame}{Bayes' Theorem}
+	\begin{itemize}
+		\item The power of Bayes' theorem is that it allows to turn one \e{conditional probability}\\
+			into another.
+		\item It relates $P(X\vert Y,I)$ to $P(Y\vert X,I)$.
+		\item The importance of this is more obvious when we replace $Y$ with \e{hypothesis}\\
+			and $X$ with \e{data}:
+			\[
+				P(\text{\e{\orange hypothesis}}\vert\text{\e{\blue data}}, I) \propto
+				P(\text{\e{\blue data}}\vert\text{\e{\orange hypothesis}}, I) \times P(\text{\e{\orange hypothesis}}\vert I)
+			\]
+		\item Note that we have omitted the normalisation factor.
+	\end{itemize}
+	\bottomline{This relates the probability we are interested in to one we have a chance to measure!}
+\end{frame}
+
+\begin{frame}{Bayes' Theorem}
+	\begin{center}
+		\[
+			P(Y\vert X, I) = \frac{P(X\vert Y, I)\times P(Y\vert I)}{P(X\vert I)}
+		\]
+	\end{center}
+	\begin{popblock}{0.4\textwidth}{}
+		\begin{tabular}[h]{ll}
+			\e{\blue\bfseries Term} & \e{\blue\bfseries Name} \\
+			$P(Y\vert X, I)$ & posterior probability \\
+			$P(X\vert Y, I)$ & likelihood \\
+			$P(Y\vert I)$ & prior probability \\
+			$P(X\vert I)$ & evidence \\
+		\end{tabular}
+	\end{popblock}
+	\bottomline{All statistical learning techniques are methods to approximate the posterior probability.}
 \end{frame}
 
 \begin{frame}{Classifier Accuracy}
@@ -546,37 +631,43 @@
 	\bottomline{A good classifier minimises the test error rate.}
 \end{frame}
 
-\begin{frame}{Probabilities}
+\begin{frame}{The Bayes Classifier}
 	\begin{itemize}
-		\item We need to formalise our notion of \e{probability.}
+		\item The best possible classifier assigns the minimises the test error rate on average.
+		\item It assigns each observation to the most likely class given the observed predictors.
+		\item We write the probability of $Y$ belonging to class $j$, given the predictor\\
+			observation $x_0$, as follows.
+			\[ P(Y=j\vert X = x_0) \]
+		\item In a scenario with two classes (say \dat{Up} and \dat{Down}) this classifier predicts\\
+			$Y = \text{\dat{Up}}$ if
+			\[ P(Y=\text{\dat{Up}}\vert X = x_0) > 0.5 \]
+			and $Y = \text{\dat{Down}}$ otherwise.
+		\item This is called the \e{Bayes Classifier} and it is ideal.
+		\item On simulated data we can compute the above probability perfectly.
 	\end{itemize}
-	\begin{cpage}\orange
-		We use probabilities to quantitatively express\\
-		our relative believes in various propositions.
-	\end{cpage}
-	\begin{itemize}
-		\item We can hear the mathematicians scream ``How can you formalise a \e{believe}?''.
-		\item Some argue the whole notion is flawed and we can only ever speak of the \e{frequency}
-			at which events occur.
-		\item Of course, we often use observed frequencies to determine probabilities.
-		\item But sometimes this does not make much sense.
-		\item We take a pragmatic approach without getting too philosophical about it.
-	\end{itemize}
-	\bottomline{Don't get drawn into heated debates with hard-core frequentists.}
+	\bottomline{No method can do better than this proper Bayesian posterior probability.}
 \end{frame}
 
-\begin{frame}{Probabilities: Cook's Rules}
-	\begin{itemize}
-		\item We clearly need a \e{transitive} property: if we believe (a) more than (b)\\
-			and (b) more than (c) then we must believe (a) more than (c).
-			\[ P(a) > P(b) \land P(b) > P(c) \implies P(a) > P(c),\; P \in \R \]
-		\item If we specify how much we believe $X$ to be true we have implicitly specified how much
-			we believe $X$ to be false. With the conventional norm of one we write this as
-			\[ P(X\vert I) + P(\bar{X}\vert I) = 1 \]
-		\item If we specify how much we believe $Y$ is true and then how much we believe\\
-			$X$ \e{given} $Y$ is true, we have implicitly specified how much we believe $X$ \e{and} $Y$ are true.
-			\[ P(X, Y\vert I) = P(X\vert Y, I) \times P(Y\vert I) \]
-	\end{itemize}
-	\bottomline{These are the quantitative axioms necessary for logical and consistent reasoning.}
+\begin{frame}{The Bayes Decision Boundary}
+	\vspace{-2mm}
+	\begin{center}
+		\includegraphics[width=0.45\textwidth]{2_13}
+
+		A simulated data set with 100 observations. The dashed line is the \e{Bayes decision boundary}.
+	\end{center}
 \end{frame}
+
+\begin{frame}{K-Nearest Neighbours}
+	\begin{enumerate}
+		\item Given an integer $K$ and a test observation $x_0$, find the $K$ observations $x_i$
+			in the training data set that are closest to $x_0$, denoted by $\mathcal{N}_0$.
+		\item Then estimate the conditional probabilities to observe $x_0$ from the relative frequencies\\
+			of the classes in $\mathcal{N}_0$ (\e{likelihoods}):
+			\[ P(X=x_0\vert Y=j) = \frac{1}{K}\sum_{i \in\mathcal{N}_0} I(y_i = j) \]
+		\item Finally, use Bayes' theorem to compute the conditional \e{posterior probability}:
+			\[P(Y=j\vert X=x_0)\]
+	\end{enumerate}
+	\bottomline{KNN \e{estimates} $\bm{P(Y\vert X)}$. The \e{flexibility} of KNN scales with $\bm{1/K}$.}
+\end{frame}
+
 \end{document}
