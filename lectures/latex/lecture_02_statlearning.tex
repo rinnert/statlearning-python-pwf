@@ -535,9 +535,9 @@
 	\begin{itemize}
 		\item We can hear the mathematicians scream ``How can you formalise a \e{believe}?''.
 		\item Some argue the whole notion is flawed and we can only ever speak of the \e{frequency}\\
-			at which events occur.
+			at which events occur in an \e{ensemble}.
 		\item Of course, we often use observed frequencies to determine probabilities.
-		\item But sometimes this does not make much sense.
+		\item But sometimes the concept of an ensemble does not make much sense.
 		\item We take a pragmatic approach without getting too philosophical about it.
 	\end{itemize}
 	\bottomline{Don't get drawn into heated debates with hard-core frequentists.}
@@ -592,6 +592,7 @@
 \end{frame}
 
 \begin{frame}{Bayes' Theorem}
+	\vspace{-5mm}
 	\begin{center}
 		\[
 			P(Y\vert X, I) = \frac{P(X\vert Y, I)\times P(Y\vert I)}{P(X\vert I)}
@@ -633,7 +634,7 @@
 
 \begin{frame}{The Bayes Classifier}
 	\begin{itemize}
-		\item The best possible classifier assigns the minimises the test error rate on average.
+		\item The best possible classifier minimises the test error rate on average.
 		\item It assigns each observation to the most likely class given the observed predictors.
 		\item We write the probability of $Y$ belonging to class $j$, given the predictor\\
 			observation $x_0$, as follows.
@@ -665,9 +666,40 @@
 			of the classes in $\mathcal{N}_0$ (\e{likelihoods}):
 			\[ P(X=x_0\vert Y=j) = \frac{1}{K}\sum_{i \in\mathcal{N}_0} I(y_i = j) \]
 		\item Finally, use Bayes' theorem to compute the conditional \e{posterior probability}:
-			\[P(Y=j\vert X=x_0)\]
+			\[P(Y=j\vert X=x_0) = \frac{P(X=x_0\vert Y=j)\times P(Y=j)}{P(X=x_0)}\]
 	\end{enumerate}
 	\bottomline{KNN \e{estimates} $\bm{P(Y\vert X)}$. The \e{flexibility} of KNN scales with $\bm{1/K}$.}
 \end{frame}
 
+\begin{frame}{K-Nearest Neighbours}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{2_14}
+
+		The KNN approach with $K=3$. The black ``x'' in the left panel is a test observation.
+	\end{center}
+\end{frame}
+
+\begin{frame}{K-Nearest Neighbours}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{2_16}
+
+		A comparison of decision boundaries with $K=1$ and $K=100$. 
+	\end{center}
+\end{frame}
+
+\begin{frame}{K-Nearest Neighbours}
+	\begin{center}
+		\includegraphics[width=0.4\textwidth]{2_15}
+
+		Comparing to the Bayes decision boundary, $K=10$ seems a good choice. 
+	\end{center}
+\end{frame}
+
+\begin{frame}{K-Nearest Neighbours}
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{2_17}
+
+		Flexibility versus model performance on training and test data sets. 
+	\end{center}
+\end{frame}
 \end{document}
