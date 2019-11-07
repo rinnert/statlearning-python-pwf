@@ -4,9 +4,19 @@
 
 This library provides the datasets and some helper functions for 
 a Python version of the labs and exercises of "Introduction to Statistical Learning with applications in R" (ISLR). Some of the datasets are downloaded from the [book's website](www.statlearning.com), others are extracted
-from the default `R` distribution and the `R` `MASS` and `ISLR` libraries. 
+from the default `R` distribution and the `R` `MASS` and `ISLR` libraries.
 
-## Dataset Access
+## Installation
+
+Build the wheel with `make` and then
+
+```bash
+pip install dist/islpy-0.3-py3-none-any.whl
+```
+
+Note: the version number might be different.
+
+## Data Set Access
 
 To access the datasets you will need to `import` the `dataset` module:
 
@@ -32,3 +42,24 @@ Behind the scenes all datasets are stored in a single HDF file. Datasets are onl
 df = datasets.Khan(force_reload=True)
 ```
 
+## R-syle Plots for Linear Models
+
+The `lmplots` module provides R-style summary plots for linear models from the `statsmodels` library, for example:
+
+```python
+import statsmodels.formula.api as smf
+from islpy import datasets, lmplots
+
+auto = datasets.Auto()
+lm = smf.ols('mpg~horsepower+acceleration', auto).fit()
+lmplots.plot(lm)
+```
+
+## Utilities
+Some useful wrapper functions and utilities are provided by the `utils` module:
+
+```python
+from islpy import utils
+
+help(utils)
+```
