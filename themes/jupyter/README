@@ -1,0 +1,9 @@
+To get a theme consistent with the lecture slides install the ictp_minimal.css
+to ~/.jupyter/custom/custom.css:
+
+ cp ictp_minimal.css ~/.jupyter/custom/custom.css
+
+Create the target directory if it does not exists or run
+
+  jupyter notebook --generate-config
+
