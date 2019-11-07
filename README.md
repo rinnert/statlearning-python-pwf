@@ -6,7 +6,7 @@
 
 ## Description
 
-This repository provides resources for a course based on ["Introduction to Statistical Learning with applications in R"](www.statlearning.com).
+This repository provides resources for a course based on ["Introduction to Statistical Learning with applications in R"](http://faculty.marshall.usc.edu/gareth-james/ISL/).
 
 <center><img src="lectures/figs/intro/isl_cover.jpg" alt="ISLR" width="320"/></center>
 
