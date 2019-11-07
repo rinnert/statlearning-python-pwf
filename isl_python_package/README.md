@@ -42,7 +42,7 @@ Behind the scenes all datasets are stored in a single HDF file. Datasets are onl
 df = datasets.Khan(force_reload=True)
 ```
 
-## R-syle Plots for Linear Models
+## R-style Plots for Linear Models
 
 The `lmplots` module provides R-style summary plots for linear models from the `statsmodels` library, for example:
 
