@@ -1,0 +1,206 @@
+\documentclass[mathserif, aspectratio=169]{beamer}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% need to split the includes to make spell checking work.
+\input{preamble}
+\subtitle{\bfseries%
+  {Linear Regression}\\%
+  {\tiny\it linear models, least square fit, simple \& multiple linear regression, qualitative predictors}\\%
+}
+\begin{document}
+\input{common}
+
+\begin{frame}{Abstract}
+
+	\begin{blurb}
+		Linear models are an important topic in statistical learning.  
+
+		The true relationships between predictors and responses are rarely linear.
+		But linear models often provide reasonable approximation. They provide
+		high interpretability and have low variance, mitigating the risk of over-fitting.
+		Linear models can be extended to include (some) non-linear relationships. 
+
+		Linear models also provide an excellent baseline to compare other models against: if 
+		our sophisticated model does not do much better than a linear model we might consider
+		trading some bias for lower variance.
+	\end{blurb}
+\end{frame}
+
+\begin{frame}{Overview}
+	\begin{itemize}
+		\item Simple linear regression.
+		\item Multiple linear regression.
+		\item Qualitative predictors.
+		\item Extensions to the linear model.
+	\end{itemize}
+	\bottomline{This will require some mathematics.}
+\end{frame}
+
+\begin{frame}{The Advertising Data Set}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{2_1}
+
+		We want to understand how \dat{sales} depends on \dat{TV}, \dat{radio} and \dat{newspaper}.
+	\end{center}
+	\bottomline{We will use this data set to illustrate the concepts in this lecture.}
+\end{frame}
+
+\begin{frame}{Interesting Questions}
+	\begin{enumerate}
+		\item Is there a relationship between advertising budget and sales?
+		\item How strong is the relationship between advertising budget and sales?
+		\item Which media contribute to sales?
+		\item How accurately can we estimate the effect of each medium on sales?
+		\item How accurately can we predict future sales?
+		\item Is the relationship linear?
+		\item Is there synergy among the advertising media?
+	\end{enumerate}
+	\bottomline{Linear regression can answer all of these questions.}
+\end{frame}
+
+\begin{frame}{Simple Linear Regression}
+	\begin{itemize}
+		\item Simple linear regression assumes an approximate simple linear relationship between\\
+			one predictor and the response:
+			\[ Y \approx \beta_0 + \beta_1 X \]
+		\item For example, $X$ might represent the \dat{TV} budget and $Y$ might represent \dat{sales}:
+			\[ \text{\dat{sales}} \approx \beta_0 + \beta_1\times\text{\dat{TV}} \]
+		\item The \e{coefficients}, or \e{parameters}, $\beta_0$ and $\beta_1$ are the \e{intercept} and
+			\e{slope} of a line.
+		\item We can \e{estimate} the parameters from the training data and \e{predict} \dat{sales}\\
+			from the \dat{TV} budget.
+			\[ \hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x \]
+	\end{itemize}
+	\bottomline{We use the \e{hat} symbol, $\;\bm{\hat{}}\;$, to denote estimates and predictions.}
+\end{frame}
+
+\begin{frame}{Estimating the Coefficients}
+	\begin{itemize}
+		\item In practice, $\beta_0$ and $\beta_1$ are unknown.
+		\item Given the training data 
+			\[ (x_1, y_1), (x_2, y_2), \dots, (x_n, y_n) \]
+			we want to obtain estimates of the coefficients $\beta_0$ and $\beta_1$ such that
+			\[ y_i \approx \hat{\beta}_0 + \hat{\beta}_1 x_i,\;\; \forall i = 1,\dots,n \]
+		\item In other words we want to find $\hat{\beta}_0$ and $\hat{\beta}_1$ such that the
+			resulting line is as close\\
+			as possible to the $n = 200$ observations in the \dat{Advertising} data set.
+	\end{itemize}
+	\bottomline{We need to define what we mean by ``close''.}	
+\end{frame}
+
+\begin{frame}{Residual Sum of Squares}
+	\begin{itemize}
+		\item Given the predictions of $Y$ for the $i$th value of $X$
+			\[ \hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i \]
+			we define the $i$ith \e{residual} as
+			\[ e_i = y_i - \hat{y}_i \]
+		\item The \e{residual sum of squares} is then
+			\[ \text{RSS} = e_1^2 + e_2^2 + \dots + e_n^2 \]  
+			or equivalently
+			\[ \text{RSS} 
+				= (y_1 - \hat{\beta}_0 - \hat{\beta}_1 x_1)^2 
+				+ (y_2 - \hat{\beta}_0 - \hat{\beta}_1 x_2)^2
+				+ \dots
+				+ (y_n - \hat{\beta}_0 - \hat{\beta}_1 x_n)^2\] 
+	\end{itemize}
+	\bottomline{A least squares fit minimises the RSS.}
+\end{frame}
+
+\begin{frame}{Least Squares Fit}
+	\begin{itemize}
+		\item The \e{least squares} approach chooses $\hat{\beta}_0$ and $\hat{\beta}_1$
+			to minimise the RSS.
+		\item Using some calculus and sum manipulation we can show that the optimal\\
+			parameter estimates are:
+				\begin{align*}
+					\hat{\beta}_1 &= \frac{\sum_{i=1}^n (x_i - \overline{x})(y_i - \overline{y})}
+					{\sum_{i=1}^n (x_i - \overline{x})^2}\\
+					\phantom{a} & \phantom{b} \\
+					\hat{\beta}_0 &= \overline{y} - \hat{\beta}_1 \overline{x}\\
+				\end{align*}
+	\end{itemize}
+	\bottomline{Buckle up, we are going to prove it.}
+\end{frame}
+
+\begin{frame}{Least Squares Fit}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{3_1}
+
+		Result of the least squares fit for the regression of \dat{sales} onto \dat{TV}.
+	\end{center}
+\end{frame}
+
+\begin{frame}{Least Squares Fit}
+	\begin{center}
+		\includegraphics[width=0.4\textwidth]{3_2a}
+		\includegraphics[width=0.4\textwidth]{3_2b}
+
+		The RSS with \dat{sales} as the response and \dat{TV} as the predictor. The red dot marks the optimum.
+	\end{center}
+\end{frame}
+
+\begin{frame}{Assessing Accuracies}
+	\begin{itemize}
+		\item We want to \e{quantitatively} answer two rather important questions: 
+	\end{itemize}
+	\begin{cpage}
+		\begin{enumerate}
+			\item \e{\orange Is there a relationship between the predictor and the response?}
+			\item \e{\orange To what extend does our model fit the data?}
+		\end{enumerate}
+	\end{cpage}
+	\begin{itemize}
+		\item To this end, we need to clarify a few concepts. In particular the notions of \e{population},
+			\e{sample} and \e{degrees of freedom}.
+		\item Then we introduce a number of so-called \e{statistics}. Simply put, these are useful quantities
+			we can compute from our data.
+		\item It is beyond the scope of this course to formally justify all of this, but we will now
+			spend some time to develop some intuition.
+	\end{itemize}
+	\bottomline{For this interlude we will look at the simpler problem of estimating a mean.}
+\end{frame}
+
+\begin{frame}{Populations}
+	\begin{itemize}
+		\item We (somewhat sloppily) define a \e{population} as the \e{full set} of potential observations.
+		\item That could be an actual population (as in everyday language) like, say, the population\\
+			of \e{all} \href{https://en.wikipedia.org/wiki/Blue\_whale}{\blue\underline{blue whales}} 
+			alive on Earth today.
+		\item It can also be the full set of instances of any abstract entity.
+		\item We then might be interested in measuring a certain property of the instances in the population.
+		\item For example, the \dat{length} of all blue whales alive on Earth today.
+		\item Often we want to summarise our findings rather than presenting a raw data table \\
+			(or graphical representation thereof). 
+		\item A common way to summarise the data is reporting the \e{mean} and the \e{variance} of the 
+			quantity of interest.
+	\end{itemize}
+	\bottomline{Note that there is nothing wrong with reporting the full distribution!}
+\end{frame}
+
+\begin{frame}{Samples}
+	\begin{itemize}
+		\item In practice, it is generally not possible to access the whole population.
+		\item Quite literally, we don't have access to \e{all} blue whales.
+		\item But we can look at a \e{sample} of the full population.
+		\item The sample is a subset of the population we have access to.
+		\item We generally assume the sample to be a \e{random sample}.
+		\item Then we can try to \e{estimate} the mean and variance of the quantity of interest\\
+			from the sample.
+		\item Clearly, our estimates will \e{not} yield the \e{true} values of the mean and the variance.
+	\end{itemize}
+	\bottomline{Our goal is to avoid any \e{bias} in the estimates and evaluate their \e{accuracy}.}
+\end{frame}
+
+\begin{frame}{Estimating the Mean}
+	\begin{itemize}
+		\item If we had access to the whole population we could calculate the \e{true} mean $\mu$.
+		\item Sadly, we have only access to a sample of $n$ observations.
+		\item So all we can do is produce an estimate $\hat{\mu}$.
+			\[ \hat{\mu} = \sum_{i=1}^n x_i \]
+		\item This is the best possible estimate we can draw from a random sample.
+		\item Intuitively, this is obvious from the fact that $\hat{\mu} = \mu$ if the sample covers
+			the entire population.
+	\end{itemize}
+	\bottomline{It is \e{very} important that the sample is random. Beware of \e{selection bias}!}
+\end{frame}
+\end{document}
