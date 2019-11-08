@@ -1,3 +1,4 @@
 import sys
-sys.path.insert(0, '/home/student/notebooks/utils')
+import os
+sys.path.insert(0, os.path.join(os.path.expanduser('~'), 'notebooks', 'utils'))
 
