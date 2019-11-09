@@ -171,8 +171,8 @@
 		\item For example, the \dat{length} of all blue whales alive on Earth today.
 		\item Often we want to summarise our findings rather than presenting a raw data table \\
 			(or graphical representation thereof). 
-		\item A common way to summarise the data is reporting the \e{mean} and the \e{variance} of the 
-			quantity of interest.
+		\item A common way to summarise the data is reporting the \e{mean} and the\\
+			\e{standard error} of the quantity of interest.
 	\end{itemize}
 	\bottomline{Note that there is nothing wrong with reporting the full distribution!}
 \end{frame}
@@ -191,16 +191,88 @@
 	\bottomline{Our goal is to avoid any \e{bias} in the estimates and evaluate their \e{accuracy}.}
 \end{frame}
 
-\begin{frame}{Estimating the Mean}
+\begin{frame}{Estimating the Population Mean}
 	\begin{itemize}
 		\item If we had access to the whole population we could calculate the \e{true} mean $\mu$.
-		\item Sadly, we have only access to a sample of $n$ observations.
+		\item Sadly, we have only access to a sample of $n$ observations of the random variable $Y$.
 		\item So all we can do is produce an estimate $\hat{\mu}$.
-			\[ \hat{\mu} = \sum_{i=1}^n x_i \]
-		\item This is the best possible estimate we can draw from a random sample.
+			\[ \hat{\mu} = \sum_{i=1}^n y_i \]
+		\item This is the best possible \e{unbiased} estimate we can draw from a random sample.
 		\item Intuitively, this is obvious from the fact that $\hat{\mu} = \mu$ if the sample covers
 			the entire population.
 	\end{itemize}
 	\bottomline{It is \e{very} important that the sample is random. Beware of \e{selection bias}!}
+\end{frame}
+
+\begin{frame}{The Error of the Mean}
+	\begin{itemize}
+		\item Let's assume our sample was drawn from a normal (Gaussian) distribution with\\
+			\e{unkown} mean $\mu$ but \e{known} variance $\sigma^2$.
+		\item Then the squared \e{standard error} of our estimate $\hat{\mu}$ is:
+			\[ \text{Var}(\hat{\mu}) = \text{SE}(\hat{\mu})^2 = \frac{\sigma^2}{n} \]
+		\item It is then common to report our findings in the form 
+			\[ \mu = \hat{\mu} \pm \frac{\sigma}{\sqrt{n}} \]
+			or give a specific \e{confidence interval}.
+	\end{itemize}
+	\bottomline{In pratice we are rarely that lucky.}
+\end{frame}
+
+\begin{frame}{Estimating the Population Variance}
+	\begin{itemize}
+		\item More often than not, neither the population mean $\mu$ nor the variance $\sigma^2$ are kown.
+		\item Then we have to leverage the the sample mean $\hat{\mu}$ to compute the \e{sample variance}
+			\[ 
+				\hat{\sigma}^2 = \langle (y_i - \hat{\mu})^2 \rangle 
+				= \frac{1}{n}\sum_{i=1}^{n}  (y_i - \hat{\mu})^2
+			\]
+			as an estimate of the true population variance.
+	\end{itemize}
+	\bottomline{Unfortunately, $\bm{\hat{\sigma}^2}$ is \e{biased} because in general $\bm{\hat{\mu} \ne \mu}$!}
+\end{frame}
+
+\begin{frame}{The Sample Variance Bias}
+	\begin{columns}
+		\begin{column}{0.7\textwidth}
+			\begin{itemize}
+				\item We have simulated a data set of blue whale \dat{length}s.
+				\item The sample mean is $\hat{\mu} = 26.0$.
+				\item The sample variance is:
+					\[ \frac{1}{n} \sum_{i=1}^n (y_i - {\blue\hat{\mu}})^2 = 17.37 \]
+				\item The \e{true} sample variance is (in general we don't have access to $\mu$): 
+					\[ \frac{1}{n} \sum_{i=1}^n (y_i - {\orange \mu})^2 = 23.97 \]
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.3\textwidth}
+			\begin{popblock}{0.95\textwidth}{{\blue $\hat{\mu}=26.0$}\\{\orange $\mu=22.5$}}
+				\begin{tabular}[h]{lr}
+					observation & \dat{length}\\
+					1 & 24.23 \\
+					2 & 29.57 \\
+					3 & 25.14 \\
+					4 & 30.10 \\
+					5 & 20.97 \\
+				\end{tabular}
+			\end{popblock}
+		\end{column}
+	\end{columns}
+	\bottomline{The sample variance is \e{systematically biased} to lower values.}
+\end{frame}
+
+\begin{frame}{Source of the Sample Variance Bias}
+	\begin{itemize}
+		\item The source of the bias is that the estimate $\hat{\mu}$ does \e{not} have $n$
+			\e{degrees of freedom}.
+		\item Intuitively, this can be understood from the extreme case of $n=1$.
+		\item With $n=1$ the sample variance would be zero, resulting in a zero standard error.
+		\item Clearly it does not make sense to assume absolute confidence in $\hat{\mu}$.
+		\item We need \e{at least two observations} to even start estimating the standard error
+			of $\hat{\mu}$.\\
+			(If we don't know the true $\mu$, which is generally the case).
+		\item We therefore apply
+			\href{https://en.wikipedia.org/wiki/Bessel\%27s_correction}{\blue\underline{Bessel's correction}} 
+			when computing the estimate $\hat{\sigma}^2$:
+			\[ \hat{\sigma}^2 = \frac{1}{n-1}\sum_{i=1}^n (y_i - \hat{\mu})^2 \]
+	\end{itemize}
+	\bottomline{For large $\bm{n}$ this distinction is less relevant. The idea extends to more than one parameter.}
 \end{frame}
 \end{document}
