@@ -195,7 +195,7 @@
 	\begin{itemize}
 		\item If we had access to the whole population we could calculate the \e{true} mean $\mu$.
 		\item Sadly, we have only access to a sample of $n$ observations of the random variable $Y$.
-		\item So all we can do is produce an estimate $\hat{\mu}$.
+		\item So all we can do is produce an estimate $\hat{\mu}$:
 			\[ \hat{\mu} = \sum_{i=1}^n y_i \]
 		\item This is the best possible \e{unbiased} estimate we can draw from a random sample.
 		\item Intuitively, this is obvious from the fact that $\hat{\mu} = \mu$ if the sample covers
@@ -227,7 +227,7 @@
 			\]
 			as an estimate of the true population variance.
 	\end{itemize}
-	\bottomline{Unfortunately, $\bm{\hat{\sigma}^2}$ is \e{biased} because in general $\bm{\hat{\mu} \ne \mu}$!}
+	\bottomline{Unfortunately, this $\bm{\hat{\sigma}^2}$ is \e{biased} because in general $\bm{\hat{\mu} \ne \mu}$!}
 \end{frame}
 
 \begin{frame}{The Sample Variance Bias}
@@ -243,7 +243,7 @@
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.3\textwidth}
-			\begin{popblock}{0.95\textwidth}{{\blue $\hat{\mu}=26.0$}\\{\orange $\mu=22.5$}}
+			\begin{popblock}{0.95\textwidth}{{\blue $\hat{\mu}=26.0$}\\{\orange $\mu=22.5$}\\{\dark $n=5$}}
 				\begin{tabular}[h]{lr}
 					observation & \dat{length}\\
 					1 & 24.23 \\
