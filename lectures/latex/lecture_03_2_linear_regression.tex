@@ -1,0 +1,81 @@
+\documentclass[mathserif, aspectratio=169]{beamer}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% need to split the includes to make spell checking work.
+\input{preamble}
+\subtitle{\bfseries%
+  {Linear Regression, Part 2}\\%
+  {\tiny\it multiple linear regression, qualitative predictors, interaction \& non-linear terms, leverage and other considerations}\\%
+}
+\begin{document}
+\input{common}
+
+\begin{frame}{Abstract}
+
+	\begin{blurb}
+		Linear models are an important topic in statistical learning.  
+
+		The true relationships between predictors and responses are rarely linear.
+		But linear models often provide reasonable approximation. They provide
+		high interpretability and have low variance, mitigating the risk of over-fitting.
+		Linear models can be extended to include (some) non-linear relationships. 
+
+		Linear models also provide an excellent baseline to compare other models against: if 
+		our sophisticated model does not do much better than a linear model we might consider
+		trading some bias for lower variance.
+	\end{blurb}
+\end{frame}
+
+\begin{frame}{Overview}
+	\begin{itemize}
+		\item Linear models with multiple predictors.
+		\item Qualitative predictors.
+		\item Extensions to the linear model.
+		\item Leverage and other considerations.
+	\end{itemize}
+	\bottomline{This will require some mathematics.}
+\end{frame}
+
+\begin{frame}{The Scenario}
+	\begin{itemize}
+		\item We look at the \dat{Advertising} data set again.
+		\item Previously, we only used the \dat{TV} predictor to predict \dat{sales}.
+		\item The data set provides two more predictors, \dat{radio} and \dat{newspaper}.
+		\item We are now interested in using all available information in the data set.
+		\item We can think of two ways of doing that:
+			\begin{cpage}
+				\begin{enumerate}
+					\item Perform simple linear regression on the predictors separately.
+					\item Somehow combine all predictors.
+				\end{enumerate}
+			\end{cpage}
+	\end{itemize}
+	\bottomline{As you might guess, option two is more interesting, but let's look at option one first.}
+\end{frame}
+
+\begin{frame}{Separate Simple Linear Regression}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{2_1}
+	\end{center}
+	\bottomline{Separate simple linear regression looks promising on this data set.}
+\end{frame}
+
+\begin{frame}{Separate Simple Linear Regression}
+	\begin{popblock}{0.7\textwidth}{Regression of \dat{sales} onto \dat{radio}}
+		\begin{tabular}[h]{lrrrr}
+			{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $t$-statistic} & {\blue $p$-value} \\
+			\dat{Intercept} & 9.312 & 0.563 & 16.54 & $< 0.0001$ \\
+			\dat{radio} & 0.203 & 0.020 & 9.92 & $< 0.0001$ \\
+		\end{tabular}
+	\end{popblock}
+	\begin{popblock}{0.7\textwidth}{Regression of \dat{sales} onto \dat{newspaper}}
+		\begin{tabular}[h]{lrrrr}
+			{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $t$-statistic} & {\blue $p$-value} \\
+			\dat{Intercept} & 12.351 & 0.621 & 19.88 & $< 0.0001$ \\
+			\dat{newspaper} & 0.055 & 0.017 & 3.30 & $ 0.00115$ \\
+		\end{tabular}
+	\end{popblock}
+	\bottomline{All the separate regressions look reasonable.}
+\end{frame}
+
+\end{document}
