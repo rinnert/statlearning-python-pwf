@@ -271,7 +271,7 @@
 		\item We therefore apply
 			\href{https://en.wikipedia.org/wiki/Bessel\%27s_correction}{\blue\underline{Bessel's correction}} 
 			when computing the estimate $\hat{\sigma}^2$:
-			\[ \hat{\sigma}^2 = \frac{1}{n-1}\sum_{i=1}^n (y_i - \hat{\mu})^2 \]
+			\[ \hat{\sigma}^2 = \frac{1}{\orange n-1}\sum_{i=1}^n (y_i - \hat{\mu})^2 \]
 	\end{itemize}
 	\bottomline{For large $\bm{n}$ this distinction is less relevant. The idea extends to more than one parameter.}
 \end{frame}
@@ -304,4 +304,87 @@
 	\bottomline{The mean over many samples is close to the population regression line.}
 \end{frame}
 
+\begin{frame}{Accuracy of the Coefficient Estimates}
+	\begin{itemize}
+		\item The \e{sample regression line} is given by 
+			\[ Y = \hat{\beta_0} + \hat{\beta}_1 X \]
+			with the estimated coefficients $\hat{\beta_0}$ and $\hat{\beta_1}$.
+		\item The associated standard errors are then (this is a bit tedious to show):
+			\[
+				\text{SE}(\hat{\beta_0})^2 = \sigma^2 \left( \frac{1}{n} + \frac{\overline{x}^2}{\sum_{i=1}^n (x_i - \overline{x})^2}\right)
+				,\;\;
+				\text{SE}(\hat{\beta_1})^2 = \frac{\sigma^2}{\sum_{i=1}^n (x_i - \overline{x})^2}
+			\]
+		\item This assumes the $\epsilon_i$ are uncorrelated with variance $\sigma^2$.
+	\end{itemize}
+	\bottomline{In general the population variance $\bm{\sigma^2}$ is not known.}
+\end{frame}
+
+\begin{frame}{Estimating the Population Variance}
+	\begin{itemize}
+		\item If we don't know the population variance $\sigma^2$ we need to estimate it.
+		\item This works like in the simple case of estimating a population mean.
+		\item The estimated $\hat{\sigma}^2$, or \e{residual standard error}, is
+			\[
+				\hat{\sigma}^2 = \text{RSE} = \sqrt{\frac{1}{\orange n - 2} \text{RSS}}
+				= \sqrt{\frac{1}{\orange n-2} \sum_{i=1}^n (y_i - \hat{y}_i)^2}
+			\]
+			with the \e{residual sum of squares}
+			\[
+				\text{RSS} = \sum_{i=1}^n (y_i - \hat{y}_i)^2
+			\]
+	\end{itemize}
+	\bottomline{Note that number of degrees of freedom is now $\bm{n-2}$!}
+\end{frame}
+
+\begin{frame}{Confidence Intervals}
+	\begin{itemize}
+		\item Given the standard errors for the coefficient estimate, we can compute \e{confidence intervals}.
+	\end{itemize}
+			\begin{cpage}\orange
+				A 95\% confidence interval is a range of values such that the interval will contain
+				the true parameter value with a probability of 95\%.
+			\end{cpage}
+	\begin{itemize}
+		\item This is somewhat sloppy but very practical definition.
+		\item In simple linear regression the 95\% confidence interval for the parameters $\beta$ is
+			approximately:
+				\[ \hat{\beta} \pm 2\cdot\text{SE}(\hat{\beta}) \]
+		\item That is, with 95\% probability the true value $\beta$ lies in the interval
+			\[
+				\left[ \hat{\beta} - 2\cdot\text{SE}(\hat{\beta}),  \hat{\beta} + 2\cdot\text{SE}(\hat{\beta})\right]
+			\]
+	\end{itemize}
+	\bottomline{This assumes Gaussian errors and large $\bm{n}$. In practice we use computers to get it right.}
+\end{frame}
+
+\begin{frame}{Hypothesis Testing}
+	\begin{itemize}
+		\item We are interested in whether $X$ is related to $Y$.
+		\item This question is answered by a \e{hypothesis test}.
+		\item Most commonly, we want to distinguish the \e{null hypothesis}
+			\[ H_0 : \beta_1 = 0 \]
+			from the \e{alternative hypothesis}
+			\[ H_a : \beta_1 \ne 0 \]
+		\item If $\beta_1 = 0$, $Y = \beta_0 +\epsilon$ and there is no relationship between
+			$X$ and $Y$.
+		\item If $|\beta_1|$ is large, we can conclude that there is a relationship.
+	\end{itemize}
+	\bottomline{We need to quantify what we mean by ``large'' in this context.}
+\end{frame}
+
+\begin{frame}{The $\bm{t}$-statistic}
+	\begin{itemize}
+		\item Clearly simply checking whether $\hat{\beta}_1 \ne 0$ is not good enough.
+		\item The answer must depend on our confidence in the estimated value.
+		\item This confidence depends on the value of the standard error $\text{SE}(\hat{\beta}_1)$.
+		\item The \e{$t$-statistic} weighs the deviation of $\hat{\beta}_1$ from zero by the
+			standard error:
+			\[ t = \frac{\hat{\beta}_1 - 0}{\text{SE}(\hat{\beta}_1)} \]
+		\item If there is \e{truly} no relationship between $X$ and $Y$, this quantity follows a\\
+			\href{https://en.wikipedia.org/wiki/Student\%27s_t-distribution}{\blue\underline{$t$-distribution}}
+			with $n-2$ degrees of freedom.
+	\end{itemize}
+	\bottomline{The $\bm{t}$-distribution approaches the normal distribution for large $\bm{n}$.}
+\end{frame}
 \end{document}
