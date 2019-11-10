@@ -275,4 +275,33 @@
 	\end{itemize}
 	\bottomline{For large $\bm{n}$ this distinction is less relevant. The idea extends to more than one parameter.}
 \end{frame}
+
+\begin{frame}{The Population Regression Line}
+	\begin{itemize}
+		\item Recall that the \e{true} relationship between $X$ and $Y$ takes the general form
+			\[ Y = f(X) + \epsilon \]
+			where $\epsilon$ is a random error term with mean zero.
+		\item If we approximate $f$ as a linear function the relationship becomes:
+			\[ Y = \beta_0 + \beta_1 X + \epsilon \]
+		\item The error term is a catch-all for what we miss with this simplified model.
+		\item This linear model defines the \e{population regression line}.
+		\item This the best linear approximation to the true relationship between $X$ and $Y$.
+		\item It is analogous to the \e{population mean} we discussed earlier.
+	\end{itemize}
+	\bottomline{Note that the true relationship is \e{not} required to be linear.}
+\end{frame}
+
+\begin{frame}{The Population Regression Line}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{3_3}
+	\end{center}
+	\vspace{-5mm}
+	\begin{itemize}
+		\item We created a random sample from the model $Y = 2 + 3 X + \epsilon$.
+		\item The population regression line is shown in red.
+		\item \e{Sample regression lines} are shown in blue.
+	\end{itemize}
+	\bottomline{The mean over many samples is close to the population regression line.}
+\end{frame}
+
 \end{document}
