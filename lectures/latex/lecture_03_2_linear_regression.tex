@@ -5,7 +5,7 @@
 \input{preamble}
 \subtitle{\bfseries%
   {Linear Regression, Part 2}\\%
-  {\tiny\it multiple linear regression, qualitative predictors, interaction \& non-linear terms, leverage and other considerations}\\%
+  {\tiny\it multiple linear regression, hypothesis testing, important variables, fit quality, predictions}\\%
 }
 \begin{document}
 \input{common}
@@ -29,9 +29,9 @@
 \begin{frame}{Overview}
 	\begin{itemize}
 		\item Linear models with multiple predictors.
-		\item Qualitative predictors.
-		\item Extensions to the linear model.
-		\item Leverage and other considerations.
+		\item Hypothesis testing, the $F$-statistic.
+		\item Choosing important variables.
+		\item Assessing the fit \& prediction quality.
 	\end{itemize}
 	\bottomline{This will require some mathematics.}
 \end{frame}
@@ -196,7 +196,7 @@
 					the intercept:
 					\vspace{10mm}
 					\begin{align*}
-						\beta &= (\beta_0, \beta_1, \beta_2, \dots, \beta_{\orange p})^T \in \R^{{\orange p}+1}\\
+						\beta &= ({\blue \beta_0}, \beta_1, \beta_2, \dots, \beta_{\orange p})^T \in \R^{{\orange p}+1}\\
 					\end{align*}
 			\end{itemize}
 		\end{column}
@@ -228,8 +228,7 @@
 \begin{frame}{Estimating the Regression Coefficients}
 	\begin{itemize}
 		\item The procedure is the same as in the case of simple linear regression.
-		\item We find the minimum by setting the first derivative to zero.
-		\item Now the derivative becomes the \e{gradient}:
+		\item But now the derivative becomes the \e{gradient}:
 			\[
 				\frac{\partial\text{RSS}(\beta)}{\partial\beta}
 				= \nabla_{\beta} \text{RSS}(\beta)
@@ -316,7 +315,6 @@
 	\bl{We will address each question in turn.}
 \end{frame}
 
-
 \begin{frame}{Relationship Between Response and Predictors}
 	\begin{itemize}
 		\item In the simple linear regression model we simply asked whether $\beta_1$ is zero.
@@ -329,6 +327,58 @@
 				F = \frac{(\text{TSS} - \text{RSS}) / p}{\text{RSS}/(n - p -1)}
 			\]
 	\end{itemize}
-	\bl{If $\bm{H_a}$ is true, we expect $\bm{F}$ to be greater than one.}
+	\bl{If $\bm{H_a}$ is true, we expect $\bm{F}$ to be greater than one, and close to one otherwise.}
 \end{frame}
+
+\begin{frame}{Example: Advertising}
+	\begin{itemize}
+		\item Fitting the model
+			\[
+				\text{\dat{sales}} = \beta_0 
+				+ \beta_1\times\text{\dat{TV}} 
+				+ \beta_2\times\text{\dat{radio}}
+				+ \beta_3\times\text{\dat{newspaper}}
+			\]
+			we find:
+	\end{itemize}
+	\begin{popblock}{0.4\textwidth}{}
+		\begin{tabular}[h]{ll}
+			{\blue Residual standard error} & 1.69 \\ 
+			{\blue $R^2$} & 0.897 \\ 
+			{\blue $F$-statistic} & 570 \\ 
+		\end{tabular}
+	\end{popblock}
+	\bl{There is strong evidence that at least one predictor influences \dat{sales}.}	
+\end{frame}
+
+\begin{frame}{Relation of a Subset of the Predictors to the Response}
+	\begin{itemize}
+		\item We are often interested in whether a specific subset of the predictors is\\
+			related to the response:
+			\[
+				H_0: \beta_{p-q+1} = \beta_{p-q+2} = \dots = \beta_p = 0
+			\]
+			where we have shuffled the $q$ excluded predictors to the front of\\
+			the predictor list.
+		\item The $F$-statistic for this hypothesis test is computed as follows:
+			\[
+				F = \frac{(\text{TSS} - \text{RSS}) / {\blue q}}{\text{RSS}/(n - p -1)}
+			\]
+	\end{itemize}
+	\bl{The $\bm{t}$-statistics are exactly equivalent to the $\bm{F}$-statistics with one variable left out.}
+\end{frame}
+
+\begin{frame}[plain]
+	\begin{columns}
+		\begin{column}{0.6\textwidth}
+			\begin{center}
+				\href{https://www.xkcd.com/882/}{\includegraphics[height=0.97\textheight]{l3/significant_upper}}
+			\end{center}
+		\end{column}
+		\begin{column}{0.4\textwidth}
+			\href{https://www.xkcd.com/882/}{\includegraphics[width=0.5\textwidth]{l3/significant_news}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
 \end{document}
