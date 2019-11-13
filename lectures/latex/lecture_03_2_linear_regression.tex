@@ -78,4 +78,60 @@
 	\bottomline{All the separate regressions look reasonable.}
 \end{frame}
 
+\begin{frame}{Separate Simple Linear Regression}
+	\begin{itemize}
+		\item This is not entirely satisfactory for several reasons.
+		\item It is unclear how could predict a single value of \dat{sales} from
+			the separate models.
+		\item Each of the separate models ignores the other variables.
+		\item This is problematic if there are correlations between the predictors.
+	\end{itemize}
+	\bottomline{A better approach is to use multiple predictors simultaneously.}
+\end{frame}
+
+
+\begin{frame}{Multiple Simple Linear Regression}
+	\begin{itemize}
+		\item \e{Multiple linear regression} uses multiple predictors.
+		\item Each predictor has its own slope coefficient.
+		\item For $p$ predictors the model takes the form
+			\[ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p + \epsilon \]
+			where the $\beta_j$ are interpreted as the average effect $X_j$ has on $Y$ while\\
+			\e{holding all other predictors constant}.
+		\item For example:
+			\[ \text{\dat{sales}} = \beta_0
+				+ \beta_1\times\text{\dat{TV}}
+				+ \beta_2\times\text{\dat{radio}}
+				+ \beta_3\times\text{\dat{newspaper}}
+				+ \epsilon
+			\]
+	\end{itemize}
+	\bottomline{Now we have one model using all the information.}
+\end{frame}
+
+\begin{frame}{Example: Two Predictors}
+	\begin{center}
+		\vspace{-5mm}
+		\includegraphics[width=0.5\textwidth]{3_4}
+
+		\vspace{-8mm}
+		\[ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon \]
+	\end{center}
+	\bl{In general, the result is a \e{hyperplane}.}
+\end{frame}
+
+\begin{frame}{Estimating the Regression Coefficients}
+	\begin{itemize}
+		\item As in simple linear regression we want to make predictions using
+			estimated parameters:
+			\[ \h{y} = \bh_0 + \bh_1 x_1 + \bh_2 x_2 + \dots + \bh_p x_p \]
+		\item We choose the coefficients $\bh_0, \bh_1, \bh_2, \dots, \bh_p$
+			to minimise the sum of squared residuals:
+			\begin{align*}
+				\text{RSS} &= \sum_{i=1}^n (y_i - \hat{y}_i)^2 \\
+				{} &= \sum_{i=1}^{n} (y_i - \bh_0 - \bh_1 x_1 - \bh_2 x_2 - \dots - \bh_p x_p)^2
+			\end{align*}
+	\end{itemize}
+	\bl{Deriving the solution involves some matrix manipulations.}
+\end{frame}
 \end{document}
