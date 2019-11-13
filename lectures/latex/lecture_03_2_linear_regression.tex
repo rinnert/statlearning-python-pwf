@@ -368,11 +368,46 @@
 	\bl{The $\bm{t}$-statistics are exactly equivalent to the $\bm{F}$-statistics with one variable left out.}
 \end{frame}
 
+\begin{frame}{Why not use the Individual $\bm{p}$-values?}
+	\begin{itemize}
+		\item One might think that we don't need the $F$-statistic.
+		\item After all we can easily compute the $t$-statistic $p$-value for each predictor.
+		\item So why can't we reject
+			\[ H_0: \beta_1 = \beta_2 = \dots = \beta_p = 0 \]
+			from the individual $p$-values?
+		\item The answer depends on the cutoff on the $p$-value we use to reject the null
+			hypothesis\\ and the number of parameters.
+		\item For example, if we choose $p < 0.05$ and the number of predictors is 20,\\
+			it is very likely that we would reject the null hypothesis for at least one predictor. 
+	\end{itemize}
+	\bl{This is related to the dimensionality problem we'll discuss soon.}
+\end{frame}
+
+\begin{frame}{Which Predictors are Relevant?}
+	\begin{itemize}
+		\item Once we have established that some (at least one) predictors are relevant\\
+			we would like to know \e{which} ones.
+		\item There are some established methods to answer this question.
+			\begin{cpage}
+				\begin{enumerate}
+					\item \e{\orange Forward Selection}: start with only the intercept and add
+						predictors with the lowest RSS. Proceed until some cutoff is reached. 
+					\item \e{\orange Backward Selection}: Start with all variables and keep removing
+						the ones with the largest $p$-values. Stop when a cutoff is reached.
+					\item \e{\orange Mixed Selection}: Like forward selection, but remove variables
+						that acquire large $p$-values after another variable is added.
+				\end{enumerate}
+			\end{cpage}
+	\end{itemize}
+	\bl{Forward selection is greedy. Backward selection requires $\bm{p < n}$.}
+\end{frame}
+
 \begin{frame}[plain]
 	\begin{columns}
 		\begin{column}{0.6\textwidth}
+			\vspace{-3mm}
 			\begin{center}
-				\href{https://www.xkcd.com/882/}{\includegraphics[height=0.97\textheight]{l3/significant_upper}}
+				\href{https://www.xkcd.com/882/}{\includegraphics[height=0.98\textheight]{l3/significant_upper}}
 			\end{center}
 		\end{column}
 		\begin{column}{0.4\textwidth}
