@@ -134,4 +134,176 @@
 	\end{itemize}
 	\bl{Deriving the solution involves some matrix manipulations.}
 \end{frame}
+
+\begin{frame}{Estimating the Regression Coefficients}
+	\begin{columns}[t]
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item Recall the notation for the \e{feature matrix}:
+					\begin{align*}
+						\bm{X} &=
+						\begin{pmatrix}
+							x_{11} & x_{12} & \dots & x_{1{\orange p}} \\ 
+							x_{21} & x_{22} & \dots & x_{2{\orange p}} \\ 
+							\vdots & \vdots & \ddots & \vdots \\
+							x_{{\blue n}1} & x_{{\blue n}2} & \dots & x_{{\blue n}{\orange p}} \\ 
+						\end{pmatrix}\in \R^{{\blue n}\times{\orange p}}\\
+					\end{align*}
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item We define the vectors:
+					\vspace{2mm}
+					\begin{align*}
+						\bm{\beta_0} &= (\beta_0, \beta_0, \dots, \beta_0)^T &\in \R^{\blue n} \\
+						\beta &= (\beta_1, \beta_2, \dots, \beta_{\orange p})^T &\in \R^{\orange p}\\
+						\bm{\epsilon} &= (\epsilon_1, \epsilon_2, \dots, \epsilon_{\blue n})^T &\in \R^{\blue n}\\
+					\end{align*}
+			\end{itemize}
+		\end{column}
+	\end{columns}
+	\begin{itemize}
+		\item With this and the convention for the response vector $\bm{y} \in \R^{\blue n}$ we can write
+			the model as
+			\[
+				\bm{y} = \bm{\beta_0} + \bm{X}\beta + \bm{\epsilon}
+			\]
+	\end{itemize}
+	\bl{These are $\bm{n}$ simultaneous equations describing the linear model.}
+\end{frame}
+
+\begin{frame}{Estimating the Regression Coefficients}
+	\begin{columns}[t]
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item We now redefine $\bm{X}$ to obtain the\\
+					model's \e{design matrix}:
+					\begin{align*}
+						\bm{X} &=
+						\begin{pmatrix}
+							1 & x_{11} & x_{12} & \dots & x_{1{\orange p}} \\ 
+							1 &x_{21} & x_{22} & \dots & x_{2{\orange p}} \\ 
+							\vdots & \vdots & \vdots & \ddots & \vdots \\
+							1 & x_{{\blue n}1} & x_{{\blue n}2} & \dots & x_{{\blue n}{\orange p}} \\ 
+						\end{pmatrix} \in \R^{{\blue n}\times({\orange p}+1)}\\
+					\end{align*}
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item And the vector $\beta$ to include\\
+					the intercept:
+					\vspace{10mm}
+					\begin{align*}
+						\beta &= (\beta_0, \beta_1, \beta_2, \dots, \beta_{\orange p})^T \in \R^{{\orange p}+1}\\
+					\end{align*}
+			\end{itemize}
+		\end{column}
+	\end{columns}
+	\begin{itemize}
+		\item We can now write the model in the compact form
+			\[
+				\bm{y} = \bm{X}\beta + \bm{\epsilon}
+			\]
+	\end{itemize}
+	\bl{The linear model can be extended by adding more columns to the design matrix.}
+\end{frame}
+
+\begin{frame}{Estimating the Regression Coefficients}
+	\begin{itemize}
+		\item We now want to find the estimated coefficient vector $\bh$ to make predictions
+			\[ \bm{\hat{y}} = \bm{X}\bh \]
+			by minimising the residual sum of squares
+			\begin{align*}
+				\text{RSS} &= \bm{e}^2\\
+				{} &= (\bm{y} - \bm{\hat{y}})^2\\
+				{} &= (\bm{y} - \bm{\hat{y}})^T(\bm{y} - \bm{\hat{y}})\\
+				{} &= (\bm{y} - \bm{X}\bh)^T(\bm{y} - \bm{X}\bh)\\
+			\end{align*}
+	\end{itemize}
+	\bl{In this matrix notation the RSS is the squared norm of the residuals vector $\bm{e}$.}
+\end{frame}
+
+\begin{frame}{Estimating the Regression Coefficients}
+	\begin{itemize}
+		\item The procedure is the same as in the case of simple linear regression.
+		\item We find the minimum by setting the first derivative to zero.
+		\item Now the derivative becomes the \e{gradient}:
+			\[
+				\frac{\partial\text{RSS}(\beta)}{\partial\beta}
+				= \nabla_{\beta} \text{RSS}(\beta)
+				= \nabla_{\beta} (\bm{y} - \bm{X}\beta)^T(\bm{y} - \bm{X}\beta)
+			\]
+		\item The minimising condition then is:
+			\[
+				\nabla_{\beta} (\bm{y} - \bm{X}\beta)^T(\bm{y} - \bm{X}\beta) \Bigr\rvert_{\beta = \bh} = 0
+			\]
+		\item And the minimising solution is:
+			\[
+				\bh = (\bm{X}^T\bm{X})^{-1}\bm{X}^T\bm{y}
+			\]
+	\end{itemize}
+	\bl{We will show the details on the blackboard.}
+\end{frame}
+
+\begin{frame}{Estimating the Regression Coefficients}
+	\begin{itemize}
+		\item The solution
+			\[
+				\bh = (\bm{X}^T\bm{X})^{-1}\bm{X}^T\bm{y}
+			\]
+			makes the assumption that $\bm{X}^T\bm{X}$ can be inverted.
+		\item We can insert the solution into the prediction equation:
+			\[
+				\bm{\hat{y}} = \bm{X}\bh = \bm{X} (\bm{X}^T\bm{X})^{-1}\bm{X}^T\bm{y}
+			\]
+		\item The matrix $\bm{X} (\bm{X}^T\bm{X})^{-1}\bm{X}^T$ is called the \e{hat matrix}
+			(it puts the hat, $\;\bm{\hat{}}\;\;$, on $\bm{y}$).
+		\item The hat matrix is also known as the \e{leverage matrix} (more on that later).
+	\end{itemize}
+	\bl{In practice we determine the components of $\bm{\bh}$ from data using a computer.}
+\end{frame}
+
+\begin{frame}{Example: Advertising}
+	\begin{itemize}
+		\item We fitted the model 
+			\[ \text{\dat{sales}} = \beta_0
+				+ \beta_1\times\text{\dat{TV}}
+				+ \beta_2\times\text{\dat{radio}}
+				+ \beta_3\times\text{\dat{newspaper}}
+				+ \epsilon
+			\]
+			and obtained the following results:
+	\end{itemize}
+	\begin{popblock}{0.7\textwidth}{}
+		\begin{tabular}[h]{lrrrr}
+			{} & {\blue Coefficient} & {\blue Std. error} & {\blue $t$-statistic} & {\blue $p$-value}\\
+			\dat{Intercept} & 2.939 & 0.3119 & 9.42 & < 0.0001 \\
+			\dat{TV} & 0.046 & 0.0014 & 32.81 & < 0.0001 \\
+			\dat{radio} & 0.189 & 0.0086 & 21.89 & < 0.0001 \\
+			\dat{newspaper} & -0.001 & 0.0059 & -0.18 & 0.8599 \\
+		\end{tabular}
+	\end{popblock}
+	\bl{Note that \dat{newspaper} doesn't seem to have an influence on sales anymore.}
+\end{frame}
+
+\begin{frame}{Example: Advertising}
+	\begin{itemize}
+		\item Where does the apparent contradiction between multiple and separate linear regression come
+			from?
+		\item The answer lies in the correlation between the \dat{radio} and \dat{newspaper} budgets:
+	\end{itemize}
+	\begin{popblock}{0.6\textwidth}{}
+		\begin{tabular}[h]{lrrrr}
+			{} & \dat{TV} & \dat{radio} & \dat{newspaper} & \dat{sales} \\
+			\dat{TV} & 1.0 & 0.0548 & 0.0567 & 0.7822 \\
+			\dat{radio} & {} & 1.0 & {\blue 0.3541} & 0.5762 \\
+			\dat{newspaper} & {} & {} & 1.0 & 0.2281  \\
+			\dat{sales} & {} & {} & {} & 1.0 \\
+		\end{tabular}
+	\end{popblock}
+	\bl{The \dat{newspaper} predictor doesn't add much information because it is correlated with \dat{radio}.}
+\end{frame}
+
 \end{document}
