@@ -306,4 +306,29 @@
 	\bl{The \dat{newspaper} predictor doesn't add much information because it is correlated with \dat{radio}.}
 \end{frame}
 
+\begin{frame}{Some Important Questions}
+	\begin{enumerate}
+		\item Is at least one of the predictors useful in predicting the response?
+		\item Do \e{all} of the predictors help to explain $Y$? 
+		\item How well does the model fit the data?
+		\item How accurate are our predictions?
+	\end{enumerate}
+	\bl{We will address each question in turn.}
+\end{frame}
+
+
+\begin{frame}{Relationship Between Response and Predictors}
+	\begin{itemize}
+		\item In the simple linear regression model we simply asked whether $\beta_1$ is zero.
+		\item In multiple linear regression with $p$ predictors our null hypothesis becomes:
+			\[ H_0: \beta_1 = \beta_2 = \dots = \beta_p = 0 \]
+		\item And the alternative hypothesis becomes:
+			\[ H_a: \text{at least one}\; \beta_j\; \text{is not zero.} \]
+		\item This hypothesis test is performed using the $F$-statistic:
+			\[
+				F = \frac{(\text{TSS} - \text{RSS}) / p}{\text{RSS}/(n - p -1)}
+			\]
+	\end{itemize}
+	\bl{If $\bm{H_a}$ is true, we expect $\bm{F}$ to be greater than one.}
+\end{frame}
 \end{document}
