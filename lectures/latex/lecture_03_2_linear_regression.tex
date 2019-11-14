@@ -64,15 +64,15 @@
 	\begin{popblock}{0.7\textwidth}{Regression of \dat{sales} onto \dat{radio}}
 		\begin{tabular}[h]{lrrrr}
 			{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $t$-statistic} & {\blue $p$-value} \\
-			\dat{Intercept} & 9.312 & 0.563 & 16.54 & $< 0.0001$ \\
-			\dat{radio} & 0.203 & 0.020 & 9.92 & $< 0.0001$ \\
+			\dat{Intercept} & $9.312$ & $0.563$ & $16.54$ & $< 0.0001$ \\
+			\dat{radio} & $0.203$ & $0.020$ & $9.92$ & $< 0.0001$ \\
 		\end{tabular}
 	\end{popblock}
 	\begin{popblock}{0.7\textwidth}{Regression of \dat{sales} onto \dat{newspaper}}
 		\begin{tabular}[h]{lrrrr}
 			{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $t$-statistic} & {\blue $p$-value} \\
-			\dat{Intercept} & 12.351 & 0.621 & 19.88 & $< 0.0001$ \\
-			\dat{newspaper} & 0.055 & 0.017 & 3.30 & $ 0.00115$ \\
+			\dat{Intercept} & $12.351$ & $0.621$ & $19.88$ & $< 0.0001$ \\
+			\dat{newspaper} & $0.055$ & $0.017$ & $3.30$ & $ 0.00115$ \\
 		\end{tabular}
 	\end{popblock}
 	\bottomline{All the separate regressions look reasonable.}
@@ -278,10 +278,10 @@
 	\begin{popblock}{0.7\textwidth}{}
 		\begin{tabular}[h]{lrrrr}
 			{} & {\blue Coefficient} & {\blue Std. error} & {\blue $t$-statistic} & {\blue $p$-value}\\
-			\dat{Intercept} & 2.939 & 0.3119 & 9.42 & < 0.0001 \\
-			\dat{TV} & 0.046 & 0.0014 & 32.81 & < 0.0001 \\
-			\dat{radio} & 0.189 & 0.0086 & 21.89 & < 0.0001 \\
-			\dat{newspaper} & -0.001 & 0.0059 & -0.18 & 0.8599 \\
+			\dat{Intercept} & $2.939$ & $0.3119$ & $9.42$ & $< 0.0001$ \\
+			\dat{TV} & $0.046$ & $0.0014$ & $32.81$ & $< 0.0001$ \\
+			\dat{radio} & $0.189$ & $0.0086$ & $21.89$ & $< 0.0001$ \\
+			\dat{newspaper} & $-0.001$ & $0.0059$ & $-0.18$ & $0.8599$ \\
 		\end{tabular}
 	\end{popblock}
 	\bl{Note that \dat{newspaper} doesn't seem to have an influence on sales anymore.}
@@ -296,10 +296,10 @@
 	\begin{popblock}{0.6\textwidth}{}
 		\begin{tabular}[h]{lrrrr}
 			{} & \dat{TV} & \dat{radio} & \dat{newspaper} & \dat{sales} \\
-			\dat{TV} & 1.0 & 0.0548 & 0.0567 & 0.7822 \\
-			\dat{radio} & {} & 1.0 & {\blue 0.3541} & 0.5762 \\
-			\dat{newspaper} & {} & {} & 1.0 & 0.2281  \\
-			\dat{sales} & {} & {} & {} & 1.0 \\
+			\dat{TV} & $1.0$ & $0.0548$ & $0.0567$ & $0.7822$ \\
+			\dat{radio} & {} & $1.0$ & {\blue $0.3541$} & $0.5762$ \\
+			\dat{newspaper} & {} & {} & $1.0$ & $0.2281$  \\
+			\dat{sales} & {} & {} & {} & $1.0$ \\
 		\end{tabular}
 	\end{popblock}
 	\bl{The \dat{newspaper} predictor doesn't add much information because it is correlated with \dat{radio}.}
@@ -343,9 +343,9 @@
 	\end{itemize}
 	\begin{popblock}{0.4\textwidth}{}
 		\begin{tabular}[h]{ll}
-			{\blue Residual standard error} & 1.69 \\ 
-			{\blue $R^2$} & 0.897 \\ 
-			{\blue $F$-statistic} & 570 \\ 
+			{\blue Residual standard error} & $1.69$ \\ 
+			{\blue $R^2$} & $0.897$ \\ 
+			{\blue $F$-statistic} & $570$ \\ 
 		\end{tabular}
 	\end{popblock}
 	\bl{There is strong evidence that at least one predictor influences \dat{sales}.}	
@@ -400,6 +400,17 @@
 			\end{cpage}
 	\end{itemize}
 	\bl{Forward selection is greedy. Backward selection requires $\bm{p < n}$.}
+\end{frame}
+
+\begin{frame}{Model Fit}
+	\begin{popblock}{0.55\textwidth}{}
+		\begin{tabular}[h]{lrr}
+			{} & {\blue $R^2$} & {\blue RSE} \\
+			\dat{TV} & $0.61200$ & $3.260$ \\
+			\dat{TV} + \dat{radio} & $0.89719$ & $1.681$ \\
+			\dat{TV} + \dat{radio} + \dat{newspaper} & $0.89720$ & $1.686$ \\
+		\end{tabular}
+	\end{popblock}
 \end{frame}
 
 \begin{frame}[plain]
