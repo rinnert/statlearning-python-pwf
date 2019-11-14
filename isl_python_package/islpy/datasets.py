@@ -26,6 +26,44 @@ def HDFFilePath():
     """
     return _datafile
 
+
+_advertising_ds = None
+def Advertising(use_cache=False):
+    """
+    Return data frame for Advertising dataset.
+
+	Description:
+	
+	     Sales and advertising budget from 200 markets.
+	
+	Format:
+	
+	     A data frame with 200 observations on the following 4 variables.
+	
+	     ‘sales’ in thousands of units
+
+             'TV' advertising budget in thousands of dollars
+	
+             'radio' advertising budget in thousands of dollars
+	
+             'newspaper' advertising budget in thousands of dollars
+	
+	References:
+	
+	     James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
+	     Introduction to Statistical Learning with applications in R_,
+	     <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+        Examples:
+
+            >>> auto = datasets.Advertising()
+    """
+    global _advertising_ds
+    if not use_cache or _advertising_ds is None:
+        with pd.HDFStore(_datafile, 'r') as store:
+            _advertising_ds = store['Advertising']
+    return _advertising_ds
+
 _auto_ds = None
 def Auto(use_cache=False):
     """
