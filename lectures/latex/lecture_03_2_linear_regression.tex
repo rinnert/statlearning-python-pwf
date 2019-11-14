@@ -338,6 +338,7 @@
 				+ \beta_1\times\text{\dat{TV}} 
 				+ \beta_2\times\text{\dat{radio}}
 				+ \beta_3\times\text{\dat{newspaper}}
+				+ \epsilon
 			\]
 			we find:
 	\end{itemize}
@@ -430,6 +431,41 @@
 			+ \beta_2\times\text{\dat{radio}} + \epsilon \]
 	\end{center}
 	\bl{Visualisation is our friend.}
+\end{frame}
+
+\begin{frame}{Prediction Accuracy}
+	\begin{itemize}
+		\item The coefficient estimates $\bh_0, \bh_1, \dots, \bh_p$ are only
+			estimates of for $\beta_0, \beta_1, \dots, \beta_p$.
+		\item That is, the \e{least squares plane}
+			\[ \hat{Y} = \bh_0 + \bh_1 X_1 + \dots + \bh_p X_p \]
+			is only an estimate to the \e{population regression plane}
+			\[ f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p \] 
+		\item The inaccuracies of these estimates are related to the \e{reducible errors}.
+	\end{itemize}
+	\bl{We can compute \e{confidence intervals} to quantify the inaccuracies.}
+\end{frame}
+
+\begin{frame}{Prediction Accuracy}
+	\begin{itemize}
+		\item In practice, assuming a linear model for $f(X)$ is always an approximation.
+		\item This creates another source of reducible error called \e{model bias}.
+		\item This bias is present even if we knew the population regression parameters.
+		\item Most of the time we act \e{as if} the model was correct in terms of how we judge\\
+			the fit quality and so on.
+	\end{itemize}
+	\bl{We will learn about ways to improve on this situation.}
+\end{frame}
+
+\begin{frame}{Prediction Accuracy}
+	\begin{itemize}
+		\item Even if we knew the true $f(X)$, that is we know the parameters
+			\[ \beta_0, \beta_1, \beta_2, \dots, \beta_p \]
+			we could not make perfect predictions.
+		\item This is due to the \e{irreducible error} stemming from the error term $\epsilon$.
+		\item The question then is how much do the predictions $\hat{Y}$ deviate from $Y$?
+	\end{itemize}
+	\bl{We use \e{prediction intervals} to quantify this.}
 \end{frame}
 
 \begin{frame}[plain]
