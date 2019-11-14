@@ -163,4 +163,5 @@ dmypy.json
 
 # project specific
 notebooks.tgz
+slides.tgz
 notebooks/datasets
