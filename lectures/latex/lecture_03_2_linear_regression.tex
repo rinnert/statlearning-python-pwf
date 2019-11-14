@@ -403,6 +403,11 @@
 \end{frame}
 
 \begin{frame}{Model Fit}
+	\begin{itemize}
+		\item The main measures of the fit quality are the RSE and $R^2$.
+		\item The $R^2$ is computed as in the simple case and the RSE is:
+			\[ \text{RSE} = \sqrt{\frac{1}{\blue n - p - 1} \text{RSS}} \]
+	\end{itemize}
 	\begin{popblock}{0.55\textwidth}{}
 		\begin{tabular}[h]{lrr}
 			{} & {\blue $R^2$} & {\blue RSE} \\
@@ -411,6 +416,20 @@
 			\dat{TV} + \dat{radio} + \dat{newspaper} & $0.89720$ & $1.686$ \\
 		\end{tabular}
 	\end{popblock}
+	\bl{The table confirms our previous finding that \dat{newspaper} does not do much good.}
+\end{frame}
+
+\begin{frame}{Model Fit}
+	\vspace{-9mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{3_5}
+
+		\vspace{-5mm}
+		\[ \text{\dat{sales}} = \beta_0 
+			+ \beta_1\times\text{\dat{TV}} 
+			+ \beta_2\times\text{\dat{radio}} + \epsilon \]
+	\end{center}
+	\bl{Visualisation is our friend.}
 \end{frame}
 
 \begin{frame}[plain]
