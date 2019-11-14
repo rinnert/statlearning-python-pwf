@@ -1,7 +1,9 @@
 #!/bin/bash
 tmpdir=$(mktemp -d /tmp/nbrel.XXXXXX)
-mkdir -p ${tmpdir}/notebooks
-cp -rdp notebooks/lecture* ${tmpdir}/notebooks/
-cp -rdp datasets ${tmpdir}/notebooks/
+collectdir=${tmpdir}/notebooks/pwfml
+mkdir -p ${collectdir}
+cp -rdp notebooks/lecture* ${collectdir}
+cp -rdp notebooks/utils ${collectdir}
+cp -rdp datasets ${collectdir}
 tar -C ${tmpdir} -zcf notebooks.tgz --exclude=".ipynb_checkpoints"  notebooks
 rm -rf ${tmpdir}
