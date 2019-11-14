@@ -8,7 +8,7 @@ try:
 except FileNotFoundError:
     pass
 
-with pd.HDFStore(hdf_file, complevel=9, complib='blosc') as store:
+with pd.HDFStore(hdf_file, complevel=9, complib='blosc:zstd') as store:
     for fname in os.listdir('./'):
         if fname.endswith('.csv'):
             print(fname)
