@@ -217,7 +217,7 @@
 		\item We explore the idea of \e{interaction terms} using the \dat{Advertising} data set.  
 		\item In particular, we want to check whether there is some synergy between\\
 			the \dat{TV} and \dat{radio} budgets.
-		\item Recall the form of the additive model:
+		\item Recall the form of the additive model only including the \e{main effects}:
 			\[
 				Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \epsilon
 			\]
@@ -226,16 +226,16 @@
 			\]
 		\item We now drop the additive assumption and introduce an interaction term:
 			\[
-				Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 x_2+ \epsilon
+				Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + {\blue \beta_3 x_1 x_2} + \epsilon
 			\]
 			\[
 				\mdat{sales} = \beta_0 
 				+ \beta_1\times\mdat{TV} 
 				+ \beta_2\times\mdat{radio} 
-				+ \beta_3\times\mdat{TV}\times\mdat{radio} + \epsilon
+				+ {\blue \beta_3\times\mdat{TV}\times\mdat{radio}} + \epsilon
 			\]
 	\end{itemize}
-	\bl{This model is still linear in the parameters $\bm{\beta}$.}
+	\bl{This model is still linear in the parameters $\bm{\beta}$. Always include the \e{main effects}.}
 \end{frame}
 
 \begin{frame}{Removing the Additive Assumption}
@@ -279,5 +279,59 @@
 		\end{tabular}
 	\end{popblock}
 	\bl{There is strong evidence of synergy between the two budgets.}
+\end{frame}
+
+\begin{frame}{Interactions with Qualitative Predictors}
+	\begin{itemize}
+		\item Interaction terms with qualitative predictors are also possible.
+		\item They even have a particularly nice interpretation.
+		\item We return to the \dat{Credit} data set to examine this.
+		\item Suppose we want to predict \dat{sales} from \dat{income} (quantitative) and
+			\dat{student} (qualitative):
+			\begin{align*}
+				\mdat{balance}_i &\approx \beta_0 + \beta_1\times\mdat{income}_i +
+				\begin{cases}
+					\beta_2 & \text{if $i$th person is a student} \\
+					0 & \text{if $i$th person is not a student}
+				\end{cases}\\
+				&= \beta_1\times\mdat{income}_i +
+				\begin{cases}
+					\beta_0 + \beta_2 & \text{if $i$th person is a student} \\
+					\beta_0 & \text{if $i$th person is not a student}
+				\end{cases}\\
+			\end{align*}
+	\end{itemize}
+	\bl{This amounts to fitting two parallel lines: one for students and one for non-students.}
+\end{frame}
+
+\begin{frame}{Interactions with Qualitative Predictors}
+	\begin{itemize}
+		\item We want to allow for the effect of \dat{income} to change, depending on whether\\
+			the value of \dat{student} is \val{Yes} or \val{No}.
+		\item We therefore introduce an interaction term and the model becomes:
+			\begin{align*}
+				\mdat{balance}_i &\approx \beta_0 + \beta_1\times\mdat{income}_i +
+				\begin{cases}
+					\beta_2 + \beta_3 & \text{if $i$th person is a student} \\
+					0 & \text{if $i$th person is not a student}
+				\end{cases}\\
+				&= 
+				\begin{cases}
+					(\beta_0 + \beta_2) + (\beta_1 + \beta_3)\times\mdat{income}_i & \text{if $i$th person is a student} \\
+					\beta_0  + \beta_1\times\mdat{income}_i & \text{if $i$th person is not a student}
+				\end{cases}\\
+			\end{align*}
+	\end{itemize}
+	\bl{The lines are no longer parallel: the slope now depends on the value of \dat{student}.}
+\end{frame}
+
+\begin{frame}{Interactions with Qualitative Predictors}
+	\vspace{-10mm}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{3_7}
+		 
+		{\blue Left}: additive model, {\blue Right}: model with interaction term.
+	\end{center}
+	\bl{In the model with interaction the slopes are different.}
 \end{frame}
 \end{document}
