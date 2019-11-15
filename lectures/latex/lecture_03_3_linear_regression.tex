@@ -69,16 +69,16 @@
 			\[
 				x_i =
 				\begin{cases}
-					1 & \text{if $i$th person is female} \\
-					0 & \text{if $i$th person is male} \\
+					1 & \text{if $i$th person is \val{Female}} \\
+					0 & \text{if $i$th person is \val{Male}} \\
 				\end{cases}
 			\]
 		\item This results in the model
 			\[
 				y_i = \beta_0 + \beta_1 x_i + \epsilon_i =
 				\begin{cases}
-					\beta_0 + \beta_1 + \epsilon_i & \text{if $i$th person is female} \\
-					\beta_0 + \epsilon_i & \text{if $i$th person is male} \\
+					\beta_0 + \beta_1 + \epsilon_i & \text{if $i$th person is \val{Female}} \\
+					\beta_0 + \epsilon_i & \text{if $i$th person is \val{Male}} \\
 				\end{cases}
 			\]
 	\end{itemize}
@@ -109,16 +109,16 @@
 			\[
 				x_i =
 				\begin{cases}
-					1 & \text{if $i$th person is female} \\
-					-1 & \text{if $i$th person is male} \\
+					1 & \text{if $i$th person is \val{Female}} \\
+					-1 & \text{if $i$th person is \val{Male}} \\
 				\end{cases}
 			\]
 		\item This results in the model
 			\[
 				y_i = \beta_0 + \beta_1 x_i + \epsilon_i =
 				\begin{cases}
-					\beta_0 + \beta_1 + \epsilon_i & \text{if $i$th person is female} \\
-					\beta_0 - \beta_1 + \epsilon_i & \text{if $i$th person is male} \\
+					\beta_0 + \beta_1 + \epsilon_i & \text{if $i$th person is \val{Female}} \\
+					\beta_0 - \beta_1 + \epsilon_i & \text{if $i$th person is \val{Male}} \\
 				\end{cases}
 			\]
 	\end{itemize}
@@ -141,4 +141,57 @@
 	\end{popblock}
 	\bl{Note that the fit is essentially the same as before.}
 \end{frame}
+
+\begin{frame}{Qualitative Predictors with more than Two Levels}
+	\begin{itemize}
+		\item The \dat{ethnicity} variable has three possible values.
+		\item In this case we need two dummy variables for the encoding, $x_{i1}$ and $x_{i2}$. 
+		\item We choose the value \val{African American} as the \e{baseline}:
+			\[
+				x_{i1} =
+				\begin{cases}
+					1 & \text{if $i$th person is \val{Asian}} \\
+					0 & \text{if $i$th person is not \val{Asian}} \\
+				\end{cases}
+				\;\;\;\;
+				x_{i2} =
+				\begin{cases}
+					1 & \text{if $i$th person is \val{Caucasian}} \\
+					0 & \text{if $i$th person is not \val{Caucasian}} \\
+				\end{cases}
+			\]
+		\item This results in the model
+			\[
+				y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \epsilon_i =
+				\begin{cases}
+					\beta_0 + \beta_1 + \epsilon_i & \text{if $i$th person is \val{Asian}} \\
+					\beta_0 + \beta_2 + \epsilon_i & \text{if $i$th person is \val{Caucasian}} \\
+					\beta_0 + \epsilon_i & \text{if $i$th person is \val{African American}} \\
+				\end{cases}
+			\]
+	\end{itemize}
+	\bl{The choice of the baseline is arbitrary.}
+\end{frame}
+
+\begin{frame}{Qualitative Predictors with more than Two Levels}
+	\begin{popblock}{0.8\textwidth}{Model Interpretation}
+			\begin{align*}
+				\beta_0 &: \text{average \dat{{\tiny balance}} among African Americans}\\
+				\beta_1 &: \text{average \dat{{\tiny balance}} difference between African Americans and Asians}\\
+				\beta_2 &: \text{average \dat{{\tiny balance}} difference between African Americans and Caucasians}\\
+			\end{align*}
+	\end{popblock}
+	\vspace{-8mm}
+	\begin{popblock}{0.8\textwidth}{Fit Result}
+		\begin{tabular}[h]{lrrrr}
+			{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $t$-statistic} & {\blue $p$-value} \\
+			\dat{Intercept} & $531.00$ & $46.32$ & $11.464$ & $< 0.0001$ \\
+			\dat{ethnicity[Asian]} & $-18.69$ & $65.02$ & $-0.287$ & $0.7740$ \\
+			\dat{ethnicity[Caucasian]} & $-12.50$ & $56.68$ & $-0.221$ & $0.8260$ \\
+		\end{tabular}
+	\end{popblock}
+	\vspace{-3mm}
+	\bl{We always need one less dummy variable than there are levels.}
+\end{frame}
+
 \end{document}
