@@ -334,4 +334,49 @@
 	\end{center}
 	\bl{In the model with interaction the slopes are different.}
 \end{frame}
+
+\begin{frame}{Non-linear Relationships}
+	\begin{itemize}
+		\item We now look into the assumption that the relationship between the predictors\\
+			$X$ and the response $Y$ is linear.
+		\item We already stressed many times that this is in general \e{not} true.
+		\item A common approach to address this is to add non-linear functions of one or more predictors 
+			to the model design.
+		\item In principle, this can be \e{any} function, of \e{any} number of predictors.
+		\item Often we restrict ourselves to \e{polynomial} functions.
+		\item It is important to note that the model is still linear in the parameters $\beta$.
+	\end{itemize}
+	\bl{This idea extends beyond linear models and is called \e{feature engineering}.}
+\end{frame}
+
+\begin{frame}{Non-linear Relationships}
+	\begin{itemize}
+		\item We illustrate this on the \dat{Auto} data set.
+		\item We introduce a quadratic term in an attempt to better predict \dat{mpg} from
+			\dat{horsepower}:
+			\[
+				\mdat{mpg} = \beta_0 + \beta_1\times\mdat{horsepower} 
+				+ {\blue \beta_2\times\mdat{horsepower}^2} + \epsilon
+			\]
+		\item This results in the following fit:
+			\begin{popblock}{0.8\textwidth}{}
+				\begin{tabular}[h]{lrrrr}
+					{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $t$-statistic} & {\blue $p$-value} \\
+					\dat{Intercept} & $56.9001$ & $1.8004$ & $31.6$ & $< 0.0001$ \\
+					\dat{horsepower} & $-0.4662$ & $0.0311$ & $-15.0$ & $< 0.0001$ \\
+					$\mdat{horsepower}^2$ & $0.0012$ & $0.0001$ & $10.1$ & $< 0.0001$ \\
+				\end{tabular}
+			\end{popblock}
+	\end{itemize}
+	\bl{The quadratic term improves the fit.}
+\end{frame}
+
+\begin{frame}{Non-linear Relationships}
+	\vspace{-10mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{3_8}
+	\end{center}
+	\vspace{-10mm}
+	\bl{Remember the bias-variance trade-off.}
+\end{frame}
 \end{document}
