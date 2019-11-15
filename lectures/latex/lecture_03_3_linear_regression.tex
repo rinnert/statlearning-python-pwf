@@ -194,4 +194,90 @@
 	\bl{We always need one less dummy variable than there are levels.}
 \end{frame}
 
+\begin{frame}{Extensions of the Linear Model}
+	\begin{itemize}
+		\item The standard linear regression model provides easily interpretable results.
+		\item It also works well on many real world problems (event though the true\\
+			relationships are rarely linear).
+		\item However, it has the restrictive assumptions of \e{additivity} and \e{linearity}:
+			\begin{cpage}
+				\begin{enumerate}
+					\item {\orange Additive assumption}: The effect of a predictor $X_j$ on the response $Y$
+						is independent of the other predictors.
+					\item {\orange Linearity assumption}: The change in the response $Y$ due to a one-unit 
+						change in $X_j$ is constant.
+				\end{enumerate}
+			\end{cpage}
+	\end{itemize}
+	\bl{We explore some ways to weaken these assumptions while keeping the model linear.}
+\end{frame}
+
+\begin{frame}{Removing the Additive Assumption}
+	\begin{itemize}
+		\item We explore the idea of \e{interaction terms} using the \dat{Advertising} data set.  
+		\item In particular, we want to check whether there is some synergy between\\
+			the \dat{TV} and \dat{radio} budgets.
+		\item Recall the form of the additive model:
+			\[
+				Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \epsilon
+			\]
+			\[
+				\mdat{sales} = \beta_0 + \beta_1\times\mdat{TV} + \beta_2\times\mdat{radio} + \epsilon
+			\]
+		\item We now drop the additive assumption and introduce an interaction term:
+			\[
+				Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 x_2+ \epsilon
+			\]
+			\[
+				\mdat{sales} = \beta_0 
+				+ \beta_1\times\mdat{TV} 
+				+ \beta_2\times\mdat{radio} 
+				+ \beta_3\times\mdat{TV}\times\mdat{radio} + \epsilon
+			\]
+	\end{itemize}
+	\bl{This model is still linear in the parameters $\bm{\beta}$.}
+\end{frame}
+
+\begin{frame}{Removing the Additive Assumption}
+	\begin{itemize}
+		\item We can write the model in a slightly different form.
+			\begin{align*}
+				Y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 x_2+ \epsilon \\
+				{} &= \beta_0 + {\blue (\beta_1 + \beta_3 x_2)} x_1 + \beta_2 x_2 + \epsilon \\
+				{} &= \beta_0 + {\blue \widetilde{\beta}_1} x_1 + \beta_2 x_2 + \epsilon \\
+			\end{align*}
+			\vspace{-12mm}
+			\begin{align*}
+				\mdat{sales} &= \beta_0 
+				+ \beta_1\times\mdat{TV} 
+				+ \beta_2\times\mdat{radio} 
+				+ \beta_3\times\mdat{TV}\times\mdat{radio} + \epsilon\\
+				{} &= \beta_0
+				+ {\blue (\beta_1 + \beta_3\times\mdat{radio})}\times\mdat{TV} 
+				+ \beta_2\times\mdat{radio} 
+				+ \epsilon\\
+				{} &= \beta_0
+				+ {\blue\widetilde{\beta}_1}\times\mdat{TV} 
+				+ \beta_2\times\mdat{radio} 
+				+ \epsilon\\
+			\end{align*}
+		\vspace{-12mm}
+		\item We can now interpret $\beta_3$ as the increase of the influence of \dat{TV} due to \dat{radio} 
+			(or vice versa).
+	\end{itemize}
+	\bl{Remember we do not make formal claims of causality.}
+\end{frame}
+
+\begin{frame}{Removing the Additive Assumption}
+	\begin{popblock}{0.8\textwidth}{Fit Result ($R_\text{interaction}^2 = 0.968,\; R_\text{additive}^2 = 0.897$)}
+		\begin{tabular}[h]{lrrrr}
+			{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $t$-statistic} & {\blue $p$-value} \\
+			\dat{Intercept} & $6.7502$ & $0.248$ & $27.23$ & $< 0.0001$ \\
+			\dat{TV} & $0.0191$ & $0.002$ & $12.70$ & $< 0.0001$ \\
+			\dat{radio} & $0.0289$ & $0.009$ & $3.24$ & $0.0014$ \\
+			$\mdat{TV}\times\mdat{radio}$ & $0.0011$ & $0.000$ & $20.73$ & $< 0.0001$ \\
+		\end{tabular}
+	\end{popblock}
+	\bl{There is strong evidence of synergy between the two budgets.}
+\end{frame}
 \end{document}
