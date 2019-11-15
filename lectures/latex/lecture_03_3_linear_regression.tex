@@ -1,0 +1,144 @@
+\documentclass[mathserif, aspectratio=169]{beamer}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% need to split the includes to make spell checking work.
+\input{preamble}
+\subtitle{\bfseries%
+  {Linear Regression, Part 3}\\%
+  {\tiny\it qualitative predictors, interaction \& non-linear extensions, outliers, collinearity}\\%
+}
+\begin{document}
+\input{common}
+
+\begin{frame}{Abstract}
+
+	\begin{blurb}
+		Linear models are an important topic in statistical learning.  
+
+		The true relationships between predictors and responses are rarely linear.
+		But linear models often provide reasonable approximation. They provide
+		high interpretability and have low variance, mitigating the risk of over-fitting.
+		Linear models can be extended to include (some) non-linear relationships. 
+
+		Linear models also provide an excellent baseline to compare other models against: if 
+		our sophisticated model does not do much better than a linear model we might consider
+		trading some bias for lower variance.
+	\end{blurb}
+\end{frame}
+
+\begin{frame}{Overview}
+	\begin{itemize}
+		\item Qualitative versus quantitative predictors.
+		\item Interactions among predictors.
+		\item Non-linear extensions to the linear model.
+		\item Outliers \& high leverage points.
+		\item Collinearity.
+	\end{itemize}
+	\bottomline{This will conclude our long journey through linear regression.}
+\end{frame}
+
+\begin{frame}{Example: Credit Data Set}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item The plot on the right shows the \e{quantitative} variables
+					in the data set.
+				\item The dataset also contains \e{qualitative} predictors:
+				\item[] \dat{gender}: \val{Male}, \val{Female}
+				\item[] \dat{married}: \val{Yes}, \val{No}
+				\item[] \dat{student}: \val{Yes}, \val{No}
+				\item[] \dat{ethnicity}: \val{Asian}, \val{African American}, \val{Caucasian}
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\vspace{-10mm}
+			\begin{center}
+				\includegraphics[width=0.95\textwidth]{3_6s}
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bl{We need to somehow \e{encode} the qualitative predictors.}
+\end{frame}
+
+\begin{frame}{Qualitative Predictors with Two Levels}
+	\begin{itemize}
+		\item The variables \dat{gender}, \dat{student} and \dat{married} are qualitative
+			predictors with two levels.
+		\item Suppose we are interested in whether \dat{gender} influences \dat{balance}.
+		\item We can define a \e{dummy variable} to encode the gender:
+			\[
+				x_i =
+				\begin{cases}
+					1 & \text{if $i$th person is female} \\
+					0 & \text{if $i$th person is male} \\
+				\end{cases}
+			\]
+		\item This results in the model
+			\[
+				y_i = \beta_0 + \beta_1 x_i + \epsilon_i =
+				\begin{cases}
+					\beta_0 + \beta_1 + \epsilon_i & \text{if $i$th person is female} \\
+					\beta_0 + \epsilon_i & \text{if $i$th person is male} \\
+				\end{cases}
+			\]
+	\end{itemize}
+	\bl{The distinction is important for the interpretation of the model.}
+\end{frame}
+
+\begin{frame}{Qualitative Predictors with Two Levels}
+	\begin{popblock}{0.8\textwidth}{Model Interpretation}
+			\begin{align*}
+				\beta_0 &: \text{average \dat{{\tiny balance}} among males}\\
+				\beta_0 + \beta_1 &: \text{average \dat{{\tiny balance}} among females}\\
+				\beta_1 &: \text{average \dat{{\tiny balance}} difference between females and males}\\
+			\end{align*}
+	\end{popblock}
+	\begin{popblock}{0.8\textwidth}{Fit Result}
+		\begin{tabular}[h]{lrrrr}
+			{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $t$-statistic} & {\blue $p$-value} \\
+			\dat{Intercept} & $509.80$ & $33.13$ & $15.389$ & $< 0.0001$ \\
+			\dat{gender[Female]} & $19.73$ & $46.05$ & $0.429$ & $0.6690$ \\
+		\end{tabular}
+	\end{popblock}
+	\bl{The observed average difference of \$19.73 is \e{not} significant.}
+\end{frame}
+
+\begin{frame}{Qualitative Predictors with Two Levels}
+	\begin{itemize}
+		\item We can also encode the gender differently:
+			\[
+				x_i =
+				\begin{cases}
+					1 & \text{if $i$th person is female} \\
+					-1 & \text{if $i$th person is male} \\
+				\end{cases}
+			\]
+		\item This results in the model
+			\[
+				y_i = \beta_0 + \beta_1 x_i + \epsilon_i =
+				\begin{cases}
+					\beta_0 + \beta_1 + \epsilon_i & \text{if $i$th person is female} \\
+					\beta_0 - \beta_1 + \epsilon_i & \text{if $i$th person is male} \\
+				\end{cases}
+			\]
+	\end{itemize}
+	\bl{This leads to a different interpretation of the coefficients.}
+\end{frame}
+
+\begin{frame}{Qualitative Predictors with Two Levels}
+	\begin{popblock}{0.8\textwidth}{Model Interpretation}
+			\begin{align*}
+				\beta_0 &: \text{overall average \dat{{\tiny balance}}, disregarding gender}\\
+				\beta_1 &: \text{amount  above (below) average for females (males)}\\
+			\end{align*}
+	\end{popblock}
+	\begin{popblock}{0.8\textwidth}{Fit Result}
+		\begin{tabular}[h]{lrrrr}
+			{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $t$-statistic} & {\blue $p$-value} \\
+			\dat{Intercept} & $519.67$ & $23.03$ & $22.569$ & $< 0.0001$ \\
+			\dat{gender} & $9.87$ & $23.03$ & $0.429$ & $0.6690$ \\
+		\end{tabular}
+	\end{popblock}
+	\bl{Note that the fit is essentially the same as before.}
+\end{frame}
+\end{document}
