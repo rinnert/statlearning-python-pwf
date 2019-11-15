@@ -26,7 +26,6 @@ def HDFFilePath():
     """
     return _datafile
 
-
 _advertising_ds = None
 def Advertising(use_cache=False):
     """
@@ -296,6 +295,60 @@ def Carseats(use_cache=False):
         with pd.HDFStore(_datafile, 'r') as store:
             _carseats_ds = store['Carseats']
     return _carseats_ds
+
+_credit_ds = None
+def Credit(use_cache=False):
+    """
+    Return data frame for Credit dataset.
+
+    Description:
+    
+         A simulated data set containing credit card information
+         for 400 individuals.
+    
+    Format:
+    
+        'income' in thousands of dollars
+
+        'limit' credit limit
+
+        'rating' credit rating
+
+        'cards' number of credit cards
+
+        'age' in years
+
+        'education' years of educarion
+
+        'gender' male or female 
+
+        'student' yes or no
+
+        'married' yes or no
+
+        'ethnicity' caucasian, asian or african american
+
+        'balance' credit card debt
+    
+    Source:
+    
+         Simulated data
+    
+    Rferences:
+    
+         James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An
+         Introduction to Statistical Learning with applications in R_,
+         <URL: www.StatLearning.com>, Springer-Verlag, New York
+
+    Examples:
+
+        >>> credit = datasets.Credit()
+    """
+    global _credit_ds
+    if not use_cache or _credit_ds is None:
+        with pd.HDFStore(_datafile, 'r') as store:
+            _credit_ds = store['Credit']
+    return _credit_ds
 
 _college_ds = None
 def College(use_cache=False):
