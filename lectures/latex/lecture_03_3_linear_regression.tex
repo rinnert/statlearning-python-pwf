@@ -5,7 +5,7 @@
 \input{preamble}
 \subtitle{\bfseries%
   {Linear Regression, Part 3}\\%
-  {\tiny\it qualitative predictors, interaction \& non-linear extensions, outliers, collinearity}\\%
+  {\tiny\it qualitative predictors, interaction \& non-linear extensions, outliers, high leverage points}\\%
 }
 \begin{document}
 \input{common}
@@ -31,8 +31,8 @@
 		\item Qualitative versus quantitative predictors.
 		\item Interactions among predictors.
 		\item Non-linear extensions to the linear model.
-		\item Outliers \& high leverage points.
-		\item Collinearity.
+		\item Outliers. 
+		\item High leverage points.
 	\end{itemize}
 	\bottomline{This will conclude our long journey through linear regression.}
 \end{frame}
@@ -346,7 +346,7 @@
 		\item Often we restrict ourselves to \e{polynomial} functions.
 		\item It is important to note that the model is still linear in the parameters $\beta$.
 	\end{itemize}
-	\bl{This idea extends beyond linear models and is called \e{feature engineering}.}
+	\bl{This idea extends beyond linear models and is sometimes called \e{feature engineering}.}
 \end{frame}
 
 \begin{frame}{Non-linear Relationships}
@@ -378,5 +378,45 @@
 	\end{center}
 	\vspace{-10mm}
 	\bl{Remember the bias-variance trade-off.}
+\end{frame}
+
+\begin{frame}{Non-linear Relationships}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{3_9}
+	\end{center}
+	\bl{A good way to spot non-linearities are \e{residual plots}.}
+\end{frame}
+
+\begin{frame}{Outliers}
+	\vspace{-8mm}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{3_12}
+	\end{center}
+	\vspace{-8mm}
+	\begin{itemize}
+		\item \e{Outliers} are data points with unusual response values $y_i$.
+		\item They can be most easily spotted in residual plots.
+		\item Even if they don't affect the parameters much they can badly influence\\
+			statistics like $R^2$ and $p$-values.
+		\item This can potentially change our interpretation of the model.
+	\end{itemize}
+	\bl{Be careful, only remove outliers for a good reason. In doubt report both fits.}
+\end{frame}
+
+\begin{frame}{High Leverage Points}
+	\vspace{-8mm}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{3_13}
+	\end{center}
+	\vspace{-8mm}
+	\begin{itemize}
+		\item \e{High leverage points} are data points with unusual predictor values $x_i$.
+		\item They tend to have a strong impact on the estimated parameters.
+		\item For simple linear regression the \e{leverage} is computed like this:
+			\[
+				h_i = \frac{1}{n} + \frac{(x_i - \overline{x})^2}{\sum^n_{i' = 1} (x_{i'} - \overline{x})^2}
+			\]
+	\end{itemize}
+	\bl{In general, the $\bm{h_i}$ are the diagonal elements of the \e{hat matrix}.}
 \end{frame}
 \end{document}
