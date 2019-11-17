@@ -118,3 +118,88 @@ def plot_corr(corr, figsize=(12, 10), cmap=None, labels=None):
             plt.yticks(range(len(lables)), labels);
 
     return fig, ax
+
+
+def meshgrid_map(x1, x2, func, npoints=100):
+    """Create a meshgrid and map a function on it.
+
+    Create meshgrid of size npoints x npoints from ranges
+    of the x and y input arrays.
+
+    Then map the callable func on the grid, resulting in an array
+    z with the same shape as the grid.
+
+    Return x, y, z of the grid
+    """
+    x1s = np.linspace(min(x1), max(x1), npoints)
+    x2s = np.linspace(min(x2), max(x2), npoints)
+    X, Y = np.meshgrid(x1s, x2s)
+    try:
+        z = func(X.ravel(), Y.ravel())
+    except TypeError:
+        z = func(np.c_[X.ravel(), Y.ravel()])
+
+    return X, Y, z.reshape((*X.shape, -1))
+
+
+def plot_decision_contour(x1, x2, predprob, npoints=100, category=0, ax=None, labels=True,
+        colors='black', levels=[0.5], alpha=0.7, fmt='%.2f'):
+    """Plot decision contours.
+
+    Plot descision contours based on the predictors x1, x2 and the probabilities returned by
+    the callable predprob. By default the contours for the first category are plotted.
+
+    If ax is None the plot goes onto the current default axis.
+
+    If labels is True (default) the contour lines are labeled inline.
+
+    The other keyword arguments are passed to matplotlib's contour() function.
+
+    Return the axis the plot was drawn on.
+    """
+    xs, ys, zs = meshgrid_map(x1, x2, predprob, npoints)
+    try:
+        z = zs[:, :, category]
+    except IndexError:
+        z = zs
+
+    if ax is None:
+        ax = plt
+
+    cs = ax.contour(xs, ys, z, colors=colors, alpha=alpha, levels=levels)
+
+    if labels:
+        _ = cs.ax.clabel(cs, cs.levels, fmt=fmt)
+
+    return cs.ax
+
+
+def plot_decision_boundaries(x1, x2, predprob, npoints=100, ax=None, cmap='Paired', alpha=0.1):
+    """Plot decision boundaries.
+
+    Plot descision contours based on the predictors x1, x2 and the probabilities returned by
+    the callable predprob.
+
+    If ax is None the plot goes onto the current default axis.
+
+    The other keyword arguments are passed to matplotlib's pcolormesh() function.
+
+    Return the axis the plot was drawn on.
+    """
+    xs, ys, zs = meshgrid_map(x1, x2, predprob, npoints)
+
+    z = zs.argmax(axis=2)
+
+    if ax is None:
+        ax = plt
+
+    _ = ax.pcolormesh(xs, ys, z, cmap=cmap, alpha=alpha)
+
+    return ax
+
+
+
+
+
+
+
