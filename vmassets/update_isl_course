@@ -1,0 +1,56 @@
+#!/bin/bash
+# download the lates course material
+tmpdir=$(mktemp -d /tmp/nbrel.XXXXXX)
+cd ${tmpdir}
+slides="slides.tgz"
+notebooks="notebooks.tgz"
+wheel="islpy-0.3-py3-none-any.whl"
+curl -s -o ${slides} https://rinnert.github.io/statlearning-python-pwf/assets/slides.tgz
+curl -s -o ${notebooks} https://rinnert.github.io/statlearning-python-pwf/assets/notebooks.tgz
+curl -s -o ${wheel} https://rinnert.github.io/statlearning-python-pwf/assets/islpy.whl
+
+# setup the VM conda Ml evironment
+__conda_setup="$('/opt/conda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/conda/etc/profile.d/conda.sh" ]; then
+        . "/opt/conda/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/conda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+conda activate ml
+
+# force re-installation of ISLPy library
+if [ -f  ${wheel} ]
+then
+	pip uninstall --yes islpy
+	pip install ${wheel}
+fi
+
+# update slides
+if [ -f  ${slides} ]
+then
+	tar -C ~/Documents/ -zxf ${slides}
+fi
+
+# backup notebooks and update
+if [ -f  ${notebooks} ]
+then
+	timestamp=`date +"%Y%m%d%H%m%S"`
+	nbbackup="pwfml_notebooks_${timestamp}.zip"
+	zenity --question --text "This will overwrite the notebooks in $HOME/notebooks/pwfml.\n (Notebooks will be backed up to ${nbbackup}). \n Are you sure you want to continue?"  --default-cancel --title "Warning" >& /dev/null
+	if [ $? -eq 0 ]
+	then
+		cd ~/notebooks
+		zip -r ${nbbackup} pwfml
+		rm -rf pwfml
+		cd ~/
+		tar zxf ${tmpdir}/${notebooks}
+	fi
+fi
+
+cd
+rm -rf ${tmpdir}
