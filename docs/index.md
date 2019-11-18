@@ -18,6 +18,4 @@ The course is designed for the [ICTP Physics Without Frontiers](https://www.ictp
 
 ## Course Material
 
-  - [Lecture Slides](./assets/slides.tgz)
-  - [Jupyter Notebooks](./assets/notebooks.tgz)
-  - [ISLPy Python library](./assets/islpy-0.3-py3-none-any.whl)
+  <a href="assets/slides.tgz">Lecture Slides</a>
