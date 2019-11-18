@@ -136,7 +136,7 @@ def meshgrid_map(x1, x2, func, npoints=100):
     X, Y = np.meshgrid(x1s, x2s)
     try:
         z = func(X.ravel(), Y.ravel())
-    except TypeError:
+    except (TypeError, ValueError):
         z = func(np.c_[X.ravel(), Y.ravel()])
 
     return X, Y, z.reshape((*X.shape, -1))
