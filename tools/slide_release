@@ -1,0 +1,8 @@
+#!/bin/bash
+tmpdir=$(mktemp -d /tmp/slrel.XXXXXX)
+collectdir=${tmpdir}/"ISL Lecture Slides"
+mkdir -p "${collectdir}"
+cp lectures/slides/*.pdf "${collectdir}"
+tar -C ${tmpdir} -zcf slides.tgz "ISL Lecture Slides"
+rm -rf ${tmpdir}
+mv slides.tgz docs/assets/

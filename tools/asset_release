@@ -1,0 +1,4 @@
+#!/bin/bash
+./tools/notebook_release
+./tools/slide_release
+./tools/islpy_release > /dev/null

@@ -5,5 +5,6 @@ mkdir -p ${collectdir}
 cp -rdp notebooks/lecture* ${collectdir}
 cp -rdp notebooks/utils ${collectdir}
 cp -rdp datasets ${collectdir}
-tar -C ${tmpdir} -zcf notebooks.tgz --exclude=".ipynb_checkpoints"  notebooks
+tar -C ${tmpdir} -zcf notebooks.tgz --exclude=".ipynb_checkpoints"  --exclude="__pycache__" notebooks
 rm -rf ${tmpdir}
+mv notebooks.tgz docs/assets/

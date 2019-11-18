@@ -1,0 +1,5 @@
+#!/bin/bash
+cd isl_python_package
+make clean
+make
+cp dist/*.whl ../docs/assets/
