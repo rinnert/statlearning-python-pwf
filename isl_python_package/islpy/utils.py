@@ -2,10 +2,36 @@ import re
 import numpy as np
 import pandas as pd
 import patsy
+import statsmodels.api as sm
 from statsmodels.nonparametric import smoothers_lowess
+from sklearn.base import BaseEstimator, RegressorMixin
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+
+class SMWrapper(BaseEstimator, RegressorMixin):
+    """ A universal sklearn-style wrapper for statsmodels regressors.
+    
+        Credit: 
+        
+            https://stackoverflow.com/users/6498293/david-dale
+    """
+    def __init__(self, model_class, fit_intercept=True):
+        self.model_class = model_class
+        self.fit_intercept = fit_intercept
+
+    def fit(self, X, y):
+        if self.fit_intercept:
+            X = sm.add_constant(X)
+        self.model_ = self.model_class(y, X)
+        self.results_ = self.model_.fit()
+    
+    def predict(self, X):
+        if self.fit_intercept:
+            X = sm.add_constant(X)
+       
+        return self.results_.predict(X)
 
 
 def marginalised_range(columns, data, points=100, others=None):
