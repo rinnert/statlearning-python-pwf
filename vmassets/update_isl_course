@@ -7,7 +7,7 @@ notebooks="notebooks.tgz"
 wheel="islpy-0.3-py3-none-any.whl"
 curl -s -o ${slides} https://rinnert.github.io/statlearning-python-pwf/assets/slides.tgz
 curl -s -o ${notebooks} https://rinnert.github.io/statlearning-python-pwf/assets/notebooks.tgz
-curl -s -o ${wheel} https://rinnert.github.io/statlearning-python-pwf/assets/islpy.whl
+curl -s -o ${wheel} https://rinnert.github.io/statlearning-python-pwf/assets/${wheel}
 
 # setup the VM conda Ml evironment
 __conda_setup="$('/opt/conda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
