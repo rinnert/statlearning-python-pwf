@@ -2,4 +2,4 @@
 cd isl_python_package
 make clean
 make
-cp dist/isl*.whl ../docs/assets/islpy.whl
+cp dist/isl*.whl ../docs/assets/
