@@ -286,7 +286,7 @@
 \begin{frame}{Logistic Regression Results}
 	\begin{popblock}{0.7\textwidth}{}
 		\begin{tabular}[h]{lrrrr}
-			{} & {\blue Coeffcient} & {\blue Std. Error} & {\blue $Z$-statistic} & {\blue $p$-value} \\
+			{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $Z$-statistic} & {\blue $p$-value} \\
 			\dat{Intercept} & $-10.6513$ & $0.3612$ & $-29.5$ & $< 0.0001$\\
 			\dat{balance} & $0.0055$ & $0.0002$ & $24.9$ & $< 0.0001$\\
 		\end{tabular}
@@ -321,6 +321,217 @@
 			given it is raining.
 	\end{itemize}
 	\bl{In general $\bm{P(A\vert B) \neq P(B\vert A)}$.}
+\end{frame}
+
+
+\begin{frame}{Multiple Logistic Regression}
+	\begin{itemize}
+		\item We can generalise the logistic approach using the logit:
+			\[
+				\log\left( \frac{p(X)}{1 - p(X)}\right) =
+				\beta_0 + \beta_1 X_1 + \dots + \beta_p X_P
+			\]
+			where
+			\[ X = (X_1, \dots, X_p) \]
+			are the $p$ predictors as ususal.
+	\end{itemize}
+	\bl{We start from the logit to stress the similarity to OLS.}
+\end{frame}
+
+\begin{frame}{Multiple Logistic Regression}
+	\begin{itemize}
+		\item We can easily translate this back to the logistic function:
+			\[
+				p(x) =
+				\frac{e^{\beta_0 + \beta_1 X_1 + \dots + \beta_p Xp}}
+				{1 + e^{\beta_0 + \beta_1 X_1 + \dots + \beta_p Xp}}
+			\]
+	\end{itemize}
+	\bl{As in the simple case we use maximum likelihood.}
+\end{frame}
+
+\begin{frame}{Multiple Logistic Regression}
+	\begin{popblock}{0.7\textwidth}{}
+		\begin{tabular}[h]{lrrrr}
+			{} & {\blue Coefficient} & {\blue Std. Error} & {\blue $Z$-statistic} & {\blue $p$-value} \\
+			\dat{Intercept} & $-10.8690$ & $0.4923$ & $-22.08$ & $< 0.0001$\\
+			\dat{balance} & $0.0057$ & $0.0002$ & $24.75$ & $< 0.0001$\\
+			\dat{income} & $0.0030$ & $0.0082$ & $0.37$ & $0.7115$\\
+			\dat{student[Yes]} & $-0.6468$ & $0.2362$ & $-2.74$ & $0.0062$\\
+		\end{tabular}
+	\end{popblock}
+	\begin{itemize}
+		\item The negative coefficient for \dat{student[Yes]} indicates that
+			students are \e{less} likely to default.
+		\item This holds fir \e{fixed values} of \dat{balance} and \dat{income}.
+	\end{itemize}
+	\bl{We should investigate this a bit further.}
+\end{frame}
+
+\begin{frame}{Multiple Logistic Regression}
+	\vspace{-4mm}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{4_3}
+	\end{center}
+	\begin{itemize}
+		\item Students ({\orange orange}) and non-students ({\blue blue}).
+		\item Solid lines: $\mdat{default} = f(\mdat{balance})$.
+		\item Dashed: overall default rate.
+		\item Students have a higher \dat{balance}.
+	\end{itemize}
+	\bl{There is a correlation!}
+\end{frame}
+
+\begin{frame}{The Bayes Classifier}
+	\begin{itemize}
+		\item Suppose we have $K$ classes with $K\ge2$.
+		\item The we can specify the posterior probability as
+			\[
+				P(Y=k\vert X=x) =
+				\frac{\pi_k f_k(x)}
+				{\sum_{l=1}^K \pi_l f_l(x)}
+			\]
+			where $\pi_k$ is the prior and
+			\[
+				f_k(x) = P(X=x\vert Y=k)
+			\]
+		\item The problem now is the specification of $f_k$.
+	\end{itemize}
+	\bl{The Bayes classifier is the gold standard.}
+\end{frame}
+
+\begin{frame}{Linear Discriminant Analysis}
+	\begin{itemize}
+		\item For now we assume one predictor, that is $p=1$
+		\item We want to find $f_k(x)$ in order to find $p_k(x)$.
+		\item Once we have that, we can classify observations by choosing\\
+			the class with the greatest $p_k(x)$.
+	\end{itemize}
+	\bl{We need to make some further assumptions about $\bm{f_k}$.}
+\end{frame}
+
+
+\begin{frame}{Linear Discriminant Analysis}
+	\begin{itemize}
+		\item We now also assume that $f_k(x)$ is \e{normal} (\e{Gaussian}).
+		\item In the case of $p=1$ this means
+			\[
+				f_k(x) = \frac{1}{\sqrt{2\pi \sigma_k^2}}
+				\exp\left(
+				-\frac{1}{2\sigma_k^2}
+				\left( x - \mu_k\right)^2
+				\right)
+			\]
+		where $\mu_k$ and $\sigma_l$ may vary by class.
+	\end{itemize}
+	\bl{Even more assumptions follow\dots}
+	
+\end{frame}
+
+\begin{frame}{Linear Discriminant Analysis}
+	\begin{itemize}
+		\item For now we further assume that
+			\[ \sigma_1 = \sigma_2 = \dots = \sigma_K = \sigma \]
+		\item This yields
+			\[
+				p_k(x) =
+				\frac{\pi_k
+					\exp\left(
+					-\frac{1}{2\sigma^2}
+					\left( x - \mu_k\right)^2
+					\right)
+				}{\sum_{l=1}^K\pi_l
+					\exp\left(
+					-\frac{1}{2\sigma^2}
+					\left( x - \mu_l\right)^2
+					\right)
+				}
+			\]
+	\end{itemize}
+	\bl{We assign the observation $\bm{X = x}$ to the class with the largest $\bm{p_k(x)}$.}	
+\end{frame}
+
+
+\begin{frame}{Linear Discriminant Analysis}
+	\begin{itemize}
+		\item By taking the logarithm, this is equivalent to choosing the class $k$ for which
+			\[
+				\delta_k(x) =
+				x \frac{\mu_k}{\sigma^2} 
+				- \frac{\mu_k^2}{2\sigma^2}
+				+ \log\left(\pi_k\right)
+			\]
+			is largest.
+		\item For example, if $K=2$ and $\pi_1 = \pi_2$, the Bayes classifier
+			assigns:
+			\[
+				\text{class} =
+				\begin{cases}
+					1 & \text{if}\;\; 2x(\mu_1 - \mu_2) > \mu_1^2 - \mu_2^2\\
+					0 & \text{otherwise}\\
+				\end{cases}
+			\]
+	\end{itemize}
+	\bl{In practice we don't have access to the true parameters.}
+\end{frame}
+
+\begin{frame}{Linear Discriminant Analysis}
+	\begin{itemize}
+		\item We have to \e{estimate} the parameters taking into account 
+			our assumptions.
+		\item LDA does just that and yields
+			\begin{align*}
+				\hat{\mu}_k &= \frac{1}{n_k}\sum_{y_i = k} x_i\\
+				\hat{\sigma}^2 &= \frac{1}{n - K}
+				\sum_{k=1}^{K}\sum_{y_i = k} (x_i - \hat{\mu}_k)^2\\
+			\end{align*}
+	\end{itemize}
+	\bl{Let's talk about the interpretation.}
+\end{frame}
+
+\begin{frame}{Linear Discriminant Analysis}
+	\begin{itemize}
+		\item The estimate $\hat{\mu}_k$ is the average of all training observations
+			of the $k$th class.
+		\item The estimate $\hat{\sigma}^2$ is the weighted average of the sample
+			variances of the $K$ classes.
+		\item If we don't know the $\pi_!, \dots, \pi_k$ we estimate them from their
+			frequencies in the training sample:
+			\[ \hat{\pi}_k = \frac{n_k}{n} \]
+		\item We can now construct $\hat{\delta}(x)$:
+			\[
+				\hat{\delta}_k(x) =
+				x \frac{\hat{\mu}_k}{\hat{\sigma}^2} 
+				- \frac{\hat{\mu}_k^2}{2\hat{\sigma}^2}
+				+ \log\left(\hat{\pi}_k\right)
+			\]
+	\end{itemize}
+	\bl{LDA is linear in the sense that $\bm{\hat{\delta}_k}$ is linear in $\bm{x}$}.
+\end{frame}
+
+\begin{frame}{Linear Discriminant Analysis}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{4_4}
+	\end{center}
+	\bl{The error rate is only 0.5\%. LDA is doing well on this simulation.}
+\end{frame}
+
+\begin{frame}{LDA with $\bm{p > 1}$}
+	\vspace{-10mm}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{4_5}
+	\end{center}
+	\vspace{-5mm}
+	\begin{itemize}
+		\item We now have a multivariate Gaussian distribution.
+		\item There also may be correlations.
+	\end{itemize}
+	\bl{Note that the variances can now be different.}
+
+
+\end{frame}
+\begin{frame}{Linear Discriminant Analysis}
+	
 \end{frame}
 
 
