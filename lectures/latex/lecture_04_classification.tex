@@ -1,0 +1,148 @@
+\documentclass[mathserif, aspectratio=169]{beamer}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% need to split the includes to make spell checking work.
+\input{preamble}
+\subtitle{\bfseries%
+	{Classification}\\%
+  {\tiny\it The classification scenario, Logistic Regression, Linear Discriminant Analysis, Quadratic Discriminant Analysis}\\%
+}
+\begin{document}
+\input{common}
+
+\begin{frame}{Abstract}
+	\begin{blurb}
+		In the regression scenario the response was quantitative. We now look into the 
+		classification scenario in which the response is qualitative. 
+
+		We will look at a few of the many available methods for classification in some detail.
+		More methods will be covered in later lectures.
+	\end{blurb}
+\end{frame}
+
+\begin{frame}{Overview}
+	\begin{itemize}
+		\item Classification versus Regression.
+		\item Logistic Regression.
+		\item Multiple logistic Regression.
+		\item Linear Discriminant Analysis (LDA).
+		\item Quadratic Discriminant Analysis (QDA).
+	\end{itemize}
+	\bottomline{Many ideas from the regression scenario will carry over.}
+\end{frame}
+
+\begin{frame}{Example: Default Data Set}
+	\begin{center}
+		\includegraphics[width=0.34\textwidth]{4_1a}
+		\includegraphics[width=0.3\textwidth]{4_1b}
+	\end{center}
+
+	Visualisation of the \dat{Default} data set. The classes are color coded.
+
+	\bl{This is a simulated data set with an unusually high number of defaulters.}
+\end{frame}
+
+\begin{frame}{Example: Default Data Set}
+	\begin{itemize}
+		\item In this example the response is \e{binary}:
+			\[
+				y =
+				\begin{cases}
+					1 & \text{if \dat{default} is \val{Yes}} \\
+					0 & \text{if \dat{default} is \val{No}} \\
+				\end{cases}
+			\]
+		\item We encode qualitative responses the same way we encode qualitative predictors.
+		\item Linear regression would work but is not ideal.
+		\item \e{Logistic regression} is the superior method.
+	\end{itemize}
+	\bl{Logistic regression predicts probabilities.}
+\end{frame}
+
+\begin{frame}{Example: Default Data Set}
+	\begin{itemize}
+		\item For the \dat{Default} data set we would like to predict the probability
+			of $\mdat{default} = \mval{Yes}$:
+			\[ P(\mdat{default} = \mval{Yes} \vert \mdat{balance}) \]
+		\item The probability is between $0$ and $1$.
+		\item We can the \e{classify} based on $P$:
+			\[ P(\mdat{default} = \mval{Yes} \vert \mdat{balance}) > 0.5\;:\; \mdat{default} = \mval{Yes} \]
+	\end{itemize}
+	\bl{we can of course choose different \e{working points}.}
+\end{frame}
+
+\begin{frame}{The Logistic Model}
+	\begin{itemize}
+		\item Out goal is to model the relationship
+			\[ p(X) = P(Y=1\vert X) \leftrightarrow X \]
+		\item We could use a linear regression model
+			\[ p(X) = \beta_0 + \beta_1 X \]
+		\item This does work but has some problems.
+		\item In particular, the predicted probabilities can be $< 0$ or $> 1$.
+	\end{itemize}
+	\bl{We prefer a method that does not violate our axioms.}
+\end{frame}
+
+\begin{frame}{The Logistic Model}
+	\begin{itemize}
+		\item We must model $p(X)$ such that
+			\[ p(X) \in \left[0, 1 \right] \;\;\forall X \]
+		\item There a many functions that guarantee that.
+		\item We use the \e{logistic function}
+			\[ p(X) = \frac{e^{\beta_0 + \beta_1 X}}{ 1 + e^{\beta_0 + \beta_1 X}} \]
+	\end{itemize}
+	\bl{We will need a new fitting method for this.}
+\end{frame}
+
+\begin{frame}{The Logistic Model}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{4_2}
+
+	Left: Linear Regression,
+	Right: Logistic Regression
+	\end{center}
+	\bl{The logistic model satisfies our axioms.}
+\end{frame}
+
+\begin{frame}{The Logistic Model}
+	\begin{itemize}
+		\item The model looks complicated.
+		\item How can we fit it?
+		\item Some simple rearrangement yields the \e{odds}:
+			\[ \frac{p(X)}{1 - p(X)} = e^{\beta_0 +\beta_1 X} \]
+		\item For example:
+			\[ p(0.2)\rightarrow\frac{1}{4}\;\;\;\;\text{and}\;\;\;\; p(0.9)\rightarrow 9 \]
+	\end{itemize}
+	\bl{Odds originate from betting on horse races.}
+\end{frame}
+
+\begin{frame}{The Logistic Model}
+	\begin{itemize}
+		\item How can the expression for the odds help us?
+		\item How can we fit it?
+		\item We take the logarithm of both sides to obtain
+			\[ \log\left( \frac{p(X)}{1 - p(X)}\right)  = \beta_0 + \beta_1 X \]
+		\item The left-hand side is called the \e{log odds} or \e{logit}.
+	\end{itemize}
+	\bl{The model for the logit is linear in $\bm{X}$.}
+\end{frame}
+
+\begin{frame}{The Logistic Model}
+	\begin{itemize}
+		\item  Recall that in linear regression $\beta_1$ describes the increase of $Y$ for
+			a one-unit change in $X$.
+		\item Here the interpretation is slightly more complicated.
+		\item Changing $X$ by one unit changes the \e{logit} by $\beta_1$.
+		\item Or equivalently, it multiplies the odds bt $e^{\beta_1}$.
+		\item This does \e{not} imply a change of $\beta_1$ of $p(X)$!
+		\item However, any \e{tendency} is preserved.
+	\end{itemize}
+	\bl{The logistic model has a nice interpretation.}
+\end{frame}
+
+\begin{frame}{The Logistic Model}
+\end{frame}
+
+\begin{frame}{Example: Default Data Set}
+\end{frame}
+\end{document}
