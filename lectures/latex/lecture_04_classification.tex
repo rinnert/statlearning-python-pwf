@@ -31,6 +31,16 @@
 	\bottomline{Many ideas from the regression scenario will carry over.}
 \end{frame}
 
+\begin{frame}{Examples}
+	\begin{itemize}
+		\item Predicting a condition from symptoms in a hospital.
+		\item Fraud detection in online payment systems.
+		\item Predicting the probability of default on debt for credit card holders.
+	\end{itemize}
+
+	\bl{Classifications scenarios are very common.}
+\end{frame}
+
 \begin{frame}{Example: Default Data Set}
 	\begin{center}
 		\includegraphics[width=0.34\textwidth]{4_1a}
@@ -140,9 +150,178 @@
 	\bl{The logistic model has a nice interpretation.}
 \end{frame}
 
-\begin{frame}{The Logistic Model}
+\begin{frame}{Maximum Likelihood}
+	\begin{itemize}
+		\item Given
+			\[ \log\left( \frac{p(X)}{1 - p(X)}\right)  = \beta_0 + \beta_1 X \]
+			we could fit the logistic model with a linear lest square fit.
+		\item  Instead, we will use a 
+			\href{https://en.wikipedia.org/wiki/Maximum_likelihood_estimation}{\blue\underline{maximum likelihood}} fit.
+		\item We have done this before without mentioning it.
+	\end{itemize}
+	\bl{Least Squares is just a special case of maximum likelihood.}
 \end{frame}
 
-\begin{frame}{Example: Default Data Set}
+\begin{frame}{Maximum Likelihood \& Bayes' Theorem}
+	\vspace{-5mm}
+	\begin{center}
+		\[
+			P(Y\vert X, I) = \frac{P(X\vert Y, I)\times P(Y\vert I)}{P(X\vert I)}
+		\]
+	\end{center}
+	\begin{popblock}{0.4\textwidth}{}
+		\begin{tabular}[h]{ll}
+			\e{\blue\bfseries Term} & \e{\blue\bfseries Name} \\
+			$P(Y\vert X, I)$ & posterior probability \\
+			$P(X\vert Y, I)$ & likelihood \\
+			$P(Y\vert I)$ & prior probability \\
+			$P(X\vert I)$ & evidence \\
+		\end{tabular}
+	\end{popblock}
+	\bl{We are going to derive the maximum likelihood method.}
 \end{frame}
+
+\begin{frame}{Maximum Likelihood \& Bayes' Theorem}
+	\begin{itemize}
+		\item We aim to produce the best estimate of $\bm{\beta}$.
+		\item These are the \e{most probable} values of $\beta_0$ and $\beta_1$ 
+			given the training data.
+		\item That is, we seek to maximise
+			\[ P(\bm{\beta}\vert X, I) \]
+		\item A priori, we do not know how to construct this probability.
+	\end{itemize}
+	\bl{And here comes the power of Bayes' theorem\dots}
+\end{frame}
+
+\begin{frame}{Maximum Likelihood \& Bayes' Theorem}
+	\begin{itemize}
+		\item Given the training data \e{and} a model description we \e{can} construct the likelihood
+			\[ P(X\vert\bm{\beta}, I) \]
+		\item We can then use Bayes' theorem to obtain the posterior probability
+			\[
+				P(\bm{\beta}\vert X, I) = 
+				\frac{P(X\vert\bm{\beta}, I) P(\bm{\beta}\vert I)}{P(X\vert I)}
+			\]
+		\item Or, up to a normalisation factor
+			\[
+				P(\bm{\beta}\vert X, I) \propto P(X\vert\bm{\beta}, I) P(\bm{\beta}\vert I)
+			\]
+	\end{itemize}
+	\bl{All we need is a prior and we are all set.}
+\end{frame}
+
+\begin{frame}{Maximum Likelihood \& Bayes' Theorem}
+	\begin{itemize}
+		\item We choose the prior to reflect our knowledge (or rather lack thereof) \e{without}
+			taking the training data into account.
+		\item A good start is to assume complete ignorance.
+		\item In many cases a good ignorant prior is a flat distribution:
+			\[ P(\bm{\beta}\vert I) = \text{const.} \]
+	\end{itemize}
+	\bl{The influence of the prior quickly becomes negligible for large data sets.}
+\end{frame}
+
+\begin{frame}{Maximum Likelihood \& Bayes' Theorem}
+	\begin{itemize}
+		\item The uniform (constant) prior can be absorbed in the normalisation and we obtain
+			\[ P(\bm{\beta}\vert X, I) \propto \underbrace{P(X\vert\bm{\beta}, I)}_\text{likelihood} \]
+		\item In practice we often use the logarithm of the likelihood
+			\[ \log\left( P(X\vert\bm{\beta}, I)\right) \] 
+		\item Sometimes this allows for nice \& easy analytical solutions.
+		\item More importantly in practice it is numerically much more stable.
+	\end{itemize}
+	\bl{Now maximising the likelihood does maximise the posterior!}
+\end{frame}
+
+\begin{frame}{Maximum Likelihood \& Bayes' Theorem}
+	\begin{itemize}
+		\item Under the assumption that the $x_i$ are independent we have
+			\[ P(X\vert\bm{\beta}, I) = \prod_{i=1}^n P(x_i\vert\bm{\beta}, I) \]
+		\item This follows from the product rule
+			\[ P(x_i, x_k \vert\bm{\beta}, I) = P(x_i\vert x_k, \bm{\beta}, I) P(x_k\vert\bm{\beta}, I) \]
+			and the independence assumption
+			\[ P(x_i\vert x_k, \bm{\beta}, I) = P(x_i\vert\bm{\beta}, I) \]
+	\end{itemize}
+	\bl{We still need a model, though.}
+\end{frame}
+
+\begin{frame}{The Binomial Distribution}
+	\begin{itemize}
+		\item We need a model to describe a qualitative response variable with two classes (levels).
+		\item The 
+			\href{https://en.wikipedia.org/wiki/Binomial_distribution}{\blue\underline{binomial distribution}}
+			describes this situation
+			\[
+				P(r\vert n, I) =
+				\frac{n!}{n!(n - r)!}
+				p^r (1 - p)^{n -r}
+			\]
+	\end{itemize}
+	\bl{This is the probability to observe $\bm{r}$ ``successes''.}
+\end{frame}
+
+\begin{frame}{The Likelihood Function}
+	\begin{itemize}
+		\item We can now construct the \e{likelihood function} for the logistic regression:
+			\begin{align*}
+				P(X\vert\bm{\beta}, I) &= \prod_{i=1}^{n} P(x_i\vert\bm{\beta}, I) \\
+				{} &= \prod_{y_i = 1} p(x_i) \prod_{y_i\neq 1} (1 - p(x_i))\\
+			\end{align*}
+			with
+			\[ p(x_i) = \frac{e^{\beta_0 + \beta_1 x_i}}{ 1 + e^{\beta_0 + \beta_1 x_i}} \]
+	\end{itemize}
+	\bl{Different problems require different likelihood functions.}
+\end{frame}
+
+\begin{frame}{Maximum Likelihood Estimate}
+	\begin{itemize}
+		\item In practice we often us the logarithm of the likelihood function.
+		\item The logarithm is a strictly monotonic function, so the extrema a preserved.
+		\item Sometimes we minimise the negative logarithm.
+		\item This is simply because of the abundance of minimisation libraries.
+	\end{itemize}
+	\bl{Wo do not care whether there is an analytical solution.}
+\end{frame}
+
+\begin{frame}{Logistic Regression Results}
+	\begin{popblock}{0.7\textwidth}{}
+		\begin{tabular}[h]{lrrrr}
+			{} & {\blue Coeffcient} & {\blue Std. Error} & {\blue $Z$-statistic} & {\blue $p$-value} \\
+			\dat{Intercept} & $-10.6513$ & $0.3612$ & $-29.5$ & $< 0.0001$\\
+			\dat{balance} & $0.0055$ & $0.0002$ & $24.9$ & $< 0.0001$\\
+		\end{tabular}
+	\end{popblock}
+	\begin{itemize}
+		\item Where the $Z$-statistic associated with $\beta_1$ is
+			\[ Z = \frac{\bh_1}{\text{SE}(\bh_1)} \]
+		\item For large samples the $Z$-statistic approaches the $t$-statistic.
+	\end{itemize}
+	\bl{In logistic regression we use the $\bm{Z}$-statistic and the associated $\bm{p}$-value.}
+\end{frame}
+
+\begin{frame}{Hypothesis Testing}
+	\begin{itemize}
+		\item The logistic null hypothesis is
+			\[ H_0 : \beta_1 = 0 \implies p(X) = \frac{e^{\beta_0}}{1 + e^{\beta_0}} \]
+		\item And the alternative hypothesis is
+			\[ H_a : \beta_1 \neq 0 \implies p(X) = \frac{e^{\beta_0 + \beta_1 X}}
+			{1 + e^{\beta_0 + \beta_1 X}} \]
+	\end{itemize}
+	\bl{We reject the null hypothesis based on a cut on the $\bm{p}$-value of the $\bm{Z}$-statistic.}
+\end{frame}
+
+\begin{frame}{A Word of Warning}
+	\begin{itemize}
+		\item The term ``maximum likelihood'' suggests that we have found the most probable values of 
+			the parameters.
+		\item This is in general \e{not} the case!
+		\item We just determined the $\bm{\beta}$ that makes the \e{training data} most probable.
+		\item It is important to keep this in mind.
+		\item Consider the probability of rain given there are clouds versus the probability of clouds
+			given it is raining.
+	\end{itemize}
+	\bl{In general $\bm{P(A\vert B) \neq P(B\vert A)}$.}
+\end{frame}
+
+
 \end{document}
