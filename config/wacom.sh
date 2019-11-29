@@ -10,19 +10,19 @@ xsetwacom set ${pad} RawSample 12
 xsetwacom set ${pad} Suppress 10
 xsetwacom set ${pad} Button 9 "key PgUp" 
 xsetwacom set ${pad} Button 8 "key PgDn"
-xsetwacom set ${pad} Button 1 "key ["
-xsetwacom set ${pad} Button 3 "key ]"
+xsetwacom set ${pad} Button 1 "key control v"
+xsetwacom set ${pad} Button 3 "key control c"
 
 # stylus
 xsetwacom set ${stylus} RawSample 12
 xsetwacom set ${stylus} Suppress 10
-xsetwacom set ${stylus} Button 2 "key f"
-xsetwacom set ${stylus} Button 3 "key g"
+xsetwacom set ${stylus} Button 2 "key control z"
+xsetwacom set ${stylus} Button 3 "key control z"
 
 # eraser
 xsetwacom set ${eraser} Suppress 10
 xsetwacom set ${eraser} RawSample 12
-xsetwacom set ${eraser} Button 1 3
+#xsetwacom set ${eraser} Button 1 1
 xsetwacom set ${eraser} Button 2 "key -"
 xsetwacom set ${eraser} Button 3 "key ="
 
