@@ -524,14 +524,54 @@
 	\vspace{-5mm}
 	\begin{itemize}
 		\item We now have a multivariate Gaussian distribution.
-		\item There also may be correlations.
+		\item We now have to estimate the covariance matrix $\bm{\Sigma}$.
 	\end{itemize}
 	\bl{Note that the variances can now be different.}
-
-
 \end{frame}
-\begin{frame}{Linear Discriminant Analysis}
-	
+
+\begin{frame}{LDA with $\bm{p > 1}$}
+	\vspace{-10mm}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{4_6}
+	\end{center}
+	\vspace{-5mm}
+	\begin{itemize}
+		\item Dashed: Bayes decision boundary.
+		\item Solid: LDA estimate.
+	\end{itemize}
+	\bl{This is a simulated example with three classes.}
+\end{frame}
+
+\begin{frame}{Quadratic Discriminant Analysis}
+	\begin{itemize}
+		\item QDA is an alternative approach to LDA that allows for curved boundaries.
+		\item We drop the assumption that $\bm{\Sigma}$ is common to all classes.
+		\item That means QDA provides an estimate $\bm{\hat{\Sigma}}_k$ in addition
+			to $\hat{\mu}_k$ and $\hat{\pi}_k$.
+	\end{itemize}
+	\bl{The resulting $\bm{\hat{\delta}_k}$ is now quadratic in $\bm{x}$.}
+\end{frame}
+
+\begin{frame}{Quadratic Discriminant Analysis}
+	\vspace{-10mm}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{4_9}
+	\end{center}
+	\vspace{-5mm}
+	\begin{itemize}
+		\item Left: $\bm{\Sigma}_1 = \bm{\Sigma}_2$
+		\item Right: $\bm{\Sigma}_1 \ne \bm{\Sigma}_2$
+	\end{itemize}
+	\bl{The QDA performs better when the boundary is curved.}
+\end{frame}
+
+\begin{frame}{Classifier Performance}
+	\vspace{-10mm}
+	\begin{center}
+		\includegraphics[width=0.55\textwidth]{4_8}
+	\end{center}
+	\vspace{-5mm}
+	\bl{we can use this tho choose a \e{working point}.}
 \end{frame}
 
 
