@@ -1,0 +1,143 @@
+\documentclass[mathserif, aspectratio=169]{beamer}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% need to split the includes to make spell checking work.
+\input{preamble}
+\subtitle{\bfseries%
+  {Resampling Methods}\\%
+  {\tiny\it Cross-Validation for Regression, Cross-Validation for Classification, Bootstrap}\\%
+}
+\begin{document}
+\input{common}
+
+\begin{frame}{Abstract}
+	\begin{blurb}
+		We already mentioned the importance of evaluating models on test data sets that
+		were not used in the training phase. We now expand on this idea.
+
+		Resampling methods are based on the idea of repeatedly drawing samples from a training
+		data set and refitting the model in order to better evaluate the fitted model.
+
+		These methods used to be computationally prohibitive because they involve multiple
+		model fits. This is no longer a problem due to cheaply available computing resources.
+	\end{blurb}
+\end{frame}
+
+\begin{frame}{Overview}
+	\begin{itemize}
+		\item Cross-Validation
+		\item The Validation Set Approach 
+		\item Leave-One-Out Cross-Validation (LOOCV)
+		\item $k$-Fold Cross-Validation
+		\item Cross-Validation for Classification
+		\item The Bootstrap Method
+	\end{itemize}
+	\bottomline{All these methods provide \e{estimates} of the test error.}
+\end{frame}
+
+\begin{frame}{Cross-Validation}
+	\begin{itemize}
+		\item We have already discussed the difference between \e{training error rate} 
+			and the \e{test error rate.}
+		\item We can easily calculate the test error if we have a sufficiently large 
+			test data set.
+		\item In the absence of a dedicated test data set we can use a subset of the
+			training data to estimate the test error.
+		\item This subset is called the \e{validation set} or \e{hold-out set}.
+	\end{itemize}
+	\bl{We first assume regression and deal with classification later.}
+\end{frame}
+
+\begin{frame}{The Validation Set Approach}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{5_1}
+	\end{center}
+	\begin{itemize}
+		\item We \e{randomly} split the training data into a training set and
+			a validation set.
+		\item The model is then fit on the training set and evaluated on the
+			validation set.
+		\item In case of a quantitative response, we typically use the MSE on 
+			the validation set to evaluate the model.
+	\end{itemize}
+	\bl{The distinction between \e{validation set} and \e{test set} is rather subtle.} 
+\end{frame}
+
+\begin{frame}{The Validation Set Approach}
+	\vspace{-5mm}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{5_2}
+	\end{center}
+	\vspace{-5mm}
+	\begin{itemize}
+		\item The \e{estimate} of the test error derived from the validation 
+			set can be highly variable.
+		\item The validation error tends to \e{overestimate} the test error rate
+			due to the lower number of observations.
+	\end{itemize}
+	\bl{These issues are addressed by the various \e{cross-validation} methods.}
+\end{frame}
+
+\begin{frame}{Leave-One-Out Cross-Validation}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{5_3}
+	\end{center}
+	\bl{The LOOCV repeatedly uses \e{one} observation for validation.}
+\end{frame}
+
+\begin{frame}{Leave-One-Out Cross-Validation}
+	\begin{itemize}
+		\item The model fit is performed $n$ times.
+		\item Where, as usual, $n$ is the number of training observations.
+		\item We then average the MSE's from the $n$ fits:
+			\[ 
+				\text{CV}_{(n)} = 
+				\frac{1}{n}\sum_{i=1}^{n} \text{MSE}_i
+			\]
+		\item That is, we sample the test set population and compute and estimate
+			the test error.
+	\end{itemize}
+	\bl{The LOOCV has low bias but high variance.}
+\end{frame}
+
+\begin{frame}{$\bm{k}$-Fold Cross-Validation}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{5_5}
+	\end{center}
+	\bl{This approach repeatedly uses subsets of size $\bm{n/k}$ for validation.}
+\end{frame}
+
+\begin{frame}{$\bm{k}$-Fold Cross-Validation}
+	\begin{itemize}
+		\item Note that the training set is \e{randomly shuffled} before folding.
+		\item The model fit is performed $k$ times.
+		\item We then average the MSE's from the $k$ fits:
+			\[ 
+				\text{CV}_{(k)} = 
+				\frac{1}{k}\sum_{i=1}^{n} \text{MSE}_i
+			\]
+		\item Again, we sample the test set population and compute and estimate
+			the test error.
+	\end{itemize}
+	\bl{The bias-variance trade-off depends on the choice of $\bm{k}$.}
+\end{frame}
+
+\begin{frame}{Leave-One-Out versus $\bm{k}$-Fold Cross-Validation}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{5_4}
+
+		LOOCV (left) and $10$-fold cross validation (right) on \dat{Auto}.
+	\end{center}
+	\bl{Values between 5 and 10 are typically good choices for for $\bm{k}$.}
+\end{frame}
+
+\begin{frame}{Leave-One-Out versus $\bm{k}$-Fold Cross-Validation}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{5_6}
+
+		LOOCV and $10$-fold cross validation on the simulated scenarios from lecture 2.
+	\end{center}
+	\bl{Close to the MSE minimum both methods have very similar results.}
+\end{frame}
+
+\end{document}
