@@ -5,7 +5,7 @@
 \input{preamble}
 \subtitle{\bfseries%
   {Resampling Methods}\\%
-  {\tiny\it Cross-Validation for Regression, Cross-Validation for Classification, Bootstrap}\\%
+  {\tiny\it Cross-Validation for Regression, Validation Set, Leave-One-Out, $k$-Fold, Cross-Validation for Classification, Bootstrap}\\%
 }
 \begin{document}
 \input{common}
@@ -114,7 +114,7 @@
 		\item We then average the MSE's from the $k$ fits:
 			\[ 
 				\text{CV}_{(k)} = 
-				\frac{1}{k}\sum_{i=1}^{n} \text{MSE}_i
+				\frac{1}{k}\sum_{i=1}^{k} \text{MSE}_i
 			\]
 		\item Again, we sample the test set population and compute and estimate
 			the test error.
@@ -140,4 +140,150 @@
 	\bl{Close to the MSE minimum both methods have very similar results.}
 \end{frame}
 
+\begin{frame}{Cross-Validation for Classification}
+	\begin{itemize}
+		\item Cross-Validation also works in the classification setting.
+		\item The misclassification rate takes the role of the MSE.
+		\item For LOOCV the cross-validation error rate is
+			\[ 
+				\text{CV}_{(n)} = \frac{1}{n} \sum_{i=1}^n I(y_i\ne \hat{y}_1)
+			\]
+			with
+			\[
+				I(y_i\ne \hat{y}_i) =
+				\begin{cases}
+					1 & \text{if}\;\; y\ne \hat{y}_i\\
+					0 & \text{if}\;\; y = \hat{y}_i\\
+				\end{cases}
+			\]
+	\end{itemize}
+	\bl{We can evaluate classification models just like regression models.}
+\end{frame}
+
+\begin{frame}{Cross-Validation for Classification}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item The figures show four different polynomial
+					logistic regression models.
+				\item Non-linear terms can be added to the logistic model just like
+					in linear regression.
+				\item For example, the quadratic (Degree=2) model is
+					\begin{align*}
+						\log\left(\frac{p}{1-p}\right) & =
+						&\beta_0&+ \beta_1 X_1 + \beta_2 X_1^2\\
+						&\phantom{=} &\phantom{\beta_0}&+ \beta_3 X_2 + \beta_4 X_2^2\\
+					\end{align*}
+			\end{itemize}
+			\bl{A degree > 3 doesn't help much anymore.}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\vspace{-10mm}
+			\begin{center}
+				\includegraphics[width=0.95\textwidth]{5_7}
+			\end{center}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Cross-Validation for Classification}
+	\vspace{-10mm}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{5_8}
+	\end{center}
+	\vspace{-7mm}
+	\begin{itemize}
+		\item The figures show various polynomial models (left) and an KNN classifier (right).
+		\item The test error ({\orange orange}), training error ({\blue blue}) and
+			cross-validation error ({\color{black} black}) are shown.
+		\item The $K$ in the right plot denotes the neighbours in KNN.
+	\end{itemize}
+	\bl{The test error is obtained from a simulated test sample.}
+\end{frame}
+
+\begin{frame}{The Bootstrap Method}
+	\begin{itemize}
+		\item \e{Bootstrap} is widely applicable method to assess model uncertainties.
+		\item We demonstrate it on a simulated toy example.
+		\item Suppose we have some money we want to invest.
+		\item We would like to invest a fraction $\alpha$ in an asset with return $X$ 
+			and the rest, $1 - \alpha$,\\ in an asset with return $Y$ such that the risk is minimised.
+		\item The risk is associated with the variance of the total return:
+			\[ \text{Var}\left(\alpha X + (1 - \alpha) Y \right) \]
+			which is minimal when
+			\[
+				\alpha = 
+				\frac{\sigma^2_Y - \sigma_{XY}}
+				{\sigma^2_X + \sigma^2_Y - 2\sigma_{XY}}
+			\]
+	\end{itemize}
+	\bl{In practice, we have to estimate $\bm{\sigma^2_X}$, $\bm{\sigma^2_Y}$
+	and $\bm{\sigma_{XY}}$ from the training data.}
+\end{frame}
+
+\begin{frame}{The Bootstrap Method}
+	\begin{itemize}
+		\item In the toy simulation the true values are $\sigma^2_X = 1$,
+			$\sigma^2_Y = 1.25$ and $\sigma_{XY} = 0.5$.
+		\item The $\alpha$ with minimal risk  is then $\alpha = 0.6$.
+		\item We simulate 1000 independent samples with 100 observations each to obtain
+			\[
+				\hat{\alpha} = \overline{\alpha} = \frac{1}{1000}
+				\sum_{r=1}^{1000} \hat{\alpha}_r = 0.5996
+			\]
+			and the error estimate
+			\[
+				\widehat{\text{SE}}(\overline{\alpha}) =
+				\sqrt{
+					\frac{1}{1000 - 1}
+					\sum_{r=1}^{1000} \left( \hat{\alpha}_r - \overline{\alpha}\right)
+				}
+				= 0.083
+			\]
+	\end{itemize}
+	\bl{In practice, we don't have a large number of independent samples.}
+\end{frame}
+
+\begin{frame}{The Bootstrap Method}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item In the absence of independent test samples we need
+					a different solution.
+				\item The \e{bootstrap} method creates test samples by
+					repeatedly sampling from the training data.
+				\item The sampling is done with \e{replacement}.
+				\item That is, an observation can appear more than once
+					in each sample.
+				\item Sampling $B$ times we obtain
+					{\footnotesize
+					\[
+						\widehat{\text{SE}}(\hat{\alpha}) =
+						\sqrt{
+							\frac{1}{B -1}
+							\sum_{r=1}^B
+							\left(
+							\hat{\alpha}^{*r} -
+								\frac{1}{B}
+								\sum_{r' = 1}^B \hat{\alpha}^{*r'}
+							\right)^2
+						}
+					\]}
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{center}
+				\includegraphics[width=1.0\textwidth]{5_11}
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bl{In practice, $\bm{B}$ needs to be sufficiently large, $\bm{\mathcal{O}(1000)}$.} 
+\end{frame}
+
+\begin{frame}{The Bootstrap Method}
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{5_10}
+	\end{center}
+	\bl{We can see that the bootstrap method does very well.}
+\end{frame}
 \end{document}
