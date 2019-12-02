@@ -1,0 +1,80 @@
+\documentclass[mathserif, aspectratio=169]{beamer}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% need to split the includes to make spell checking work.
+\input{preamble}
+\subtitle{\bfseries%
+  {High Dimensons}\\%
+  {\tiny\it High Dimensional Data, The Curse of High Dimensions Dimension Reduction, Principal Components, Partial Least Squares}\\%
+}
+\begin{document}
+\input{common}
+
+\begin{frame}{Abstract}
+	\begin{blurb}
+		We will only cover a subset of the sections in chapter 6 of the ISL book,
+		namely the problem of high dimensional data.
+
+		High dimensional data has become more and more common in statistical
+		learning applications. It it therefore important to understand the implications
+		and modern methods to mitigate the problem.
+	\end{blurb}
+\end{frame}
+
+\begin{frame}{Overview}
+	\begin{itemize}
+		\item High Dimensional Data
+		\item The Curse of High Dimensions
+		\item Feature Selection
+		\item Principal Components
+		\item Partial Least Squares
+	\end{itemize}
+	\bottomline{This is part of what the ML community calls \e{feature enginieering}.}
+\end{frame}
+
+\begin{frame}{High Dimensional Data}
+	\begin{itemize}
+		\item Traditionally, most statistical learning techniques only involved
+			a small number \\ of features, $p\sim\mathcal{O}(10)$, $n \gg p$.
+		\item That is, the data was mostly \e{low dimensional}.
+		\item For example, one might try to predict blood pressure from a few variables\\
+			like BMI, age and gender.
+		\item There are two reasons for this:
+			\begin{enumerate}
+				\item High dimensional data could not be collected and stored.
+				\item The involved computations were impossible to perform.
+			\end{enumerate}
+	\end{itemize}
+	\bl{This situation has changed dramatically over the last decades.}
+\end{frame}
+
+\begin{frame}{High Dimensional Data}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item Gene expression data is a typical example.
+				\item Instead of just BMI, age gender we now have
+					access to measurements of many single nucleotide polymorphisms (SNP).
+				\item At the same time, the number of individual observation
+					is not much larger.
+				\item A situation like $n\approx 200$ and $p \approx 500000$ is not uncommon.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\includegraphics[width=0.8\textwidth]{l6/Gb200785r763}
+		\end{column}
+	\end{columns}
+	\bl{What we learned so far stops working.}
+\end{frame}
+
+\begin{frame}{High Dimensional Data}
+	\begin{itemize}
+		\item We refer to data sets with $p \gg n$ as \e{high dimensional}.
+		\item Regression, in particular least squares is impossible in these cases.
+		\item But even if $n > p$ problems can arise.
+		\item If $n$ is not much larger than $p$ we are in danger of over-fitting.
+		\item At the very least we have to think carefully about the bias-variance trade-off.
+
+	\end{itemize}
+\end{frame}
+\end{document}
