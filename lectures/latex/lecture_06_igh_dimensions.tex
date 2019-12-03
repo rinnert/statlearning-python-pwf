@@ -186,4 +186,34 @@
 	\end{itemize}
 	\bl{This is nothing but a rotation in feature space!}
 \end{frame}
+
+\begin{frame}{Diagonalising Matrices}
+	\begin{itemize}
+		\item If a matrix $\bm{A} \in \R^{n\times n}$ can be diagonalised we have:
+			\[
+				\bm{P}^{-1}\bm{A P} =
+				\begin{pmatrix}
+					\lambda_1 & 0 & \dots & 0 \\ 
+					0 & \lambda_2 & \dots & 0 \\ 
+					\vdots & \vdots & \ddots & \vdots \\
+					0 & 0 & \dots & \lambda_n \\ 
+				\end{pmatrix}
+				\implies
+				\bm{A P} = \bm{P}
+				\begin{pmatrix}
+					\lambda_1 & 0 & \dots & 0 \\ 
+					0 & \lambda_2 & \dots & 0 \\ 
+					\vdots & \vdots & \ddots & \vdots \\
+					0 & 0 & \dots & \lambda_n \\ 
+				\end{pmatrix}
+			\]
+			where
+			\[ \bm{P} = (\bm{\alpha}_1, \bm{\alpha}_2, \dots, \bm{\alpha}_n) \]
+			and
+			\[ \bm{A}\bm{\alpha}_i = \lambda_i \bm{\alpha}_i \]
+		\item The $\bm{\alpha}_i$ are the \e{eigenvectors} and the $\lambda_i$ the 
+			\e{eigenvalues} of $\bm{A}$.
+	\end{itemize}
+	\bl{In PCA we \e{diagonalise the covariance matrix} and pick components with large $\bm{|\lambda|}$.} 
+\end{frame}
 \end{document}
