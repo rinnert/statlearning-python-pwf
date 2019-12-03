@@ -1,0 +1,35 @@
+\documentclass[mathserif, aspectratio=169]{beamer}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% need to split the includes to make spell checking work.
+\input{preamble}
+\subtitle{\bfseries%
+  {Beyond Linearity}\\%
+  {\tiny\it Plynomial Regression, Basis Functions, Splines, Generalised Additive Models}\\%
+}
+\begin{document}
+\input{common}
+
+\begin{frame}{Abstract}
+	\begin{blurb}
+		Linear models are often applicable and easy to interpret. However, as
+		we have stressed several times, the \e{true} functional relationships
+		are rarely linear.
+
+		In this lecture we will explore several ways to drop the assumption
+		of linearity.
+	\end{blurb}
+\end{frame}
+
+\begin{frame}{Overview}
+	\begin{itemize}
+		\item Polynomial Regression
+		\item Basis Functions
+		\item Splines
+		\item Smoothing Splines
+		\item Generalised Linear Models (GAMs)
+	\end{itemize}
+	\bottomline{We'll see again that model flexibility is related to the bias-variance trade-off.}
+\end{frame}
+
+\end{document}
