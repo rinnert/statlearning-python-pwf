@@ -52,7 +52,7 @@
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\begin{itemize}
-				\item Gene expression data is a typical example.
+				\item Genetic data is a typical example.
 				\item Instead of just BMI, age gender we now have
 					access to measurements of many single nucleotide polymorphisms (SNP).
 				\item At the same time, the number of individual observation
@@ -70,11 +70,120 @@
 \begin{frame}{High Dimensional Data}
 	\begin{itemize}
 		\item We refer to data sets with $p \gg n$ as \e{high dimensional}.
-		\item Regression, in particular least squares is impossible in these cases.
+		\item Regression, in particular least squares, is impossible in these cases.
 		\item But even if $n > p$ problems can arise.
 		\item If $n$ is not much larger than $p$ we are in danger of over-fitting.
 		\item At the very least we have to think carefully about the bias-variance trade-off.
-
+		\item Supervised learning on high dimensional data is tricky.
 	\end{itemize}
+	\bl{We can resort to unsupervised learning, but there also other ways.}
+\end{frame}
+
+\begin{frame}{What Goes Wrong in High Dimensions?}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{6_22}
+	\end{center}
+	\bl{In high dimensions even simple models can be too flexible.}
+\end{frame}
+
+\begin{frame}{What Goes Wrong in High Dimensions?}
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{6_23}
+	\end{center}
+	\bl{Statistics, like $\bm{R^2}$, can be misleading when predictors are not related to the response.}
+\end{frame}
+
+\begin{frame}{Interpretations in High Dimensions}
+	\begin{itemize}
+		\item We have to very careful when drawing conclusions from high dimensional
+			data sets.
+		\item For example, suppose we want to find SNPs in an individuals DNA that \\
+			are correlated with certain phenotypic traits.
+		\item The traits could be affinities to certain diseases. 
+		\item Now let's say we find 17 SNPs out of 500,000 that seem to be related to
+			high blood pressure.
+		\item We should be very careful with the interpretation of this finding.
+		\item It is \e{very likely} that we just found \e{one of many} models that suggests a correlation.
+		\item That is, there might be a large number of subsets of similar size that wrok equally well.
+	\end{itemize}
+	\bl{This is by no means an artificial example!}
+\end{frame}
+
+\begin{frame}{Dimension Reduction: Feature Selection}
+	\begin{itemize}
+		\item We can try to reduce the dimensionality by excluding features.
+			\begin{cpage}
+				\begin{enumerate}
+					\item \e{\orange Forward Selection}: start with only the intercept and add
+						predictors with the lowest RSS. Proceed until some cutoff is reached. 
+					\item \e{\orange Backward Selection}: Start with all variables and keep removing
+						the ones with the largest $p$-values. Stop when a cutoff is reached.
+					\item \e{\orange Mixed Selection}: Like forward selection, but remove variables
+						that acquire large $p$-values after another variable is added.
+				\end{enumerate}
+			\end{cpage}
+		\item This is computationally expensive and of limited use for very high
+			dimensions ($p \gg n$).
+	\end{itemize}
+	\bl{We have seen this before and won't elaborate further on this.}
+\end{frame}
+
+\begin{frame}{Dimension Reduction: Principal Components}
+	\begin{itemize}
+		\item The idea of \e{principal component analysis} (PCA) is to find
+			\e{linear combinations} of \\
+			predictors that captures the relevant information present in the features. 
+		\item PCA allows us to directly quantify which linear combinations are most useful
+			for prediction.
+		\item Let $Z_1, Z_2, \dots, Z_M$ represent $M < p$ linear combinations of the 
+			$p$ predictors:
+			\[
+				Z_m = \sum_{j=1}^p \phi_{mj} X_j
+			\]
+			where $ m = 1, 2, \dots, M$.
+		\item Unsurprisingly, this is nothing but the matrix multiplication 
+			$\bm{Z} = \bm{\phi X}$.
+	\end{itemize}
+	\bl{Note that the responses are \e{not} used. Therefore PCA is an unsupervised approach.}
+\end{frame}
+
+\begin{frame}{Dimension Reduction: Principal Components}
+	\begin{itemize}
+		\item PCA finds the directions in the feature space along which the \e{observations
+			vary the most}.
+		\item We can then pick the $M$ combinations (directions) with the highest variance
+			and train (fit) our model using $Z_1, \dots, Z_M$ instead of the 
+			original $p$ predictors.
+		\item That way, we have \e{reduced the dimension} from $p$ to $M$.
+		\item Note that we do \e{not} make any assumption what kind of model we are
+			going to train.
+	\end{itemize}
+	\bl{The question is how do we identify these directions.}
+\end{frame}
+
+\begin{frame}{Dimension Reduction: Principal Components}
+	\vspace{-8mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{6_14}
+	\end{center}
+	\vspace{-6mm}
+	\begin{itemize}
+		\item The green solid line indicates the \e{first principal component}.
+		\item The blue dashed line indicates the \e{second principal component}.
+	\end{itemize}
+	\bl{The book is a bit shy on the math. We will tell you what really happens.}
+\end{frame}
+
+\begin{frame}{Dimension Reduction: Principal Components}
+	\vspace{-8mm}
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{6_15}
+	\end{center}
+	\vspace{-6mm}
+	\begin{itemize}
+		\item Left: before the linear transformation.
+		\item Right: after the linear transformation.
+	\end{itemize}
+	\bl{This is nothing but a rotation in feature space!}
 \end{frame}
 \end{document}
