@@ -211,9 +211,96 @@
 			\[ \bm{P} = (\bm{\alpha}_1, \bm{\alpha}_2, \dots, \bm{\alpha}_n) \]
 			and
 			\[ \bm{A}\bm{\alpha}_i = \lambda_i \bm{\alpha}_i \]
-		\item The $\bm{\alpha}_i$ are the \e{eigenvectors} and the $\lambda_i$ the 
+		\item The $\bm{\alpha}_i$ are the \e{normalised eigenvectors} and the $\lambda_i$ the 
 			\e{eigenvalues} of $\bm{A}$.
 	\end{itemize}
 	\bl{In PCA we \e{diagonalise the covariance matrix} and pick components with large $\bm{|\lambda|}$.} 
+\end{frame}
+
+\begin{frame}{Principal Component Regression}
+	\begin{itemize}
+		\item In \e{principal component regression} (PCR) we perform a
+			PCA and pick $M < p$ components.
+		\item The we perform a linear least square fit on the $Z_1, Z_2, \dots, Z_M$
+			instead of the $X_1, X_2, \dots, X_P$.
+		\item That is, we fit the model
+			\[
+				y_i = \theta_0 +
+				\sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
+				\;\;\; i = 1, 2, \dots, n
+			\]
+			with
+			\[
+				\beta_j = \sum_{m=1}^M \phi_{jm} \theta_m
+			\]
+		\item The $Z_m$ are linear combinations of \e{all} $X_j$.
+	\end{itemize}
+	\bl{Note that PCR does \e{not} do any feature selection.}
+\end{frame}
+
+\begin{frame}{Principal Component Regression}
+	\begin{columns}
+		\begin{column}{0.6\textwidth}
+			\begin{itemize}
+				\item We want the model with minimal test MSE.
+				\item In practice, we choose $M$ using
+					cross-validation.
+				\item The more components we include, the more
+					flexible the model becomes.
+				\item That is, the bias goes down and the
+					variance increases.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.4\textwidth}
+			\begin{center}
+				\includegraphics[width=0.95\textwidth]{6_19_l}
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bl{This is an artificial data set designed for illustration.}
+\end{frame}
+
+\begin{frame}{Partial Least Squares}
+	\begin{itemize}
+		\item PCA is \e{unsupervised}, it does not take the responses into account.
+		\item There is no guarantee that the components that best explain the predictors\\
+			are ideal for predicting the response.
+		\item \e{Partial least squares} (PLS) tries to address this by taking the response
+			into account.
+		\item The basic idea is still to find $M < p$ linear combinations
+			\[
+				Z_m = \sum_{j=1}^p \phi_{mj} X_j
+			\]
+			in order to reduce the dimensions.
+	\end{itemize}
+	\bl{PLS is a supervised reduction method.}
+\end{frame}
+
+\begin{frame}{Partial Least Squares}
+	\begin{itemize}
+		\item The computation of the PLS direction proceeds as follows.
+			\begin{cpage}
+				\begin{enumerate}
+					\item \e{\orange First direction, $Z_1$}: we fit  $p$ OLS models
+						\[ 
+						y_{ji} = \beta_{j0} + \beta_{j1} x_{ji} + \epsilon_i,
+						\;\;\; j = 1, 2, \dots, p
+						\]
+					and then set $\phi_{j1} = \beta_{j1}$:
+					\[ Z_1 = \sum_{j=1}^p \phi_{j1} X_j \]
+					\item  \e{\orange Rotation}: we rotate all the data in the direction $Z_1$.
+					\item  \e{\orange Iteration}: repeat the procedure to obtain $Z_2, \dots, Z_M$.
+				\end{enumerate}
+			\end{cpage}
+	\end{itemize}
+	\bl{Just like with PCR, we decide on $\bm{M}$ using cross-validation.}
+\end{frame}
+
+\begin{frame}{PCR versus PLS}
+	\vspace{-10mm}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{6_21}
+	\end{center}
+	\bl{In practice, PLS rarely provides significant benefits over PCR.}
 \end{frame}
 \end{document}
