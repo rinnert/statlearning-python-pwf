@@ -5,7 +5,7 @@
 \input{preamble}
 \subtitle{\bfseries%
   {Beyond Linearity}\\%
-  {\tiny\it Plynomial Regression, Basis Functions, Splines, Generalised Additive Models}\\%
+  {\tiny\it Polynomial Regression, Basis Functions, Splines, Generalised Additive Models}\\%
 }
 \begin{document}
 \input{common}
@@ -32,4 +32,159 @@
 	\bottomline{We'll see again that model flexibility is related to the bias-variance trade-off.}
 \end{frame}
 
+\begin{frame}{Polynomial Regression}
+	\begin{itemize}
+		\item We have already seen some ways to extend linear regression to include
+			non-linear non-linear terms.
+		\item In particular we have fitted and interpreted polynomial models:
+			\[
+				y_i = \beta_0 + \beta_1 X_1 + \beta_2 X_1^2 + \beta_3 X_1^3 + \epsilon_i
+			\]
+		\item Or models with interaction terms:
+			\[
+				y_i = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \epsilon_i
+			\]
+		\item We will not go through all this again, but some exercises will still refer
+			to these ideas.
+	\end{itemize}
+	\bl{In this lecture we will explore more powerful concepts to move beyond linearity.}
+\end{frame}
+
+\begin{frame}{Basis Functions}
+	\begin{itemize}
+		\item The idea is quite simple: we don't limit ourselves to polynomials or interactions.
+		\item Instead we allow arbitrary functions of the predictors:
+			\[
+				y_i = 
+				\beta_0 + \beta_1 b_1(x_i) + \beta_2 b_2(x_i) + \dots +
+				\beta_K b_K(x_i) + \epsilon_i
+			\]
+		%\item Note that the \e{basis functions} are in general functions $\R^p \rightarrow \R$.
+		\item We can think of this as a linear model with predictors
+			\[ b_1(x_i), b_2(x_i), \dots, b_K(x_i) \]
+		\item This means we can use the regression methods we learned about to estimate
+			the parameters $\bm{\beta}$.
+	\end{itemize}
+	\bl{All techniques for evaluating performance and model selection are still applicable.} 
+\end{frame}
+
+\begin{frame}{Piecewise Polynomials}
+	\begin{itemize}
+		\item Fitting high-degree polynomials is not ideal as it can lead to severe over-fitting.
+		\item We can instead fit lower-degree \e{piecewise polynomials}, for example:
+			\[
+				y_i =
+				\begin{cases}
+					\beta_{01} + \beta_{11} x_i + \beta_{21} x_i^2 + \beta_{31} x_i^3 + \epsilon_i &  \text{if} \;\; x_i < c \\
+					\beta_{02} + \beta_{12} x_i + \beta_{22} x_i^2 + \beta_{32} x_i^3 + \epsilon_i &  \text{if} \;\; x_i \ge c \\
+				\end{cases}
+			\]
+		\item Keeping the degree low mitigates the chance of over-fitting.
+		\item In this example the piecewise polynomial has one \e{knot} at 
+			$x_i = c$.
+		\item We can increase the flexibility by introducing more knots.
+	\end{itemize}
+	\bl{Here, and in the following we assume on single predictor $\bm{X}$.}
+\end{frame}
+
+\begin{frame}{Piecewise Polynomials}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item The piecewise polynomial has a discontinuity at $c$ (\dat{age} = 50).
+				\item This can be removed by requiring \e{continuity}.
+				\item That still leaves us with a kink.
+				\item The situation is further improved by requiring 
+					the derivatives to be continuous.
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{center}
+				\includegraphics[width=0.99\textwidth]{7_3}
+			\end{center}
+		\end{column}
+	\end{columns}
+	\bl{Putting constraints on the knots of piecewise polynomials leads to splines.}
+\end{frame}
+
+\begin{frame}{Constraints and Splines}
+	\begin{itemize}
+		\item To construct a \e{cubic spline} we start from a piecewise polynomial
+			of degree 3 and impose the following constraints.
+			\begin{popblock}{0.4\textwidth}{}
+				\begin{tabular}[h]{ll}
+					{\bfseries\blue constraint} & {\bfseries\blue continuity} \\
+					$b(x_i)$ & value \\
+					$b'(x_i)$ & slope \\
+					$b''(x_i)$ & curvature\\
+				\end{tabular}
+			\end{popblock}
+		\item Each constraint frees up one degree of freedom.
+		\item In general, cubic splines with $K$ knots uses $K+4$ degrees of freedom.
+	\end{itemize}
+	\bl{We do not concern ourselves with the details involved in imposing the constraints.}
+\end{frame}
+
+\begin{frame}{Natural Splines}
+	\vspace{-14mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{7_4}
+	\end{center}
+	\vspace{-8mm}
+	\begin{itemize}
+		\item Splines can have large variance at the outer range of the predictors.
+		\item \e{Natural splines} are constrained to be linear at the boundaries.
+	\end{itemize}
+	\bl{Note that the confidence interval for the natural spline is narrower.}
+\end{frame}
+
+\begin{frame}{Choosing $\bm{K}$ \& Knot Positions}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{7_5}
+	\end{center}
+	\bl{We usually specify the degrees of freedom and place the knots uniformly over quantiles .}
+\end{frame}
+
+\begin{frame}{Choosing $\bm{K}$ \& Knot Positions}
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{7_6}
+	\end{center}
+	\bl{In practice -- you guessed it -- we use cross-validation.}
+\end{frame}
+
+\begin{frame}{Splines versus Polynomial Regression}
+	\vspace{-8mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{7_7}
+	\end{center}
+	\vspace{-8mm}
+	\bl{High degree polynomials tend to behave badly at the boundaries.}
+\end{frame}
+
+\begin{frame}{Smoothing Splines}
+	\begin{itemize}
+		\item \e{Smoothing splines} are a different approach to fitting splines.
+		\item We want to find some \e{smooth} function $g(x)$ that fits the data well, that is
+			\[
+				\text{RSS} = \sum_{i=1}^n (y_i - g(x_i))^2
+			\]
+			is small.
+		\item The smoothness can be imposes by minimising
+			\[
+				\underbrace{\sum_{i=1}^n (y_i - g(x_i))^2}_\text{loss} 
+				+
+				\underbrace{{\orange\lambda}\int g''(t)^2 dt}_\text{penalty}
+			\]
+	\end{itemize}
+	\bl{The \e{loss + penalty} approach is very common in machine learning practice.}
+\end{frame}
+
+\begin{frame}{Choosing the $\bm{\lambda}$ Parameter}
+	\vspace{-8mm}
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{7_8}
+	\end{center}
+	\vspace{-8mm}
+	\bl{The $\bm{\lambda}$ parameter is continuous, leading to the concept of \e{effective degrees of freedom}.}
+\end{frame}
 \end{document}
