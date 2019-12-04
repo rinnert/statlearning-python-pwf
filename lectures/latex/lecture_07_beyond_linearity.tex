@@ -35,7 +35,7 @@
 \begin{frame}{Polynomial Regression}
 	\begin{itemize}
 		\item We have already seen some ways to extend linear regression to include
-			non-linear non-linear terms.
+			non-linear terms.
 		\item In particular we have fitted and interpreted polynomial models:
 			\[
 				y_i = \beta_0 + \beta_1 X_1 + \beta_2 X_1^2 + \beta_3 X_1^3 + \epsilon_i
@@ -120,7 +120,7 @@
 				\end{tabular}
 			\end{popblock}
 		\item Each constraint frees up one degree of freedom.
-		\item In general, cubic splines with $K$ knots uses $K+4$ degrees of freedom.
+		\item In general, cubic splines with $K$ knots use $K+4$ degrees of freedom.
 	\end{itemize}
 	\bl{We do not concern ourselves with the details involved in imposing the constraints.}
 \end{frame}
@@ -187,4 +187,97 @@
 	\vspace{-8mm}
 	\bl{The $\bm{\lambda}$ parameter is continuous, leading to the concept of \e{effective degrees of freedom}.}
 \end{frame}
+
+\begin{frame}{Generalised Additive Models}
+	\begin{itemize}
+		\item We now release the condition of having a single predictor in the model.
+		\item This leads to the concept of \e{generalised additive models} (GAMs).
+		\item This is analogous of moving from simple linear regression to multiple
+			linear regression.
+		\item That is, the models can now take the form
+			\begin{align*}
+				y_i &= \beta_0 + \sum_{j=1}^p f_i(x_{ij}) + \epsilon_i\\
+				{} &= \beta_0 +  f_1(x_{i1}) + f_2(x_{i2})
+				+ \dots + f_p(x_{ip}) + \epsilon_i\\
+			\end{align*}
+			with \e{smooth} functions $f_j$.
+	\end{itemize}
+	\bl{The model still \e{additive} because we \e{add} separate $\bm{f_j}$ for each $\bm{X_j}$.}
+\end{frame}
+
+\begin{frame}{Generalised Additive Models}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{7_11}
+	
+		\[
+			\mdat{wage} = \beta_0 + f_1(\mdat{year}) + f_2(\mdat{age}) + f_3(\mdat{education}) 
+			+ \epsilon
+		\]
+	\end{center}
+	\bl{A GAM model on the Wage data set with two cubic splines and a qualitative variable.}
+\end{frame}
+
+\begin{frame}{Generalised Additive Models}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{7_12}
+	
+		\[
+			\mdat{wage} = \beta_0 + f_1(\mdat{year}) + f_2(\mdat{age}) + f_3(\mdat{education}) 
+			+ \epsilon
+		\]
+	\end{center}
+	\bl{A GAM model on the Wage data set with two smoothing splines and a qualitative variable.}
+\end{frame}
+
+\begin{frame}{GAMs for Classification}
+	\begin{itemize}
+		\item GAMs can also be used for classification.
+		\item Just like with ordinary linear models, we use logistic regression in this scenario:
+			\[
+				\log
+				\left(
+					\frac{p(X)}{1 - p(X)}
+				\right) =
+					\beta_0  + f_1(x_{i1}) + f_2(x_{i2})
+					+ \dots + f_p(x_{ip}) + \epsilon_i
+			\]
+		\item For example:
+			\[
+				\log
+				\left(
+					\frac{p(X)}{1 - p(X)}
+				\right) =
+				\beta_0  + \beta_1\times\mdat{year} + f_2(\mdat{age})
+				+ f_3(\mdat{education})
+			\]
+			where
+			\[
+				p(X) = P(\mdat{wage} > 250\vert\mdat{year}, \mdat{age}, \mdat{education}) 
+			\]
+	\end{itemize}
+	\bl{That is, we want to predict whether the yearly income is greater than \$250,000.}
+\end{frame}
+
+\begin{frame}{GAMs for Classification}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{7_13}
+	
+		\[
+			p(X) = P(\mdat{wage} > 250\vert\mdat{year}, \mdat{age}, \mdat{education}) 
+		\]
+	\end{center}
+	\bl{There seems to be a problem with the qualitative variable.}
+\end{frame}
+
+\begin{frame}{GAMs for Classification}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{7_14}
+	
+		\[
+			p(X) = P(\mdat{wage} > 250\vert\mdat{year}, \mdat{age}, \mdat{education}) 
+		\]
+	\end{center}
+	\bl{It turns out high school drop-outs never earn more than \$250,000/year.}
+\end{frame}
+
 \end{document}
