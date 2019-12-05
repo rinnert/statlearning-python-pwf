@@ -165,3 +165,5 @@ dmypy.json
 notebooks.tgz
 slides.tgz
 notebooks/datasets
+*.bin
+*.pt
