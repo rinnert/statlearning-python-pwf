@@ -158,6 +158,7 @@ class FCNN(nn.Module):
         self.layout = layout
         self.inference_mode = True  # training clients: change this attribute to False
         self.activation = activation
+        self.out_activation = out_activation
         self.layers = nn.ModuleList()
         for num_nodes, num_nodes_next in zip(self.layout[:-1], self.layout[1:]):
             self.layers.append(nn.Linear(num_nodes, num_nodes_next))
