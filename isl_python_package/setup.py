@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="islpy",
+    name="islpwf",
     version="0.3",
     author="Kurt Rinnert",
     author_email="kurt.rinnert@liverpool.ac.uk",

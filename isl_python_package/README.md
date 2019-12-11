@@ -1,4 +1,4 @@
-# ISLPy Library
+# ISLPWF Library
 
 ## Introduction
 
@@ -11,7 +11,7 @@ from the default `R` distribution and the `R` `MASS` and `ISLR` libraries.
 Build the wheel with `make` and then
 
 ```bash
-pip install dist/islpy-0.3-py3-none-any.whl
+pip install dist/islpwf-0.3-py3-none-any.whl
 ```
 
 Note: the version number might be different.
@@ -21,7 +21,7 @@ Note: the version number might be different.
 To access the datasets you will need to `import` the `dataset` module:
 
 ```python
-from islpy import datasets
+from islpwf import datasets
 ```
 
 Use the `help` function to get documentation about the available datasets:
@@ -48,7 +48,7 @@ The `lmplots` module provides R-style summary plots for linear models from the `
 
 ```python
 import statsmodels.formula.api as smf
-from islpy import datasets, lmplots
+from islpwf import datasets, lmplots
 
 auto = datasets.Auto()
 lm = smf.ols('mpg~horsepower+acceleration', auto).fit()
@@ -59,7 +59,16 @@ lmplots.plot(lm)
 Some useful wrapper functions and utilities are provided by the `utils` module:
 
 ```python
-from islpy import utils
+from islpwf import utils
 
 help(utils)
+```
+
+## Neural Network Models
+The `neuro` module provides generic, easy to configure, neural network models for regression and classification:
+
+```python
+from islpwf import neuro
+
+help(neuro)
 ```

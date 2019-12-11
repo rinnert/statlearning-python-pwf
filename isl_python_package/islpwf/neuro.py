@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with LIVHEP ML Resources.  If not, see <https://www.gnu.org/licenses/>.
+#  along with PWFML.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 import torch
