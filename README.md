@@ -38,6 +38,7 @@ The jupyter notebooks for the labs and exercises require a Python >= 3.6 install
   - `patsy`
   - `scikit-learn`
   - `PyTorch`
+  - `TensorFlow`
   - `jupyter`
 
 We highly recommend an [`conda`](https://conda.io/en/latest/) or [`miniconda`](https://docs.conda.io/en/latest/miniconda.html) installation for this.
