@@ -4,7 +4,7 @@ tmpdir=$(mktemp -d /tmp/nbrel.XXXXXX)
 cd ${tmpdir}
 slides="slides.tgz"
 notebooks="notebooks.tgz"
-wheel="islpy-0.3-py3-none-any.whl"
+wheel="islpwf-0.3-py3-none-any.whl"
 curl -s -o ${slides} https://rinnert.github.io/statlearning-python-pwf/assets/slides.tgz
 curl -s -o ${notebooks} https://rinnert.github.io/statlearning-python-pwf/assets/notebooks.tgz
 curl -s -o ${wheel} https://rinnert.github.io/statlearning-python-pwf/assets/${wheel}
@@ -26,7 +26,7 @@ conda activate ml
 # force re-installation of ISLPy library
 if [ -f  ${wheel} ]
 then
-	pip uninstall --yes islpy
+	pip uninstall --yes islpwf
 	pip install ${wheel}
 fi
 
