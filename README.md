@@ -45,7 +45,7 @@ We highly recommend an [`conda`](https://conda.io/en/latest/) or [`miniconda`](h
 
 The `PyTorch` [installation instructions](https://pytorch.org/get-started/locally/). Select Python 3.7 and (unless you know what you are doing) `None` for `CUDA`.
 
-In addition, the `islpy` library provided by this project is required (see `islpy_python_package/` sub-directory).
+In addition, the `islpwf` library provided by this project is required (see `isl_python_package/` sub-directory).
 
 The exercises require some jupyter extensions to behave properly, in particular the *exercise2* and *freeze* extensions. These are provided by the `jupyter_contrib_nbextensions` package:
 
