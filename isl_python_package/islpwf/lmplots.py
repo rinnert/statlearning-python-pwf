@@ -23,7 +23,7 @@ from mpl_toolkits.mplot3d import axes3d
 import seaborn as sns
 from statsmodels.nonparametric import smoothers_lowess
 from statsmodels.graphics.gofplots import ProbPlot
-from islpy import utils
+from islpwf import utils
 
 
 def plot_fit(fitted_model, column, data=None,
@@ -183,6 +183,7 @@ def glm_plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess
 
     return ax
 
+
 def slm_plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
                    annotations=3):
     """Plot residuals versus fitted values."""
@@ -208,6 +209,7 @@ def slm_plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess
     ax.set_ylabel('Residuals')
 
     return ax
+
 
 def plot_resid(fitted_model, ax=None, scolor='C0', lcolor='C1', lw=2, lowess=True,
                annotations=3):
